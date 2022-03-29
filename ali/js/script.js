@@ -44,16 +44,13 @@ let renderer;
 
 			function sizeOverlay() {
 
-				
-
-
 				const imgWidth = 1891; // THESE ARE THE DIMENSIONS OF THE BACKGROUND IMAGE
 				const imgHeight	=	1098;
 				const imgRatio = (imgHeight / imgWidth)  //WE USE THIS RATIO TO DETERMINE IF THE SCREEN IS WIDER OR NARROWER THAN THE IMAGE DIMENSIONS
 				
 				const windowRatio = ($(window).height() / $(window).width())     // container ratio
 				
-				 if (windowRatio < imgRatio)	{
+				if (windowRatio < imgRatio)	{
 
 					const canvasWidth = $(window).width(); //THESE FIGURE OUT THE SIZE THE CANVAS NEEDS TO BE
 				
@@ -77,7 +74,5 @@ let renderer;
 						"height":canvasHeight,
 						"left":($(window).width()-canvasWidth)/2
 					})
-
-
 			}
 		}

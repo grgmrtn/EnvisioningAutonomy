@@ -4,7 +4,8 @@
         <title>Intersection Negotiation</title>
         <link rel="stylesheet" href="https://use.typekit.net/rva5buu.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/16.3.5/Tween.min.js"></script>
-       
+       	<script type="text/javascript" src="js/globals.js"></script>
+       	<script type="text/javascript" src="js/i_assets.js"></script>
         <script type="module" src="js/script.js"></script>
         <script type="text/javascript">
         	//computes scroll distance down the page and provides it to CSS
@@ -42,45 +43,6 @@
         </script>
         <link rel="stylesheet" href="css/style.css">
 	</head>
-	<!--
-		MODULE_CONTAINER
-			MODULE_CHILD (S)
-				ANIM_CANVAS - animation goes here
-			STORY_PANEL_CONTAINER - every SPC needs at least one STORY_PANEL and one SPACER
-			|	STORY_PANEL (S) - writing goes here
-			|	STORY_SPACER (gives the STORY_PANEL something to float over)
-			STORY_PANEL_CONTAINER
-			|	STORY_SPACER - add a spacer before STORY_PANELS to give the first one room to leave
-			|	STORY_PANEL (S)
-			|	STORY_SPACER (gives the STORY_PANEL something to float over)
-			MODULE_SPACER (makes sticky work, gives the MODULE_STICKY_CHILD something to float over)
-
-		MODULE_CONTAINER
-			MODULE_CHILD (S)
-			...
-	-->
-	<!--story_panel_container is an invisible element that stays in scrolling DOM. This essentially sets a scroll start and end for its children to be visible based on its position in the DOM. Use one of these around each story_panel. story_panel_container's height is determined by the sum of its children's heights, but only the 'article' child will appear to stick at the top of the screen-->
-	<!--each story_panel contains everything the user reads within a story-->
-	<!--stays stuck until sibling below is finished scrolling, next story_panel_container grabs this one-->
-	<!--Each story_spacer takes up the 'sacrifice scroll' that you want the user to do while the story panel stays on screen. Add one above for a lead-up and add one below for lingering.-->
-
-	<!--        	//m1: existing intersection techniques
-        		//m1s1: green light W, red light N/S
-        		//m1s2: green light N/S, S car is turning W
-        		//m1s3: yellow light N/S, S finishes turning W
-        		//m2: centralized
-        		//m2s1: drop in intersection manager
-        		//m2s2: cars approach and ping manager
-        		//m2s3: cars receive order from manager and complete movements
-        		//m3: negotiated
-        		//m3s1: show manager and explain bidding system
-        		//m3s2: cars arrive and send bids to manager
-        		//m3s3: cars receive order from manager and complete movements
-        		//m4: emergent
-        		//m4s1: remove manager and explain evolutionary theory
-        		//m4s2: one car drives most aggressively, others brake
-        		//m4s3: remaining cars resolve issues-->
-
 	<body>
 		<div id='scroll_tracker' class='debug' style='top: 20'></div>
 		<!--<div id='camera_tracker' class='debug' style='top: 60'></div>

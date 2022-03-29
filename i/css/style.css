@@ -39,7 +39,7 @@
         	.intro_page {
         		color: white;
         		text-shadow: 2px 2px #222;
-        		background-color: rgba(20,20,20,0.2);
+        		/*background-color: rgba(20,20,20,0.2);*/
         	}
 
         	.page_header {
@@ -63,7 +63,7 @@
 
         	#story_panelI1 {
         		
-        		background-color: rgba(20,20,20,0.8);
+        		/*background-color: rgba(20,20,20,0.8);*/
         		height:  80%;
         		width: 100%;
         		z-index: 10;

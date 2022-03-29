@@ -1,16 +1,13 @@
 import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.module.js';
+import { OBJLoader } from 'https://cdn.skypack.dev/three@0.128/examples/jsm/loaders/OBJLoader.js';
+import { GLTFLoader } from 'https://cdn.skypack.dev/three@0.128/examples/jsm/loaders/GLTFLoader.js';
 
 function main() {
 
-	//global setups
-	const fov = 40;
-	const aspect = 6;
-	const near = 0.1;
-	const far = 200;
 	var scrollAmt = 0;
 
 	//color palette
-	const _RED = 	new THREE.Color().setHex("0x99253C");
+	/*const _RED = 	new THREE.Color().setHex("0x99253C");
 	const _ROSE = 	new THREE.Color().setHex("0xE66882");
 	const _LILAC = 	new THREE.Color().setHex("0x8B91EB");
 	const _VIOLET = new THREE.Color().setHex("0x434999");
@@ -27,3263 +24,22 @@ function main() {
 	const _PT_S = 3 * Math.PI / 2;
 	const _PT_N = Math.PI / 2;
 	const _PT_E = 0;
-	const _PT_W = Math.PI;
+	const _PT_W = Math.PI;*/
+
+	//background image height and width
+	var _BG_H = document.getElementById('bg').naturalHeight; 
+	var _BG_W = document.getElementById('bg').naturalWidth; 
 
 	const scenes = [];
 	const cameras = [];
 	const lights = [];
+	const canvases = [];
 	//each element in the array below spawns a THREEjs renderer and ties it to canvasSelector element provided in the DOM.
-	const canvases = [
-		initCanvas({
-			canvasSelector: "#canvasA",
-			scrollInit: 10,
-			scrollFinal: 33,
-			assets: [
-				{
-					id: "a-hilitecar1",
-					assetType: "car",
-					hide: true,
-					options: {
-						color: {
-							init: _HILITE
-						},
-						size: {
-							w: 1,
-							h: 1,
-							d: 1
-						},
-						rotation: {
-							x: 0,
-							y: _PT_W,
-							z: 0
-						},
-						anims: [
-							{
-								initP: 0,
-								finalP: 30,
-								position: {
-									init: {
-	        							x: -2,
-	        							y: 0,
-	        							z: 100
-	        						},
-	        						final: {
-	        							x: -2,
-	        							y: 0,
-	        							z: -20
-	        						}
-	        					}
-							}	
-						]
-					}
-				},
-				{
-					id: "a-rosecar",
-					assetType: "car",
-					hide: true,
-					options: {
-						color: {
-							init: _ROSE
-						},
-						size: {
-							w: 1,
-							h: 1,
-							d: 1
-						},
-						rotation: {
-							x: 0,
-							y: _PT_W,
-							z: 0
-						},
-						position: {
-							x: 3,
-	        				y: 0,
-	        				z: 100
-						},
-						anims: [
-							{
-								initP: 10,
-								finalP: 27,
-								position: {
-									init: {
-	        							x: 3,
-	        							y: 0,
-	        							z: 100
-	        						},
-	        						final: {
-	        							x: 3,
-	        							y: 0,
-	        							z: -20
-	        						}
-	        					}
-							}	
-						]
-					}
-				},
-				{
-					id: "a-hilitecar2",
-					assetType: "car",
-					hide: true,
-					options: {
-						color: {
-							init: _HILITE
-						},
-						size: {
-							w: 1,
-							h: 1,
-							d: 1
-						},
-						rotation: {
-							x: 0,
-							y: _PT_N,
-							z: 0
-						},
-						anims: [
-							{
-								initP: 40,
-								finalP: 70,
-								position: {
-									init: {
-	        							x: -20,
-	        							y: 0,
-	        							z: 35
-	        						},
-	        						final: {
-	        							x: 30,
-	        							y: 0,
-	        							z: 35
-	        						}
-	        					}
-							}	
-						]
-					}
-				},
-				{
-					id: "a-rosecar2",
-					assetType: "car",
-					hide: true,
-					options: {
-						color: {
-							init: _ROSE
-						},
-						size: {
-							w: 1,
-							h: 1,
-							d: 1
-						},
-						rotation: {
-							x: 0,
-							y: _PT_S,
-							z: 0
-						},
-						anims: [
-							{
-								initP: 45,
-								finalP: 78,
-								position: {
-									init: {
-	        							x: 20,
-	        							y: 0,
-	        							z: 25
-	        						},
-	        						final: {
-	        							x: -30,
-	        							y: 0,
-	        							z: 25
-	        						}
-	        					}
-							}	
-						]
-					}
-				},
-				{
-					id: "a-lilaccar",
-					assetType: "car",
-					hide: true,
-					options: {
-						color: {
-							init: _LILAC
-						},
-						size: {
-							w: 1,
-							h: 1,
-							d: 1
-						},
-						rotation: {
-							x: 0,
-							y: _PT_N,
-							z: 0
-						},
-						anims: [
-							{
-								initP: 50,
-								finalP: 76,
-								position: {
-									init: {
-	        							x: -30,
-	        							y: 0,
-	        							z: 35
-	        						},
-	        						final: {
-	        							x: -3,
-	        							y: 0,
-	        							z: 35
-	        						}
-	        					}
-							},
-							{
-								initP: 76,
-								finalP: 94,
-								position: {
-									path: {
-	        							aX: -3,
-	        							aZ: 25,
-	        							xRad: 10,
-	        							zRad: 10,
-	        							aStart: Math.PI / 2,
-	        							aEnd: 2 * Math.PI,
-	        							aAntiClock: true //reversed from spec due to xy-xz translation
-	        						}
-	        					},
-	        					rotation: {
-									init: {
-	        							x: 0,
-	        							y: _PT_N,
-	        							z: 0
-	        						},
-	        						final: {
-	        							x: 0,
-	        							y: _PT_W,
-	        							z: 0
-	        						}
-	        					}
-							},
-							{
-								initP: 94,
-								finalP: 100,
-								position: {
-									init: {
-	        							x: 7,
-	        							y: 0,
-	        							z: 25
-	        						},
-	        						final: {
-	        							x: 7,
-	        							y: 0,
-	        							z: -20
-	        						}
-	        					}
-							},	
-						]
-					}
-				},
-				{
-					id: "a-int",
-					assetType: "plane",
-					hide: true,
-					options: {
-						texture: false,
-						color: {
-							init: _HILITE
-						},
-						size: {
-							w: 20,
-							h: 50
-						},
-						rotation: {
-							x: Math.PI  /2,
-							y: 0,
-							z: Math.PI
-						},
-						position: {
-							x: 0,
-							y: 0,
-							z: 40
-						},
-						anims: [
-							{
-								initP: 0,
-								finalP: 10,
-								position: {
-									init: {
-	        							x: 0,
-										y: -10,
-										z: 40
-	        						},
-	        						final: {
-	        							x: 0,
-										y: 0,
-										z: 40
-	        						}
-	        					}
-							},
-							{
-								initP: 15,
-								finalP: 20,
-								color: {
-									init: {
-	        							_HILITE
-	        						},
-	        						final: {
-	        							_RED
-	        						}
-	        					}
-							},
-							{
-								initP: 30,
-								finalP: 32,
-								rotation: {
-									init: {
-	        							x: Math.PI  /2,
-										y: 0,
-										z: Math.PI
-	        						},
-	        						final: {
-	        							x: Math.PI  /2,
-										y: 0,
-										z: 3 * Math.PI / 2
-	        						}
-	        					},
-	        					size: {
-	        						init: {
-	        							w: 20,
-	        							h: 50
-	        						},
-	        						final: {
-	        							w: 20,
-	        							h: 50
-	        						}
-	        					}
-							},
-							{
-								initP: 30,
-								finalP: 35,
-								color: {
-									init: {
-	        							_RED
-	        						},
-	        						final: {
-	        							_HILITE
-	        						}
-	        					}
-							},
-							{
-								initP: 60,
-								finalP: 70,
-								color: {
-									init: {
-	        							_HILITE
-	        						},
-	        						final: {
-	        							_YELLOW
-	        						}
-	        					}
-							},
-							{
-								initP: 95,
-								finalP: 97,
-								opacity: {
-									init: 1,
-	        						final: 0
-	        					}
-							}		
-						]
-					}
-				},
-			]
-		}),
-		initCanvas({
-			canvasSelector: "#canvasB",
-			scrollInit: 33,
-			scrollFinal: 55,
-			assets: [
-				{
-					id: "b-mgr",
-					assetType: "cube",
-					hide: true,
-					options: {
-						color: {
-							init: _RED
-						},
-						size: {
-							w: 1,
-							h: 5,
-							d: 1
-						},
-						rotation: {
-							x: 0,
-							y: 0,
-							z: 0
-						},
-						position: {
-							x: -10,
-							y: 0,
-							z: 60
-						},
-						anims: [
-							{
-								initP: 0.1,
-								finalP: 20,
-								position: {
-									init: {
-	        							x: -10,
-										y: 10,
-										z: 60
-	        						},
-	        						final: {
-	        							x: -10,
-										y: 2,
-										z: 60
-										
-	        						}
-	        					}
-							},
-							{
-								initP: 35,
-								finalP: 40,
-								color: {
-									init: {
-	        							_RED
-	        						},
-	        						final: {
-	        							_WHITE
-	        						}
-	        					}
-							},
-							{
-								initP: 40,
-								finalP: 45,
-								color: {
-									init: {
-	        							_WHITE
-	        						},
-	        						final: {
-	        							_RED
-	        						}
-	        					}
-							},
-							{
-								initP: 50,
-								finalP: 55,
-								color: {
-									init: {
-	        							_RED
-	        						},
-	        						final: {
-	        							_LILAC
-	        						}
-	        					}
-							},
-							{
-								initP: 65,
-								finalP: 70,
-	        					color: {
-									init: {
-										_LILAC
-									},
-									final: {
-										_ROSE
-									}
-								}
-							},
-							{
-								initP: 80,
-								finalP: 85,
-	        					color: {
-									init: {
-										_ROSE
-									},
-									final: {
-										_HILITE
-									}
-								}
-							},
-							{
-								initP: 95,
-								finalP: 100,
-	        					color: {
-									init: {
-										_HILITE
-									},
-									final: {
-										_RED
-									}
-								}
-							}	
-						]
-					}
-				},
-				{
-					id: "b-int",
-					assetType: "plane",
-					hide: true,
-					options: {
-						texture: false,
-						color: {
-							init: _HILITE
-						},
-						size: {
-							w: 20,
-							h: 50
-						},
-						rotation: {
-							x: Math.PI  /2,
-							y: 0,
-							z: Math.PI
-						},
-						position: {
-							x: 0,
-							y: 0,
-							z: 40
-						},
-						anims: [
-							{
-								initP: 0,
-								finalP: 10,
-								position: {
-									init: {
-	        							x: 0,
-										y: -10,
-										z: 40
-	        						},
-	        						final: {
-	        							x: 0,
-										y: 0,
-										z: 40
-	        						}
-	        					}
-							},
-							{
-								initP: 20,
-								finalP: 30,
-								color: {
-									init: {
-	        							_HILITE
-	        						},
-	        						final: {
-	        							_RED
-	        						}
-	        					}
-							},
-							{
-								initP: 35,
-								finalP: 40,
-								color: {
-									init: {
-	        							_RED
-	        						},
-	        						final: {
-	        							_WHITE
-	        						}
-	        					}
-							},
-							{
-								initP: 40,
-								finalP: 45,
-								color: {
-									init: {
-	        							_WHITE
-	        						},
-	        						final: {
-	        							_RED
-	        						}
-	        					}
-							},
-							{
-								initP: 50,
-								finalP: 55,
-								color: {
-									init: {
-	        							_RED
-	        						},
-	        						final: {
-	        							_LILAC
-	        						}
-	        					}
-							},
-							{
-								initP: 65,
-								finalP: 70,
-	        					color: {
-									init: {
-										_LILAC
-									},
-									final: {
-										_ROSE
-									}
-								}
-							},
-							{
-								initP: 80,
-								finalP: 85,
-	        					color: {
-									init: {
-										_ROSE
-									},
-									final: {
-										_HILITE
-									}
-								}
-							},
-							{
-								initP: 95,
-								finalP: 100,
-	        					color: {
-									init: {
-										_HILITE
-									},
-									final: {
-										_RED
-									}
-								}
-							}
 
-						]
-					}
-				},
-				{
-					id: "b-hilitecar",
-					assetType: "car",
-					hide: true,
-					options: {
-						color: {
-							init: _HILITE
-						},
-						size: {
-							w: 1,
-							h: 1,
-							d: 1
-						},
-						rotation: {
-							x: 0,
-							y: _PT_W,
-							z: 0
-						},
-						anims: [
-							{
-								initP: 10,
-								finalP: 20,
-								position: {
-									init: {
-	        							x: -2,
-	        							y: 0,
-	        							z: 100
-	        						},
-	        						final: {
-	        							x: -2,
-	        							y: 0,
-	        							z: 55
-	        						}
-	        					}
-							},
-							{
-								initP: 23,
-								finalP: 25,
-								color: {
-									init: {
-										_HILITE
-									},
-									final: {
-										_GREY
-									}
-								}
-							},
-							{
-								initP: 75,
-								finalP: 82,
-								color: {
-									init: {
-										_GREY
-									},
-									final: {
-										_HILITE
-									}
-								}
-							},
-							{
-								initP: 82,
-								finalP: 90,
-								position: {
-									path: {
-	        							aX: 8,
-	        							aZ: 45,
-	        							xRad: 10,
-	        							zRad: 10,
-	        							aStart: Math.PI,
-	        							aEnd: 3 / 2 * Math.PI,
-	        							aAntiClock: false //reversed from spec due to xy-xz translation
-	        						}
-	        					},
-	        					rotation: {
-									init: {
-	        							x: 0,
-	        							y: _PT_W,
-	        							z: 0
-	        						},
-	        						final: {
-	        							x: 0,
-	        							y: _PT_N,
-	        							z: 0
-	        						}
-	        					}
-							},
-							{
-								initP: 90,
-								finalP: 100,
-								position: {
-									init: {
-	        							x: 8,
-	        							y: 0,
-	        							z: 45
-	        						},
-	        						final: {
-	        							x: 30,
-	        							y: 0,
-	        							z: 45
-	        						}
-	        					}
-							},	
-						]
-					}
-				},
-				{
-					id: "b-hilitecube",
-					assetType: "cube",
-					hide: true,
-					options: {
-						color: {
-							init: _HILITE
-						},
-						size: {
-							w: 1,
-							h: 1,
-							d: 1
-						},
-						rotation: {
-							x: 0,
-							y: 0,
-							z: 0
-						},
-						position: {
-							x: -4,
-							y: 1,
-							z: 55
-						},
-						anims: [
-							{
-								initP: 23,
-								finalP: 25,
-								position: {
-									init: {
-	        							x: -4,
-										y: 1,
-										z: 55
-	        						},
-	        						final: {
-	        							x: -4,
-										y: 3,
-										z: 55
-	        						}
-	        					}
-							},
-							{
-								initP: 25,
-								finalP: 35,
-								position: {
-									init: {
-	        							x: -4,
-										y: 3,
-										z: 55
-	        						},
-	        						final: {
-	        							x: -10,
-										y: 6,
-										z: 60
-	        						}
-	        					},
-	        					rotation: {
-	        						init: {
-	        							x: 0,
-	        							y: 0,
-	        							z: 0
-	        						},
-	        						final: {
-	        							x: 2 * Math.PI,
-	        							y: 2 * Math.PI,
-	        							z: 2 * Math.PI
-	        						}
-	        					}
-							},
-							{
-								initP: 35,
-								finalP: 40,
-								position: {
-									init: {
-	        							x: -10,
-										y: 6,
-										z: 60
-	        						},
-	        						final: {
-	        							x: -10,
-										y: 2,
-										z: 60.5
-	        						}
-	        					},
-	        					size: {
-	        						init: {
-	        							w: 1,
-	        							h: 1,
-	        							d: 1
-	        						},
-	        						final: {
-	        							w: 0.5,
-	        							d: 0.5,
-	        							h: 0.5
-	        						}	
-	        					},
-	        					rotation: {
-	        						init: {
-	        							x: 2 * Math.PI,
-	        							y: 2 * Math.PI,
-	        							z: 2 * Math.PI
-	        						},
-	        						final: {
-	        							x: 0,
-	        							y: 0,
-	        							z: 0
-	        						}	
-	        					}
-							},
-							{
-								initP: 40,
-								finalP: 45,
-								position: {
-									init: {
-	        							x: -10,
-										y: 2,
-										z: 60.5
-	        						},
-	        						final: {
-	        							x: -9,
-										y: 2,
-										z: 60
-	        						}
-	        					},
-	        					size: {
-	        						init: {
-	        							w: 0.5,
-	        							d: 0.5,
-	        							h: 0.5
-	        						},
-	        						final: {
-	        							w: 1,
-	        							d: 1,
-	        							h: 1
-	        						}	
-	        					}
-							},
-							{
-								initP: 85,
-								finalP: 90,
-	        					size: {
-	        						init: {
-	        							w: 1,
-	        							d: 1,
-	        							h: 1
-	        						},
-	        						final: {
-	        							w: 0,
-	        							d: 0,
-	        							h: 0
-	        						}	
-	        					}
-							}	
-						]
-					}
-				},
-				{
-					id: "b-rosecar",
-					assetType: "car",
-					hide: true,
-					options: {
-						color: {
-							init: _ROSE
-						},
-						size: {
-							w: 1,
-							h: 1,
-							d: 1
-						},
-						rotation: {
-							x: 0,
-							y: _PT_N,
-							z: 0
-						},
-						anims: [
-							{
-								initP: 10,
-								finalP: 20,
-								position: {
-									init: {
-	        							x: -35,
-	        							y: 0,
-	        							z: 25
-	        						},
-	        						final: {
-	        							x: -20,
-	        							y: 0,
-	        							z: 25
-	        						}
-	        					}
-							},
-							{
-								initP: 23,
-								finalP: 25,
-								color: {
-									init: {
-										_ROSE
-									},
-									final: {
-										_GREY
-									}
-								}
-							},
-							{
-								initP: 65,
-								finalP: 70,
-	        					color: {
-									init: {
-										_GREY
-									},
-									final: {
-										_ROSE
-									}
-								}
-							},
-							{
-								initP: 70,
-								finalP: 85,
-	        					position: {
-									init: {
-	        							x: -20,
-	        							y: 0,
-	        							z: 25
-	        						},
-	        						final: {
-	        							x: 40,
-	        							y: 0,
-	        							z: 25
-	        						}
-	        					}
-							}	
-						]
-					}
-				},
-				{
-					id: "b-rosecube",
-					assetType: "cube",
-					hide: true,
-					options: {
-						color: {
-							init: _ROSE
-						},
-						size: {
-							w: 1,
-							h: 1,
-							d: 1
-						},
-						rotation: {
-							x: 0,
-							y: 0,
-							z: 0
-						},
-						position: {
-							x: -20,
-							y: 1,
-							z: 25
-						},
-						anims: [
-							{
-								initP: 23,
-								finalP: 25,
-								position: {
-									init: {
-	        							x: -20,
-										y: 1,
-										z: 25
-	        						},
-	        						final: {
-	        							x: -20,
-										y: 3,
-										z: 25
-	        						}
-	        					}
-							},
-							{
-								initP: 25,
-								finalP: 35,
-								position: {
-									init: {
-	        							x: -20,
-										y: 3,
-										z: 25
-	        						},
-	        						final: {
-	        							x: -10,
-										y: 8,
-										z: 60
-	        						}
-	        					},
-	        					rotation: {
-	        						init: {
-	        							x: 0,
-	        							y: 0,
-	        							z: 0
-	        						},
-	        						final: {
-	        							x: 2 * Math.PI,
-	        							y: 2 * Math.PI,
-	        							z: 2 * Math.PI
-	        						}
-	        					}
-							},
-							{
-								initP: 35,
-								finalP: 40,
-								position: {
-									init: {
-	        							x: -10,
-										y: 8,
-										z: 60
-	        						},
-	        						final: {
-	        							x: -10,
-										y: 3,
-										z: 60.5
-	        						}
-	        					},
-	        					size: {
-	        						init: {
-	        							w: 1,
-	        							h: 1,
-	        							d: 1
-	        						},
-	        						final: {
-	        							w: 0.5,
-	        							d: 0.5,
-	        							h: 0.5
-	        						}	
-	        					},
-	        					rotation: {
-	        						init: {
-	        							x: 2 * Math.PI,
-	        							y: 2 * Math.PI,
-	        							z: 2 * Math.PI
-	        						},
-	        						final: {
-	        							x: 0,
-	        							y: 0,
-	        							z: 0
-	        						}	
-	        					}
-							},
-							{
-								initP: 40,
-								finalP: 45,
-								position: {
-									init: {
-	        							x: -10,
-										y: 3,
-										z: 60.5
-	        						},
-	        						final: {
-	        							x: -9,
-										y: 3,
-										z: 60
-	        						}
-	        					},
-	        					size: {
-	        						init: {
-	        							w: 0.5,
-	        							d: 0.5,
-	        							h: 0.5
-	        						},
-	        						final: {
-	        							w: 1,
-	        							d: 1,
-	        							h: 1
-	        						}	
-	        					}
-							},
-							{
-								initP: 70,
-								finalP: 85,
-	        					size: {
-	        						init: {
-	        							w: 1,
-	        							d: 1,
-	        							h: 1
-	        						},
-	        						final: {
-	        							w: 0,
-	        							d: 0,
-	        							h: 0
-	        						}	
-	        					}
-							}	
-						]
-					}
-				},
-				{
-					id: "b-lilaccar",
-					assetType: "car",
-					hide: true,
-					options: {
-						color: {
-							init: _LILAC
-						},
-						size: {
-							w: 1,
-							h: 1,
-							d: 1
-						},
-						rotation: {
-							x: 0,
-							y: _PT_W,
-							z: 0
-						},
-						anims: [
-							{
-								initP: 12,
-								finalP: 19,
-								position: {
-									init: {
-	        							x: 3,
-	        							y: 0,
-	        							z: 100
-	        						},
-	        						final: {
-	        							x: 3,
-	        							y: 0,
-	        							z: 55
-	        						}
-	        					}
-							},
-							{
-								initP: 23,
-								finalP: 25,
-								color: {
-									init: {
-										_LILAC
-									},
-									final: {
-										_GREY
-									}
-								}
-							},
-							{
-								initP: 50,
-								finalP: 55,
-								color: {
-									init: {
-										_GREY
-									},
-									final: {
-										_LILAC
-									}
-								}
-							},
-							{
-								initP: 55,
-								finalP: 70,
-								position: {
-									init: {
-	        							x: 3,
-	        							y: 0,
-	        							z: 55
-	        						},
-	        						final: {
-	        							x: 3,
-	        							y: 0,
-	        							z: -30
-	        						}
-	        					}
-							},	
-						]
-					}
-				},
-				{
-					id: "b-lilaccube",
-					assetType: "cube",
-					hide: true,
-					options: {
-						color: {
-							init: _LILAC
-						},
-						size: {
-							w: 1,
-							h: 1,
-							d: 1
-						},
-						rotation: {
-							x: 0,
-							y: 0,
-							z: 0
-						},
-						position: {
-							x: 1,
-	        				y: 1,
-	        				z: 55
-						},
-						anims: [
-							{
-								initP: 23,
-								finalP: 25,
-								position: {
-									init: {
-	        							x: 1,
-										y: 1,
-										z: 55
-	        						},
-	        						final: {
-	        							x: 1,
-										y: 3,
-										z: 55
-	        						}
-	        					}
-							},
-							{
-								initP: 25,
-								finalP: 35,
-								position: {
-									init: {
-	        							x: 1,
-										y: 3,
-										z: 55
-	        						},
-	        						final: {
-	        							x: -10,
-										y: 10,
-										z: 60
-	        						}
-	        					},
-	        					rotation: {
-	        						init: {
-	        							x: 0,
-	        							y: 0,
-	        							z: 0
-	        						},
-	        						final: {
-	        							x: 2 * Math.PI,
-	        							y: 2 * Math.PI,
-	        							z: 2 * Math.PI
-	        						}
-	        					}
-							},
-							{
-								initP: 35,
-								finalP: 40,
-								position: {
-									init: {
-	        							x: -10,
-										y: 10,
-										z: 60
-	        						},
-	        						final: {
-	        							x: -10,
-										y: 4,
-										z: 60.5
-	        						}
-	        					},
-	        					size: {
-	        						init: {
-	        							w: 1,
-	        							h: 1,
-	        							d: 1
-	        						},
-	        						final: {
-	        							w: 0.5,
-	        							d: 0.5,
-	        							h: 0.5
-	        						}	
-	        					},
-	        					rotation: {
-	        						init: {
-	        							x: 2 * Math.PI,
-	        							y: 2 * Math.PI,
-	        							z: 2 * Math.PI
-	        						},
-	        						final: {
-	        							x: 0,
-	        							y: 0,
-	        							z: 0
-	        						}	
-	        					}
-							},
-							{
-								initP: 40,
-								finalP: 45,
-								position: {
-									init: {
-	        							x: -10,
-										y: 4,
-										z: 60.5
-	        						},
-	        						final: {
-	        							x: -9,
-										y: 4,
-										z: 60
-	        						}
-	        					},
-	        					size: {
-	        						init: {
-	        							w: 0.5,
-	        							d: 0.5,
-	        							h: 0.5
-	        						},
-	        						final: {
-	        							w: 1,
-	        							d: 1,
-	        							h: 1
-	        						}	
-	        					}
-							},
-							{
-								initP: 55,
-								finalP: 70,
-	        					size: {
-	        						init: {
-	        							w: 1,
-	        							d: 1,
-	        							h: 1
-	        						},
-	        						final: {
-	        							w: 0,
-	        							d: 0,
-	        							h: 0
-	        						}	
-	        					}
-							}	
-						]
-					}
-				}
-			]
-		}),
-		initCanvas({
-			canvasSelector: "#canvasC",
-			scrollInit: 60,
-			scrollFinal: 80,
-			assets: [
-				{
-					id: "c-mgr",
-					assetType: "cube",
-					hide: true,
-					options: {
-						color: {
-							init: _RED
-						},
-						size: {
-							w: 1,
-							h: 5,
-							d: 1
-						},
-						rotation: {
-							x: 0,
-							y: 0,
-							z: 0
-						},
-						position: {
-							x: -10,
-							y: 0,
-							z: 60
-						},
-						anims: [
-							{
-								initP: 0.1,
-								finalP: 20,
-								position: {
-									init: {
-	        							x: -10,
-										y: 10,
-										z: 60
-	        						},
-	        						final: {
-	        							x: -10,
-										y: 2,
-										z: 60
-										
-	        						}
-	        					}
-							},
-							{
-								initP: 35,
-								finalP: 40,
-								color: {
-									init: {
-	        							_RED
-	        						},
-	        						final: {
-	        							_WHITE
-	        						}
-	        					}
-							},
-							{
-								initP: 40,
-								finalP: 45,
-								color: {
-									init: {
-	        							_WHITE
-	        						},
-	        						final: {
-	        							_RED
-	        						}
-	        					}
-							},
-							{
-								initP: 55,
-								finalP: 60,
-								color: {
-									init: {
-	        							_RED
-	        						},
-	        						final: {
-	        							_HILITE
-	        						}
-	        					}
-							},
-							{
-								initP: 70,
-								finalP: 75,
-	        					color: {
-									init: {
-										_HILITE
-									},
-									final: {
-										_LILAC
-									}
-								}
-							},
-							{
-								initP: 85,
-								finalP: 90,
-	        					color: {
-									init: {
-										_LILAC
-									},
-									final: {
-										_ROSE
-									}
-								}
-							},
-							{
-								initP: 95,
-								finalP: 100,
-	        					color: {
-									init: {
-										_ROSE
-									},
-									final: {
-										_RED
-									}
-								}
-							}	
-						]
-					}
-				},
-				{
-					id: "c-int",
-					assetType: "plane",
-					hide: true,
-					options: {
-						texture: false,
-						color: {
-							init: _HILITE
-						},
-						size: {
-							w: 20,
-							h: 50
-						},
-						rotation: {
-							x: Math.PI  /2,
-							y: 0,
-							z: Math.PI
-						},
-						position: {
-							x: 0,
-							y: 0,
-							z: 40
-						},
-						anims: [
-							{
-								initP: 0,
-								finalP: 10,
-								position: {
-									init: {
-	        							x: 0,
-										y: -10,
-										z: 40
-	        						},
-	        						final: {
-	        							x: 0,
-										y: 0,
-										z: 40
-	        						}
-	        					}
-							},
-							{
-								initP: 20,
-								finalP: 30,
-								color: {
-									init: {
-	        							_HILITE
-	        						},
-	        						final: {
-	        							_RED
-	        						}
-	        					}
-							},
-							{
-								initP: 35,
-								finalP: 40,
-								color: {
-									init: {
-	        							_RED
-	        						},
-	        						final: {
-	        							_WHITE
-	        						}
-	        					}
-							},
-							{
-								initP: 40,
-								finalP: 45,
-								color: {
-									init: {
-	        							_WHITE
-	        						},
-	        						final: {
-	        							_RED
-	        						}
-	        					}
-							},
-							{
-								initP: 55,
-								finalP: 60,
-								color: {
-									init: {
-	        							_RED
-	        						},
-	        						final: {
-	        							_HILITE
-	        						}
-	        					}
-							},
-							{
-								initP: 70,
-								finalP: 75,
-	        					color: {
-									init: {
-										_HILITE
-									},
-									final: {
-										_LILAC
-									}
-								}
-							},
-							{
-								initP: 85,
-								finalP: 90,
-	        					color: {
-									init: {
-										_LILAC
-									},
-									final: {
-										_ROSE
-									}
-								}
-							},
-							{
-								initP: 95,
-								finalP: 100,
-	        					color: {
-									init: {
-										_ROSE
-									},
-									final: {
-										_RED
-									}
-								}
-							}	
-						]
-					}
-				},
-				{
-					id: "c-hilite-car1",
-					assetType: "car",
-					hide: true,
-					options: {
-						color: {
-							init: _HILITE
-						},
-						size: {
-							w: 1,
-							h: 1,
-							d: 1
-						},
-						rotation: {
-							x: 0,
-							y: _PT_W,
-							z: 0
-						},
-						anims: [
-							{
-								initP: 10,
-								finalP: 20,
-								position: {
-									init: {
-	        							x: -2,
-	        							y: 0,
-	        							z: 100
-	        						},
-	        						final: {
-	        							x: -2,
-	        							y: 0,
-	        							z: 55
-	        						}
-	        					}
-							},
-							{
-								initP: 23,
-								finalP: 25,
-								color: {
-									init: {
-										_HILITE
-									},
-									final: {
-										_GREY
-									}
-								}
-							},
-							{
-								initP: 55,
-								finalP: 60,
-								color: {
-									init: {
-										_GREY
-									},
-									final: {
-										_HILITE
-									}
-								}
-							},
-							{
-								initP: 60,
-								finalP: 70,
-								position: {
-									path: {
-	        							aX: 8,
-	        							aZ: 45,
-	        							xRad: 10,
-	        							zRad: 10,
-	        							aStart: Math.PI,
-	        							aEnd: 3 / 2 * Math.PI,
-	        							aAntiClock: false //reversed from spec due to xy-xz translation
-	        						}
-	        					},
-	        					rotation: {
-									init: {
-	        							x: 0,
-	        							y: _PT_W,
-	        							z: 0
-	        						},
-	        						final: {
-	        							x: 0,
-	        							y: _PT_N,
-	        							z: 0
-	        						}
-	        					}
-							},
-							{
-								initP: 70,
-								finalP: 80,
-								position: {
-									init: {
-	        							x: 8,
-	        							y: 0,
-	        							z: 45
-	        						},
-	        						final: {
-	        							x: 30,
-	        							y: 0,
-	        							z: 45
-	        						}
-	        					}
-							},	
-						]
-					}
-				},
-				{
-					id: "c-hilitecube1",
-					assetType: "cube",
-					hide: true,
-					options: {
-						color: {
-							init: _HILITE
-						},
-						size: {
-							w: 1,
-							h: 1,
-							d: 1
-						},
-						rotation: {
-							x: 0,
-							y: 0,
-							z: 0
-						},
-						position: {
-							x: -4,
-							y: 1,
-							z: 55
-						},
-						anims: [
-							{
-								initP: 23,
-								finalP: 30,
-								position: {
-									init: {
-	        							x: -4,
-										y: 1,
-										z: 55
-	        						},
-	        						final: {
-	        							x: -4,
-										y: 3,
-										z: 55
-	        						}
-	        					}
-							},
-							{
-								initP: 25,
-								finalP: 35,
-	        					rotation: {
-	        						init: {
-	        							x: 0,
-	        							y: 0,
-	        							z: 0
-	        						},
-	        						final: {
-	        							x: 2 * Math.PI,
-	        							y: 2 * Math.PI,
-	        							z: 2 * Math.PI
-	        						}
-	        					}
-							},
-							{
-								initP: 35,
-								finalP: 45,
-								position: {
-									init: {
-	        							x: -4,
-										y: 3,
-										z: 55
-	        						},
-	        						final: {
-	        							x: -10,
-										y: 6,
-										z: 60
-	        						}
-	        					},
-	        					rotation: {
-	        						init: {
-	        							x: 0,
-	        							y: 0,
-	        							z: 0
-	        						},
-	        						final: {
-	        							x: 2 * Math.PI,
-	        							y: 2 * Math.PI,
-	        							z: 2 * Math.PI
-	        						}
-	        					}
-							},
-							{
-								initP: 45,
-								finalP: 50,
-								position: {
-									init: {
-	        							x: -10,
-										y: 6,
-										z: 60
-	        						},
-	        						final: {
-	        							x: -10,
-										y: 2,
-										z: 60.5
-	        						}
-	        					},
-	        					size: {
-	        						init: {
-	        							w: 1,
-	        							h: 1,
-	        							d: 1
-	        						},
-	        						final: {
-	        							w: 0.5,
-	        							d: 0.5,
-	        							h: 0.5
-	        						}	
-	        					},
-	        					rotation: {
-	        						init: {
-	        							x: 2 * Math.PI,
-	        							y: 2 * Math.PI,
-	        							z: 2 * Math.PI
-	        						},
-	        						final: {
-	        							x: 0,
-	        							y: 0,
-	        							z: 0
-	        						}	
-	        					}
-							},
-							{
-								initP: 50,
-								finalP: 55,
-								position: {
-									init: {
-	        							x: -10,
-										y: 4,
-										z: 60.5
-	        						},
-	        						final: {
-	        							x: -9,
-										y: 4,
-										z: 60
-	        						}
-	        					},
-	        					size: {
-	        						init: {
-	        							w: 0.5,
-	        							d: 0.5,
-	        							h: 0.5
-	        						},
-	        						final: {
-	        							w: 1,
-	        							d: 1,
-	        							h: 1
-	        						}	
-	        					}
-							},
-							{
-								initP: 60,
-								finalP: 65,
-	        					size: {
-	        						init: {
-	        							w: 1,
-	        							d: 1,
-	        							h: 1
-	        						},
-	        						final: {
-	        							w: 0,
-	        							d: 0,
-	        							h: 0
-	        						}	
-	        					}
-							}	
-						]
-					}
-				},
-				{
-					id: "c-hilitecube2",
-					assetType: "cube",
-					hide: true,
-					options: {
-						color: {
-							init: _HILITE
-						},
-						size: {
-							w: 1,
-							h: 1,
-							d: 1
-						},
-						rotation: {
-							x: 0,
-							y: 0,
-							z: 0
-						},
-						position: {
-							x: -4,
-							y: 1,
-							z: 55
-						},
-						anims: [
-							{
-								initP: 23,
-								finalP: 30,
-								position: {
-									init: {
-	        							x: -4,
-										y: 1,
-										z: 55
-	        						},
-	        						final: {
-	        							x: -4,
-										y: 5,
-										z: 55
-	        						}
-	        					}
-							},
-							{
-								initP: 25,
-								finalP: 35,
-	        					rotation: {
-	        						init: {
-	        							x: 0,
-	        							y: 0,
-	        							z: 0
-	        						},
-	        						final: {
-	        							x: 2 * Math.PI,
-	        							y: 2 * Math.PI,
-	        							z: 2 * Math.PI
-	        						}
-	        					}
-							},
-							{
-								initP: 35,
-								finalP: 45,
-								position: {
-									init: {
-	        							x: -4,
-										y: 5,
-										z: 55
-	        						},
-	        						final: {
-	        							x: -10,
-										y: 8,
-										z: 60
-	        						}
-	        					},
-	        					rotation: {
-	        						init: {
-	        							x: 0,
-	        							y: 0,
-	        							z: 0
-	        						},
-	        						final: {
-	        							x: 2 * Math.PI,
-	        							y: 2 * Math.PI,
-	        							z: 2 * Math.PI
-	        						}
-	        					}
-							},
-							{
-								initP: 45,
-								finalP: 50,
-								position: {
-									init: {
-	        							x: -10,
-										y: 8,
-										z: 60
-	        						},
-	        						final: {
-	        							x: -10,
-										y: 4,
-										z: 60.5
-	        						}
-	        					},
-	        					size: {
-	        						init: {
-	        							w: 1,
-	        							h: 1,
-	        							d: 1
-	        						},
-	        						final: {
-	        							w: 0.5,
-	        							d: 0.5,
-	        							h: 0.5
-	        						}	
-	        					},
-	        					rotation: {
-	        						init: {
-	        							x: 2 * Math.PI,
-	        							y: 2 * Math.PI,
-	        							z: 2 * Math.PI
-	        						},
-	        						final: {
-	        							x: 0,
-	        							y: 0,
-	        							z: 0
-	        						}	
-	        					}
-							},
-							{
-								initP: 50,
-								finalP: 55,
-								position: {
-									init: {
-	        							x: -10,
-										y: 4,
-										z: 60.5
-	        						},
-	        						final: {
-	        							x: -8,
-										y: 4,
-										z: 60
-	        						}
-	        					},
-	        					size: {
-	        						init: {
-	        							w: 0.5,
-	        							d: 0.5,
-	        							h: 0.5
-	        						},
-	        						final: {
-	        							w: 1,
-	        							d: 1,
-	        							h: 1
-	        						}	
-	        					}
-							},
-							{
-								initP: 60,
-								finalP: 65,
-	        					size: {
-	        						init: {
-	        							w: 1,
-	        							d: 1,
-	        							h: 1
-	        						},
-	        						final: {
-	        							w: 0,
-	        							d: 0,
-	        							h: 0
-	        						}	
-	        					}
-							}	
-						]
-					}
-				},
-				{
-					id: "c-hilitecube3",
-					assetType: "cube",
-					hide: true,
-					options: {
-						color: {
-							init: _HILITE
-						},
-						size: {
-							w: 1,
-							h: 1,
-							d: 1
-						},
-						rotation: {
-							x: 0,
-							y: 0,
-							z: 0
-						},
-						position: {
-							x: -4,
-							y: 1,
-							z: 55
-						},
-						anims: [
-							{
-								initP: 23,
-								finalP: 30,
-								position: {
-									init: {
-	        							x: -4,
-										y: 1,
-										z: 55
-	        						},
-	        						final: {
-	        							x: -4,
-										y: 7,
-										z: 55
-	        						}
-	        					}
-							},
-							{
-								initP: 25,
-								finalP: 35,
-	        					rotation: {
-	        						init: {
-	        							x: 0,
-	        							y: 0,
-	        							z: 0
-	        						},
-	        						final: {
-	        							x: 2 * Math.PI,
-	        							y: 2 * Math.PI,
-	        							z: 2 * Math.PI
-	        						}
-	        					}
-							},
-							{
-								initP: 35,
-								finalP: 45,
-								position: {
-									init: {
-	        							x: -4,
-										y: 7,
-										z: 55
-	        						},
-	        						final: {
-	        							x: -10,
-										y: 10,
-										z: 60
-	        						}
-	        					},
-	        					rotation: {
-	        						init: {
-	        							x: 0,
-	        							y: 0,
-	        							z: 0
-	        						},
-	        						final: {
-	        							x: 2 * Math.PI,
-	        							y: 2 * Math.PI,
-	        							z: 2 * Math.PI
-	        						}
-	        					}
-							},
-							{
-								initP: 45,
-								finalP: 50,
-								position: {
-									init: {
-	        							x: -10,
-										y: 10,
-										z: 60
-	        						},
-	        						final: {
-	        							x: -10,
-										y: 4,
-										z: 60.5
-	        						}
-	        					},
-	        					size: {
-	        						init: {
-	        							w: 1,
-	        							h: 1,
-	        							d: 1
-	        						},
-	        						final: {
-	        							w: 0.5,
-	        							d: 0.5,
-	        							h: 0.5
-	        						}	
-	        					},
-	        					rotation: {
-	        						init: {
-	        							x: 2 * Math.PI,
-	        							y: 2 * Math.PI,
-	        							z: 2 * Math.PI
-	        						},
-	        						final: {
-	        							x: 0,
-	        							y: 0,
-	        							z: 0
-	        						}	
-	        					}
-							},
-							{
-								initP: 50,
-								finalP: 55,
-								position: {
-									init: {
-	        							x: -10,
-										y: 4,
-										z: 60.5
-	        						},
-	        						final: {
-	        							x: -7,
-										y: 4,
-										z: 60
-	        						}
-	        					},
-	        					size: {
-	        						init: {
-	        							w: 0.5,
-	        							d: 0.5,
-	        							h: 0.5
-	        						},
-	        						final: {
-	        							w: 1,
-	        							d: 1,
-	        							h: 1
-	        						}	
-	        					}
-							},
-							{
-								initP: 60,
-								finalP: 65,
-	        					size: {
-	        						init: {
-	        							w: 1,
-	        							d: 1,
-	        							h: 1
-	        						},
-	        						final: {
-	        							w: 0,
-	        							d: 0,
-	        							h: 0
-	        						}	
-	        					}
-							}	
-						]
-					}
-				},
-				{
-					id: "c-rosecar",
-					assetType: "car",
-					hide: true,
-					options: {
-						color: {
-							init: _ROSE
-						},
-						size: {
-							w: 1,
-							h: 1,
-							d: 1
-						},
-						rotation: {
-							x: 0,
-							y: _PT_N,
-							z: 0
-						},
-						anims: [
-							{
-								initP: 10,
-								finalP: 20,
-								position: {
-									init: {
-	        							x: -35,
-	        							y: 0,
-	        							z: 25
-	        						},
-	        						final: {
-	        							x: -20,
-	        							y: 0,
-	        							z: 25
-	        						}
-	        					}
-							},
-							{
-								initP: 23,
-								finalP: 25,
-								color: {
-									init: {
-										_ROSE
-									},
-									final: {
-										_GREY
-									}
-								}
-							},
-							{
-								initP: 85,
-								finalP: 90,
-	        					color: {
-									init: {
-										_GREY
-									},
-									final: {
-										_ROSE
-									}
-								}
-							},
-							{
-								initP: 90,
-								finalP: 100,
-	        					position: {
-									init: {
-	        							x: -20,
-	        							y: 0,
-	        							z: 25
-	        						},
-	        						final: {
-	        							x: 40,
-	        							y: 0,
-	        							z: 25
-	        						}
-	        					}
-							}	
-						]
-					}
-				},
-				{
-					id: "c-rosecube",
-					assetType: "cube",
-					hide: true,
-					options: {
-						color: {
-							init: _ROSE
-						},
-						size: {
-							w: 1,
-							h: 1,
-							d: 1
-						},
-						rotation: {
-							x: 0,
-							y: 0,
-							z: 0
-						},
-						position: {
-							x: -20,
-							y: 1,
-							z: 25
-						},
-						anims: [
-							{
-								initP: 23,
-								finalP: 30,
-								position: {
-									init: {
-	        							x: -20,
-										y: 1,
-										z: 25
-	        						},
-	        						final: {
-	        							x: -20,
-										y: 3,
-										z: 25
-	        						}
-	        					}
-							},
-							{
-								initP: 25,
-								finalP: 35,
-	        					rotation: {
-	        						init: {
-	        							x: 0,
-	        							y: 0,
-	        							z: 0
-	        						},
-	        						final: {
-	        							x: 2 * Math.PI,
-	        							y: 2 * Math.PI,
-	        							z: 2 * Math.PI
-	        						}
-	        					}
-							},
-							{
-								initP: 35,
-								finalP: 45,
-								position: {
-									init: {
-	        							x: -20,
-										y: 3,
-										z: 25
-	        						},
-	        						final: {
-	        							x: -10,
-										y: 16,
-										z: 60
-	        						}
-	        					},
-	        					rotation: {
-	        						init: {
-	        							x: 0,
-	        							y: 0,
-	        							z: 0
-	        						},
-	        						final: {
-	        							x: 2 * Math.PI,
-	        							y: 2 * Math.PI,
-	        							z: 2 * Math.PI
-	        						}
-	        					}
-							},
-							{
-								initP: 45,
-								finalP: 50,
-								position: {
-									init: {
-	        							x: -10,
-										y: 16,
-										z: 60
-	        						},
-	        						final: {
-	        							x: -10,
-										y: 2,
-										z: 60.5
-	        						}
-	        					},
-	        					size: {
-	        						init: {
-	        							w: 1,
-	        							h: 1,
-	        							d: 1
-	        						},
-	        						final: {
-	        							w: 0.5,
-	        							d: 0.5,
-	        							h: 0.5
-	        						}	
-	        					},
-	        					rotation: {
-	        						init: {
-	        							x: 2 * Math.PI,
-	        							y: 2 * Math.PI,
-	        							z: 2 * Math.PI
-	        						},
-	        						final: {
-	        							x: 0,
-	        							y: 0,
-	        							z: 0
-	        						}	
-	        					}
-							},
-							{
-								initP: 50,
-								finalP: 55,
-								position: {
-									init: {
-	        							x: -10,
-										y: 2,
-										z: 60.5
-	        						},
-	        						final: {
-	        							x: -9,
-										y: 2,
-										z: 60
-	        						}
-	        					},
-	        					size: {
-	        						init: {
-	        							w: 0.5,
-	        							d: 0.5,
-	        							h: 0.5
-	        						},
-	        						final: {
-	        							w: 1,
-	        							d: 1,
-	        							h: 1
-	        						}	
-	        					}
-							},
-							{
-								initP: 90,
-								finalP: 95,
-	        					size: {
-	        						init: {
-	        							w: 1,
-	        							d: 1,
-	        							h: 1
-	        						},
-	        						final: {
-	        							w: 0,
-	        							d: 0,
-	        							h: 0
-	        						}	
-	        					}
-							}	
-						]
-					}
-				},
-				{
-					id: "c-lilaccar",
-					assetType: "car",
-					hide: true,
-					options: {
-						color: {
-							init: _LILAC
-						},
-						size: {
-							w: 1,
-							h: 1,
-							d: 1
-						},
-						rotation: {
-							x: 0,
-							y: _PT_W,
-							z: 0
-						},
-						anims: [
-							{
-								initP: 12,
-								finalP: 19,
-								position: {
-									init: {
-	        							x: 3,
-	        							y: 0,
-	        							z: 100
-	        						},
-	        						final: {
-	        							x: 3,
-	        							y: 0,
-	        							z: 55
-	        						}
-	        					}
-							},
-							{
-								initP: 23,
-								finalP: 25,
-								color: {
-									init: {
-										_LILAC
-									},
-									final: {
-										_GREY
-									}
-								}
-							},
-							{
-								initP: 70,
-								finalP: 75,
-								color: {
-									init: {
-										_GREY
-									},
-									final: {
-										_LILAC
-									}
-								}
-							},
-							{
-								initP: 75,
-								finalP: 85,
-								position: {
-									init: {
-	        							x: 3,
-	        							y: 0,
-	        							z: 55
-	        						},
-	        						final: {
-	        							x: 3,
-	        							y: 0,
-	        							z: -30
-	        						}
-	        					}
-							},	
-						]
-					}
-				},
-				{
-					id: "c-lilaccube1",
-					assetType: "cube",
-					hide: true,
-					options: {
-						color: {
-							init: _LILAC
-						},
-						size: {
-							w: 1,
-							h: 1,
-							d: 1
-						},
-						rotation: {
-							x: 0,
-							y: 0,
-							z: 0
-						},
-						position: {
-							x: 1,
-	        				y: 1,
-	        				z: 55
-						},
-						anims: [
-							{
-								initP: 23,
-								finalP: 30,
-								position: {
-									init: {
-	        							x: 1,
-										y: 1,
-										z: 55
-	        						},
-	        						final: {
-	        							x: 1,
-										y: 3,
-										z: 55
-	        						}
-	        					}
-							},
-							{
-								initP: 25,
-								finalP: 35,
-	        					rotation: {
-	        						init: {
-	        							x: 0,
-	        							y: 0,
-	        							z: 0
-	        						},
-	        						final: {
-	        							x: 2 * Math.PI,
-	        							y: 2 * Math.PI,
-	        							z: 2 * Math.PI
-	        						}
-	        					}
-							},
-							{
-								initP: 35,
-								finalP: 45,
-								position: {
-									init: {
-	        							x: 1,
-										y: 3,
-										z: 55
-	        						},
-	        						final: {
-	        							x: -10,
-										y: 12,
-										z: 60
-	        						}
-	        					},
-	        					rotation: {
-	        						init: {
-	        							x: 0,
-	        							y: 0,
-	        							z: 0
-	        						},
-	        						final: {
-	        							x: 2 * Math.PI,
-	        							y: 2 * Math.PI,
-	        							z: 2 * Math.PI
-	        						}
-	        					}
-							},
-							{
-								initP: 45,
-								finalP: 50,
-								position: {
-									init: {
-	        							x: -10,
-										y: 12,
-										z: 60
-	        						},
-	        						final: {
-	        							x: -10,
-										y: 3,
-										z: 60.5
-	        						}
-	        					},
-	        					size: {
-	        						init: {
-	        							w: 1,
-	        							h: 1,
-	        							d: 1
-	        						},
-	        						final: {
-	        							w: 0.5,
-	        							d: 0.5,
-	        							h: 0.5
-	        						}	
-	        					},
-	        					rotation: {
-	        						init: {
-	        							x: 2 * Math.PI,
-	        							y: 2 * Math.PI,
-	        							z: 2 * Math.PI
-	        						},
-	        						final: {
-	        							x: 0,
-	        							y: 0,
-	        							z: 0
-	        						}	
-	        					}
-							},
-							{
-								initP: 50,
-								finalP: 55,
-								position: {
-									init: {
-	        							x: -10,
-										y: 3,
-										z: 60.5
-	        						},
-	        						final: {
-	        							x: -9,
-										y: 3,
-										z: 60
-	        						}
-	        					},
-	        					size: {
-	        						init: {
-	        							w: 0.5,
-	        							d: 0.5,
-	        							h: 0.5
-	        						},
-	        						final: {
-	        							w: 1,
-	        							d: 1,
-	        							h: 1
-	        						}	
-	        					}
-							},
-							{
-								initP: 75,
-								finalP: 80,
-	        					size: {
-	        						init: {
-	        							w: 1,
-	        							d: 1,
-	        							h: 1
-	        						},
-	        						final: {
-	        							w: 0,
-	        							d: 0,
-	        							h: 0
-	        						}	
-	        					}
-							}	
-						]
-					},
-				},
-				{
-					id: "c-lilaccube2",
-					assetType: "cube",
-					hide: true,
-					options: {
-						color: {
-							init: _LILAC
-						},
-						size: {
-							w: 1,
-							h: 1,
-							d: 1
-						},
-						rotation: {
-							x: 0,
-							y: 0,
-							z: 0
-						},
-						position: {
-							x: 1,
-	        				y: 1,
-	        				z: 55
-						},
-						anims: [
-							{
-								initP: 23,
-								finalP: 30,
-								position: {
-									init: {
-	        							x: 1,
-										y: 1,
-										z: 55
-	        						},
-	        						final: {
-	        							x: 1,
-										y: 5,
-										z: 55
-	        						}
-	        					}
-							},
-							{
-								initP: 25,
-								finalP: 35,
-	        					rotation: {
-	        						init: {
-	        							x: 0,
-	        							y: 0,
-	        							z: 0
-	        						},
-	        						final: {
-	        							x: 2 * Math.PI,
-	        							y: 2 * Math.PI,
-	        							z: 2 * Math.PI
-	        						}
-	        					}
-							},
-							{
-								initP: 35,
-								finalP: 45,
-								position: {
-									init: {
-	        							x: 1,
-										y: 5,
-										z: 55
-	        						},
-	        						final: {
-	        							x: -10,
-										y: 14,
-										z: 60
-	        						}
-	        					},
-	        					rotation: {
-	        						init: {
-	        							x: 0,
-	        							y: 0,
-	        							z: 0
-	        						},
-	        						final: {
-	        							x: 2 * Math.PI,
-	        							y: 2 * Math.PI,
-	        							z: 2 * Math.PI
-	        						}
-	        					}
-							},
-							{
-								initP: 45,
-								finalP: 50,
-								position: {
-									init: {
-	        							x: -10,
-										y: 14,
-										z: 60
-	        						},
-	        						final: {
-	        							x: -10,
-										y: 3,
-										z: 60.5
-	        						}
-	        					},
-	        					size: {
-	        						init: {
-	        							w: 1,
-	        							h: 1,
-	        							d: 1
-	        						},
-	        						final: {
-	        							w: 0.5,
-	        							d: 0.5,
-	        							h: 0.5
-	        						}	
-	        					},
-	        					rotation: {
-	        						init: {
-	        							x: 2 * Math.PI,
-	        							y: 2 * Math.PI,
-	        							z: 2 * Math.PI
-	        						},
-	        						final: {
-	        							x: 0,
-	        							y: 0,
-	        							z: 0
-	        						}	
-	        					}
-							},
-							{
-								initP: 50,
-								finalP: 55,
-								position: {
-									init: {
-	        							x: -10,
-										y: 3,
-										z: 60.5
-	        						},
-	        						final: {
-	        							x: -8,
-										y: 3,
-										z: 60
-	        						}
-	        					},
-	        					size: {
-	        						init: {
-	        							w: 0.5,
-	        							d: 0.5,
-	        							h: 0.5
-	        						},
-	        						final: {
-	        							w: 1,
-	        							d: 1,
-	        							h: 1
-	        						}	
-	        					}
-							},
-							{
-								initP: 75,
-								finalP: 80,
-	        					size: {
-	        						init: {
-	        							w: 1,
-	        							d: 1,
-	        							h: 1
-	        						},
-	        						final: {
-	        							w: 0,
-	        							d: 0,
-	        							h: 0
-	        						}	
-	        					}
-							}
-						]
-					}
-				}
-			]
-		}),
-		initCanvas({
-			canvasSelector: "#canvasD",
-			scrollInit: 82,
-			scrollFinal: 100,
-			assets: [
-				{
-					id: "d-hilitecar1",
-					assetType: "car",
-					hide: true,
-					options: {
-						color: {
-							init: _HILITE
-						},
-						size: {
-							w: 1,
-							h: 1,
-							d: 1
-						},
-						rotation: {
-							x: 0,
-							y: _PT_W,
-							z: 0
-						},
-						anims: [
-							{
-								initP: 0,
-								finalP: 30,
-								position: {
-									init: {
-	        							x: -2,
-	        							y: 0,
-	        							z: 100
-	        						},
-	        						final: {
-	        							x: -2,
-	        							y: 0,
-	        							z: 45
-	        						}
-	        					}
-							}
-						]
-					}
-				},
-				{
-					id: "c-hilite-checkfoot",
-					assetType: "cube",
-					hide: true,
-					options: {
-						color: {
-							init: _HILITE
-						},
-						size: {
-							w: 1,
-							h: 1,
-							d: 1
-						},
-						position: {
-							x: -4,
-	        				y: 4.5,
-	        				z: 100
-						},
-						anims: [
-							{
-								initP: 0,
-								finalP: 30,
-								position: {
-									init: {
-	        							x: -4,
-	        							y: 4.5,
-	        							z: 100
-	        						},
-	        						final: {
-	        							x: -4,
-	        							y: 4.5,
-	        							z: 45
-	        						}
-	        					}
-							},
-							{
-								initP: 30,
-								finalP: 34,
-								color: {
-									init: {
-	        							_HILITE
-	        						},
-	        						final: {
-	        							_RED
-	        						}
-	        					},
-	        					rotation: {
-	        						init: {
-	        							x: 0,
-										y: 0,
-										z: 0
-	        						},
-	        						final: {
-	        							x: 0,
-	        							y: Math.PI,
-	        							z: Math.PI
-	        						}
-	        					},
-	        					position: {
-	        						init: {
-	        							x: -4,
-	        							y: 4.5,
-	        							z: 45
-	        						},
-	        						final: {
-	        							x: -4,
-	        							y: 4.7,
-	        							z: 45
-	        						}
-	        					},
-	        					size: {
-	        						init: {
-	        							w: 1,
-		    							h: 1,
-	    								d: 1
-	    							},
-	    							final: {
-	        							w: 2.2,
-		    							h: 2.2,
-	    								d: 2.2
-	    							}
-	    						}
-							},
-							{
-								initP: 34,
-								finalP: 38,
-								color: {
-									init: {
-	        							_RED
-	        						},
-	        						final: {
-	        							_LILAC
-	        						}
-	        					},
-	        					rotation: {
-	        						init: {
-	        							x: 0,
-	        							y: Math.PI,
-	        							z: Math.PI
-	        						},
-	        						final: {
-	        							x: 0,
-	        							y: 0,
-	        							z: 0
-	        						}
-	        					},
-	        					position: {
-	        						init: {
-	        							x: -5,
-	        							y: 4.7,
-	        							z: 45
-	        						},
-	        						final: {
-	        							x: -4.25,
-	        							y: 4.5,
-	        							z: 45
-	        						}
-	        					},
-	        					size: {
-	        						init: {
-	        							w: 2.2,
-		    							h: 2.2,
-	    								d: 2.2
-	    							},
-	    							final: {
-	        							w: 2,
-		    							h: 2,
-	    								d: 2
-	    							}
-	    						}
-							}
-								
-						]
-					}
-				},
-				/*{
-					id: "c-hilite-checkneck",
-					assetType: "cube",
-					hide: true,
-					options: {
-						color: {
-							init: _HILITE
-						},
-						size: {
-							w: 3,
-							h: 1,
-							d: 1
-						},
-						rotation: {
-							x: 0,
-							y: 0,
-							z: -1 * Math.PI / 4
-						},
-						position: {
-							x: -4,
-	        				y: 5,
-	        				z: 100
-						},
-						text: "What?",
-						anims: [
-							{
-								initP: 0,
-								finalP: 30,
-								position: {
-									init: {
-	        							x: -5,
-	        							y: 5,
-	        							z: 100
-	        						},
-	        						final: {
-	        							x: -5,
-	        							y: 5,
-	        							z: 45
-	        						}
-	        					}
-							},
-							{
-								initP: 30,
-								finalP: 35,
-								rotation: {
-									init: {
-	        							x: 0,
-										y: 0,
-										z: -1 * Math.PI / 4
-	        						},
-	        						final: {
-	        							x: 0,
-	        							y: 0,
-	        							z: -1 * Math.PI / 2
-	        						}
-	        					},
-	        					position: {
-	        						init: {
-	        							x: -5,
-	        							y: 5,
-	        							z: 45
-	        						},
-	        						final: {
-	        							x: -4,
-	        							y: 6,
-	        							z: 45
-	        						}
-	        					}
-							}
-								
-						]
-					}
-				},*/
-				{
-					id: "d-rosecar",
-					assetType: "car",
-					hide: true,
-					options: {
-						color: {
-							init: _ROSE
-						},
-						size: {
-							w: 1,
-							h: 1,
-							d: 1
-						},
-						rotation: {
-							x: 0,
-							y: _PT_W,
-							z: 0
-						},
-						position: {
-							x: 3,
-	        				y: 0,
-	        				z: 100
-						},
-						anims: [
-							{
-								initP: 10,
-								finalP: 27,
-								position: {
-									init: {
-	        							x: 3,
-	        							y: 0,
-	        							z: 100
-	        						},
-	        						final: {
-	        							x: 3,
-	        							y: 0,
-	        							z: 40
-	        						}
-	        					}
-							}	
-						]
-					}
-				},
-				{
-					id: "d-lilaccar",
-					assetType: "car",
-					hide: true,
-					options: {
-						color: {
-							init: _LILAC
-						},
-						size: {
-							w: 1,
-							h: 1,
-							d: 1
-						},
-						rotation: {
-							x: 0,
-							y: _PT_N,
-							z: 0
-						},
-						anims: [
-							{
-								initP: 0,
-								finalP: 40,
-								position: {
-									init: {
-	        							x: -30,
-	        							y: 0,
-	        							z: 35
-	        						},
-	        						final: {
-	        							x: -15,
-	        							y: 0,
-	        							z: 35
-	        						}
-	        					}
-							},
-							{
-								initP: 76,
-								finalP: 94,
-								position: {
-									path: {
-	        							aX: -3,
-	        							aZ: 25,
-	        							xRad: 10,
-	        							zRad: 10,
-	        							aStart: Math.PI / 2,
-	        							aEnd: 2 * Math.PI,
-	        							aAntiClock: true //reversed from spec due to xy-xz translation
-	        						}
-	        					},
-	        					rotation: {
-									init: {
-	        							x: 0,
-	        							y: _PT_N,
-	        							z: 0
-	        						},
-	        						final: {
-	        							x: 0,
-	        							y: _PT_W,
-	        							z: 0
-	        						}
-	        					}
-							},
-							{
-								initP: 94,
-								finalP: 100,
-								position: {
-									init: {
-	        							x: 7,
-	        							y: 0,
-	        							z: 25
-	        						},
-	        						final: {
-	        							x: 7,
-	        							y: 0,
-	        							z: -20
-	        						}
-	        					}
-							},	
-						]
-					}
-				}
-			]
-		}),
-	];
+	assets.forEach((assetGroup, i) => {
+		var thisCanvas  = initCanvas(assetGroup);
+		canvases.push(thisCanvas);
+	});
 
 	//$(window).resize(function(){
 	//	sizeOverlay();
@@ -3305,15 +61,13 @@ function main() {
 		//renderer.shadowMapEnabled = true;
 		//renderer.shadowMapType = THREE.PCFSoftShadowMap;
 
-		//camera
 		const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-		camera.position.x = 0;
-		camera.position.y = 3.2;
-		camera.position.z = -16;
-		camera.rotation.x = -3.21; //up/down
-		camera.rotation.y = 0.033; //left/right
-		camera.rotation.z = -3.14;
-
+		camera.position.x = cameraPosX;
+		camera.position.y = cameraPosY;
+		camera.position.z = cameraPosZ;
+		camera.rotation.x = cameraRotX; //up/down
+		camera.rotation.y = cameraRotY; //left/right
+		camera.rotation.z = cameraRotZ;
 		cameras.push(camera);
 
 		//scene
@@ -3332,23 +86,23 @@ function main() {
 	    	element.scrollInit = options.scrollInit;
 	    	element.scrollFinal = options.scrollFinal;
 
-	    	if (element.assetType == "car") {
-	    		makeCarInstance(element, scene);
-	    	} else if (element.assetType == "line") {
+			if (element.assetType == "line") {
 	    		makeLineInstance(element, scene);
-	    	} else if (element.assetType == "plane") {
-	    		makePlaneInstance(element, scene);
+
 	    	} else if (element.assetType == "text") {
 	    		makeTextInstance(element, scene);
+	    	} else if (element.assetType == "beetle") {
+	    		makeBeetleInstance(element, scene);
 	    	} else {
-		    	makeCubeInstance(element, scene);
+		    	//makeCubeInstance(element, scene);
+		    	makeAnythingInstance(element, scene);
 		    }
 	    });
 
 	    //debug line grid
-	    var debug = false;
+	    var debug = true;
 
-	    if (debug) {
+	    if (debug && options.canvasSelector == "#canvasA") {
 		    for (var y = 0; y < 5; y++) {
 			    for (var x = -5; x < 5; x++) {
 			    	if (x == 0) {
@@ -3449,72 +203,12 @@ function main() {
 		});
 	}
 
-	function sizeOverlaySafe() {
-		
-		const imgWidth = 1891; // THESE ARE THE DIMENSIONS OF THE BACKGROUND IMAGE
-		const imgHeight	=	1098;
-		const imgRatio = (imgHeight / imgWidth);  //WE USE THIS RATIO TO DETERMINE IF THE SCREEN IS WIDER OR NARROWER THAN THE IMAGE DIMENSIONS
-		
-		const windowRatio = ($(window).height() / $(window).width());     // container ratio
-		let topPx;
-		let leftPx;
-		let canvasWidth;
-		let canvasHeight;
-
-		if (windowRatio < imgRatio)	{
-
-			canvasWidth = $(window).width(); //THESE FIGURE OUT THE SIZE THE CANVAS NEEDS TO BE
-			canvasHeight = $(window).width()*imgRatio;
-			topPx = ($(window).height()-canvasHeight)/2;
-			leftPx = 0;
-
-			/*renderer.setSize(canvasWidth,canvasHeight,false);//RE-RENDER THE SCENE
-
-			$("canvas").css({
-				"width":canvasWidth, //THESE OVERCOME THE INLINE STYLE APPLIED TO THE CANVAS
-				"height":canvasHeight,
-				"top":($(window).height()-canvasHeight)/2,  //THIS MOVES THE CANVAS SO THAT IT IS LARGER THAN THE CROP OF THE WINDOW
-				"left": 0
-			});
-			*/
-		
-		}  else  {
-
-			canvasWidth = $(window).height()/imgRatio;
-			canvasHeight = $(window).height();
-			topPx = 0;
-			leftPx = ($(window).width()-canvasWidth)/2;
-			
-			/*renderer.setSize(canvasWidth,canvasHeight,false);
-
-			$("canvas").css({
-				"width":canvasWidth,
-				"height":canvasHeight,
-				"left":($(window).width()-canvasWidth)/2,
-				"top": 0
-			});*/
-		}
-
-
-		let renderer = canvases[0];
-		renderer.setSize(canvasWidth,canvasHeight,false);//RE-RENDER THE SCENE
-
-		$("canvas").css({
-			"width":canvasWidth, //THESE OVERCOME THE INLINE STYLE APPLIED TO THE CANVAS
-			"height":canvasHeight,
-			"top":topPx,  //THIS MOVES THE CANVAS SO THAT IT IS LARGER THAN THE CROP OF THE WINDOW
-			"left": leftPx
-		});
-
-		const camera = cameras[0];
-		camera.aspect = renderer.domElement.clientWidth / renderer.domElement.clientHeight;
-		camera.updateProjectionMatrix();
-	}
+	
 
 	function tickMovables(obj) {
-		if (obj.type == "Mesh") {
+		if (obj.type == "Mesh" || obj.assetType == "beetle") {
 
-			if (scrollAmt > obj.scrollInit && scrollAmt < obj.scrollFinal) {        				
+			if (scrollAmt > obj.scrollInit && scrollAmt < obj.scrollFinal && obj.assetType) {        				
 
 				//if (scrollAmt > thisObjStartInScroll && scrollAmt < thisObjEndInScroll) {
 					//confirm visible in case user has already scrolled past and come back
@@ -3540,6 +234,20 @@ function main() {
 	    					//added buffer of 5% of scroll height to account for quick scrolling that prevents animations from completing
 	    					var thisObjectProgress = Math.min(map(thisObjStartInScroll,thisObjEndInScroll,scrollAmt), 1);
 
+	    					if (obj.assetType == "beetle") {
+	    						var target = new THREE.Vector3();
+	    						var box = new THREE.Box3();
+	    						var bbtarget = new THREE.Vector3();
+	    						var bctarget = new THREE.Vector3();
+	    						obj.traverse(function(xx) {
+	    							if (xx.name != "a-suitcasebody") {
+	    								xx.position.set(0, 0, 0);
+	    							}
+	    							box.setFromObject(xx);
+	    							console.log(xx.name, box.getCenter(bctarget), box.getSize(bbtarget), xx.getWorldPosition(target));
+	    						});
+
+	    					}
 	    					if (anim.position) {
 	    						if (anim.position.path) { //anything other than straight line
 	    							var p = anim.position.path;
@@ -3585,19 +293,23 @@ function main() {
 	    					if (anim.color) {
 
 	    						//first, convert colors to RGB so they can be easily interpolated
-	    						//var init_c_hex = new THREE.Color("0x" + anim.color.init.toString());
-	    						//var final_c_hex = new THREE.Color("0x" + anim.color.final.toString());
+	    						var initColor = new THREE.Color().setHex(Object.values(anim.color.init)[0].toString());
+	    						var finalColor = new THREE.Color().setHex(Object.values(anim.color.final)[0].toString());
+	    						//debugger;
 	    						/*var init_c = hexToRgb(anim.color.init);
 	    						var final_c = hexToRgb(anim.color.final);
-
+								
 	    						//integer interpolation between each color channel
 	    						var lerpR = Math.floor(lerp(init_c.r, final_c.r, thisObjectProgress));
 	    						var lerpG = Math.floor(lerp(init_c.g, final_c.g, thisObjectProgress));
 	    						var lerpB = Math.floor(lerp(init_c.b, final_c.b, thisObjectProgress));*/
 
-	    						var lerpR = lerp(Object.values(anim.color.init)[0].r, Object.values(anim.color.final)[0].r, thisObjectProgress);
+	    						/*var lerpR = lerp(Object.values(anim.color.init)[0].r, Object.values(anim.color.final)[0].r, thisObjectProgress);
 	    						var lerpG = lerp(Object.values(anim.color.init)[0].g, Object.values(anim.color.final)[0].g, thisObjectProgress);
-	    						var lerpB = lerp(Object.values(anim.color.init)[0].b, Object.values(anim.color.final)[0].b, thisObjectProgress);
+	    						var lerpB = lerp(Object.values(anim.color.init)[0].b, Object.values(anim.color.final)[0].b, thisObjectProgress);*/
+	    						var lerpR = lerp(initColor.r, finalColor.r, thisObjectProgress);
+	    						var lerpG = lerp(initColor.g, finalColor.g, thisObjectProgress);
+	    						var lerpB = lerp(initColor.b, finalColor.b, thisObjectProgress);
 
 	    						//interpolate based on scroll, then recombine and set hex of object
 	    						obj.material.color.setRGB(lerpR, lerpG, lerpB);
@@ -3647,211 +359,403 @@ function main() {
 					});       				
 
 			} else {
-				obj.visible = false;
-				obj.material.opacity = 1;
+				if (obj.type == "Mesh") {
+					obj.visible = false;
+					obj.material.opacity = 1;
+				}
 			}
+		} else {
+			//console.log(obj);
 		}
 
 		return scrollAmt;
 	}
 
-	//TODO:
-	/*
-	- combine all constructors into one function, maybe a class
-	- opacity lerping
-	- finish scenario
-	X finish updating tick lerpers to accept only changing properties
-	X size and rotation do not work forwards and backwards - they never will, switch to full declarative object model
-	X add play button to smooth scroll
-
-	*/
-
-
 	//THREE.JS CONSTRUCTOR FUNCTIONS
-	function makeCubeInstance(options, givenScene) {
-		
-		var width, depth, height;
-		if (typeof options.options.size === "undefined" || !options.options.size) {
-			width = 1;
-			height = 1;
-			depth = 1;
+	function makeAnythingInstance(options, givenScene) {
+
+		//geometry and material
+		var geometry, material, loadedObject;
+		var isObject = false;
+		switch(options.assetType) {
+			case 'car':
+				const vertices = [
+				{ pos: [	4,	0,	0], norm: [1, 0, 0], uv: [0, 1], }, //0
+				{ pos: [	4,	0,	7], norm: [1, 0, 0], uv: [0, 1], grille: true}, //1
+				{ pos: [	4,	1.5,	6], norm: [1, 0, 0], uv: [1, 1],  grille: true},  //2
+				{ pos: [	4,	1.5,	0], norm: [1, 0, 0], uv: [1, 1],  glass: false},  //3
+
+				//right body
+				{ pos: [	0,	0,	0], norm: [-1, 0, 0], uv: [1, 1], },  //4
+				{ pos: [	0,	0,	7], norm: [-1, 0, 0], uv: [1, 1],  grille: true},  //5
+				{ pos: [	0,	1.5,	0], norm: [-1, 0, 0], uv: [0, 1],  glass: false},  //6
+				{ pos: [	0,	1.5,	6], norm: [-1, 0, 0], uv: [0, 1],  grille: true},  //7
+				
+				//roof
+				{ pos: [	3.5,	2.5,	2], norm: [0, 1, 0], uv: [0, 1],  glass: true},  //8
+				{ pos: [	0.5,	2.5,	2], norm: [0, 1, 0], uv: [0, 1],  glass: true}, //9
+				{ pos: [	3.5,	2.5,	0.5], norm: [0, 1, 0], uv: [0, 1],  glass: true},  //10
+				{ pos: [	0.5,	2.5,	0.5], norm: [0, 1, 0], uv: [0, 1],  glass: true},  //11
+
+				//wipers
+				{ pos: [	4,	1.5,	4], norm: [-3, -8, -4], uv: [0, 1], glass: false},  //12
+				{ pos: [	0,	1.5,	4], norm: [-3, -8, -4], uv: [0, 1], glass: false}, //13
+
+				]; 
+
+				const positions = [];
+				const normals = [];
+				const uvs = [];
+				const colors = [];
+
+				for (const vertex of vertices) {
+					positions.push(...vertex.pos);
+					normals.push(...vertex.norm);
+					uvs.push(...vertex.uv);
+					
+					//colour cars from each corner using this code - quite cool for potential impacts etc
+					/*if (vertex.glass) {
+						colors.push(0, 0, 1);
+					} else if (vertex.grille) {
+						colors.push(1,0,0);
+						//colors.push(0.5, 0.5, 0.5);
+					} else {*/
+						//var init_c = hexToRgb(options.options.color.init);
+						//colors.push(init_c.r / 255, init_c.g / 255, init_c.b / 255);
+					//}
+					
+				}	
+
+				geometry = new THREE.BufferGeometry()//.setFromPoints(points);
+				//essentially: how many numbers are for this property before I move on to next vertex?
+				const positionNumComponents = 3;
+				const normalNumComponents = 3;
+				const uvNumComponents = 2;
+
+				geometry.setAttribute(
+					'position', 
+					new THREE.BufferAttribute(new Float32Array(positions), positionNumComponents));
+				geometry.setAttribute(
+					'normal', 
+					new THREE.BufferAttribute(new Float32Array(normals), normalNumComponents));
+				geometry.setAttribute(
+					'uv', 
+					new THREE.BufferAttribute(new Float32Array(uvs), uvNumComponents));
+				geometry.setAttribute(
+					'color', 
+					new THREE.BufferAttribute(new Float32Array(colors), positionNumComponents));
+				
+				//remember to use right hand rule for determining which way out triangles should face, otherwise they appear on the inside
+				geometry.setIndex([
+					3, 1, 0, 	3, 2, 1, //left body
+					4, 5, 6, 	7, 6, 5, //right body
+					1, 2, 5, 	7, 5, 2, //front
+					12, 7, 2, 	7, 12, 13, //hood
+					13, 12, 8, 	8, 9, 13, //windshield
+					10, 9, 8,	9, 10, 11, //roof
+					3, 6, 10, 	11, 10, 6, //rear windshield
+					6, 3, 0, 	0, 4, 6,  //trunk
+					//16, 15, 14, 14, 17, 16, //trunk 2
+					10, 8, 3, 	3, 8, 12, 	//left windows
+					6, 9, 11, 	13, 9, 6 //right windows
+
+					]);
+
+				geometry.computeVertexNormals();
+				material = new THREE.MeshStandardMaterial({});
+				break;
+			case 'plane':
+				geometry = new THREE.PlaneGeometry( 1, 1 );
+				material = new THREE.MeshBasicMaterial( {side: THREE.DoubleSide });
+				break;
+			case 'text':
+				break;
+			case 'sphere':
+				geometry = new THREE.SphereGeometry(1, options.segments, 16);
+				break;
+			case 'cube':
+				geometry = new THREE.BoxGeometry(1, 1, 1);
+				material = new THREE.MeshPhongMaterial();
+				break;
+			case 'suitcase':
+				geometry = RoundEdgedBox(1, 1, 1);
+				material = new THREE.MeshPhongMaterial();
+				break;
+			case 'beetle':
+				// instantiate a loader
+				isObject = true;
+				const loader = new OBJLoader();
+				const materialsLoader = new MTLLoader();
+
+				loader.load('models/vw-beetle.obj',
+					
+					function ( object ) {
+
+						loadedObject = object;
+
+					},
+					function ( xhr ) {
+						console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+
+					},
+					function ( error ) {
+
+						console.log( 'An error happened' );
+
+					}
+				);
+				break;
+			default:
+		}
+
+		//basic props
+		var thing;
+		if (isObject) {
+			thing = loadedObject;
 		} else {
-			width = typeof options.options.size.w === "undefined" || !options.options.size.w ? 1 : options.options.size.w;
-			height = typeof options.options.size.h === "undefined" || !options.options.size.h ? 1 : options.options.size.h;
-			depth = typeof options.options.size.d === "undefined" || !options.options.size.d ? 1 : options.options.size.d;
+			thing = new THREE.Mesh(geometry, material);
 		}
 		
-		const geometry = new THREE.BoxGeometry(width, height, depth);
-		const material = new THREE.MeshPhongMaterial();
-			const cube = new THREE.Mesh(geometry, material);
-			const cubeColor = options.options.color.init;
-			cube.material.color.setRGB(cubeColor.r, cubeColor.g, cubeColor.b);
+		thing.options = options.options;
+		thing.assetType = options.assetType;
+		thing.name = options.id;
 
-			givenScene.add(cube);
-			
-			cube.options = options.options;
-			cube.hide = options.hide;
-
-			cube.name = options.id;
-			cube.assetType = 'cube';
-			cube.scrollInit = options.scrollInit = typeof options.scrollInit === "undefined" || !options.scrollInit ? 0 : options.scrollInit;
-			cube.scrollFinal = options.scrollFinal = typeof options.scrollFinal === "undefined" || !options.scrollFinal ? 100 : options.scrollFinal;
-			if (options.options.position) {
-				cube.position.set(
-					options.options.position.x,
-					options.options.position.y,
-					options.options.position.z
+		//color
+		const thingColor = new THREE.Color().setHex(options.options.color.init);
+		thing.material.color.setRGB(thingColor.r, thingColor.g, thingColor.b);
+		
+		//scroll behaviour
+		thing.scrollInit = options.scrollInit = typeof options.scrollInit === "undefined" || !options.scrollInit ? 0 : options.scrollInit;
+		thing.scrollFinal = options.scrollFinal = typeof options.scrollFinal === "undefined" || !options.scrollFinal ? 100 : options.scrollFinal;
+		
+		//position, rotation and scale
+		if (options.options.position) {
+			thing.position.set(
+				options.options.position.x,
+				options.options.position.y,
+				options.options.position.z
+        	);
+        }
+		if (options.options.rotation) {
+			thing.rotation.set(
+				options.options.rotation.x,
+				options.options.rotation.y,
+				options.options.rotation.z
 	        );
 	    }
-	    if (options.options.rotation) {
-				cube.rotation.set(
-					options.options.rotation.x,
-					options.options.rotation.y,
-					options.options.rotation.z
-	        );
-	    }
-
-	}
-
-	function makeCarInstance(options, givenScene) {
-		
-		var width, depth, height;
-		if (typeof options.options.size === "undefined" || !options.options.size) {
-			width = 1;
-			height = 1;
-			depth = 1;
-		} else {
-			width = typeof options.options.size.w === "undefined" || !options.options.size.w ? 1 : options.options.size.w;
-			height = typeof options.options.size.h === "undefined" || !options.options.size.h ? 1 : options.options.size.h;
-			depth = typeof options.options.size.d === "undefined" || !options.options.size.d ? 1 : options.options.size.d;
-		}
-		
-		//define a set of corners for the car, along with their lighting normals and UV (I think not used?)
-
-		//left body
-		const vertices = [
-		{ pos: [	4,	0,	0], norm: [1, 0, 0], uv: [0, 1], }, //0
-		{ pos: [	4,	0,	7], norm: [1, 0, 0], uv: [0, 1], grille: true}, //1
-		{ pos: [	4,	1.5,	6], norm: [1, 0, 0], uv: [1, 1],  grille: true},  //2
-		{ pos: [	4,	1.5,	0], norm: [1, 0, 0], uv: [1, 1],  glass: false},  //3
-
-		//right body
-		{ pos: [	0,	0,	0], norm: [-1, 0, 0], uv: [1, 1], },  //4
-		{ pos: [	0,	0,	7], norm: [-1, 0, 0], uv: [1, 1],  grille: true},  //5
-		{ pos: [	0,	1.5,	0], norm: [-1, 0, 0], uv: [0, 1],  glass: false},  //6
-		{ pos: [	0,	1.5,	6], norm: [-1, 0, 0], uv: [0, 1],  grille: true},  //7
-		
-		//roof
-		{ pos: [	3.5,	2.5,	2], norm: [0, 1, 0], uv: [0, 1],  glass: true},  //8
-		{ pos: [	0.5,	2.5,	2], norm: [0, 1, 0], uv: [0, 1],  glass: true}, //9
-		{ pos: [	3.5,	2.5,	0.5], norm: [0, 1, 0], uv: [0, 1],  glass: true},  //10
-		{ pos: [	0.5,	2.5,	0.5], norm: [0, 1, 0], uv: [0, 1],  glass: true},  //11
-
-		//wipers
-		{ pos: [	4,	1.5,	4], norm: [-3, -8, -4], uv: [0, 1], glass: false},  //12
-		{ pos: [	0,	1.5,	4], norm: [-3, -8, -4], uv: [0, 1], glass: false}, //13
-
-		]; 
-
-		const positions = [];
-		const normals = [];
-		const uvs = [];
-		const colors = [];
-
-		for (const vertex of vertices) {
-			positions.push(...vertex.pos);
-			normals.push(...vertex.norm);
-			uvs.push(...vertex.uv);
-			
-			//colour cars from each corner using this code - quite cool for potential impacts etc
-			/*if (vertex.glass) {
-				colors.push(0, 0, 1);
-			} else if (vertex.grille) {
-				colors.push(1,0,0);
-				//colors.push(0.5, 0.5, 0.5);
-			} else {*/
-				//var init_c = hexToRgb(options.options.color.init);
-				//colors.push(init_c.r / 255, init_c.g / 255, init_c.b / 255);
-			//}
-			
-		}	
-
-		let carGeo = new THREE.BufferGeometry()//.setFromPoints(points);
-		//essentially: how many numbers are for this property before I move on to next vertex?
-		const positionNumComponents = 3;
-		const normalNumComponents = 3;
-		const uvNumComponents = 2;
-
-		carGeo.setAttribute(
-			'position', 
-			new THREE.BufferAttribute(new Float32Array(positions), positionNumComponents));
-		carGeo.setAttribute(
-			'normal', 
-			new THREE.BufferAttribute(new Float32Array(normals), normalNumComponents));
-		carGeo.setAttribute(
-			'uv', 
-			new THREE.BufferAttribute(new Float32Array(uvs), uvNumComponents));
-		carGeo.setAttribute(
-			'color', 
-			new THREE.BufferAttribute(new Float32Array(colors), positionNumComponents));
-		
-		//remember to use right hand rule for determining which way out triangles should face, otherwise they appear on the inside
-		carGeo.setIndex([
-			3, 1, 0, 	3, 2, 1, //left body
-			4, 5, 6, 	7, 6, 5, //right body
-			1, 2, 5, 	7, 5, 2, //front
-			12, 7, 2, 	7, 12, 13, //hood
-			13, 12, 8, 	8, 9, 13, //windshield
-			10, 9, 8,	9, 10, 11, //roof
-			3, 6, 10, 	11, 10, 6, //rear windshield
-			6, 3, 0, 	0, 4, 6,  //trunk
-			//16, 15, 14, 14, 17, 16, //trunk 2
-			10, 8, 3, 	3, 8, 12, 	//left windows
-			6, 9, 11, 	13, 9, 6 //right windows
-
-			]);
-
-		carGeo.computeVertexNormals();
-
-		const material = new THREE.MeshStandardMaterial(
-			{});
-			const car = new THREE.Mesh(carGeo, material);
-
-			const carColor = options.options.color.init;
-			car.material.color.setRGB(carColor.r, carColor.g, carColor.b);
-
-			//car.material.color.setHex("0x" + options.options.color.init);
-
-			givenScene.add(car);
-			
-			car.options = options.options;
-			car.hide = options.hide;
-
-			car.name = options.id;
-			car.assetType = 'car';
-			car.scrollInit = options.scrollInit = typeof options.scrollInit === "undefined" || !options.scrollInit ? 0 : options.scrollInit;
-			car.scrollFinal = options.scrollFinal = typeof options.scrollFinal === "undefined" || !options.scrollFinal ? 100 : options.scrollFinal;
-			car.scale.set(
+	    if (options.options.size) {
+		    thing.scale.set(
 				options.options.size.w,
 				options.options.size.h,
 				options.options.size.d
-	    );
-	    if (options.options.rotation) {
-	        car.rotation.set(
-					options.options.rotation.x,
-					options.options.rotation.y,
-					options.options.rotation.z
-	        );
-	    }
-	    if (options.options.position) {
-	        car.position.set(
-					options.options.position.x,
-					options.options.position.y,
-					options.options.position.z
-	        );
-	    }
-	    //car.castShadow = true;
-	    //car.receiveShadow = true;
+		    );
+		}
+	    givenScene.add(thing);
+	}
+
+	function makeBeetleInstance(options, givenScene) {
+
+		//geometry and material
+		var geometry, material, thing;
+
+		// instantiate a loader
+
+		const loader = new GLTFLoader();
+		//const materialsLoader = new MTLLoader();
+
+		//materialsLoader.load('models/vw-beetle.mtl', function(materials) {
+		//	materials.preload();
+			//loader.setMaterials(materials);
+			loader.load('models/scene.gltf',	function ( object ) {
+
+				let model = object.scene;
+				/*model.traverse (function(xx) {
+					xx.material = new THREE.MeshPhongMaterial();
+				})*/
+				thing = new THREE.Object3D();
+				thing.add(model);
+
+				thing.options = options.options;
+				thing.assetType = options.assetType;
+				thing.name = options.id;
+
+				//color
+				const thingColor = new THREE.Color().setHex(options.options.color.init);
+				//thing.material.color.setRGB(thingColor.r, thingColor.g, thingColor.b);
+				
+				//scroll behaviour
+				thing.scrollInit = options.scrollInit = typeof options.scrollInit === "undefined" || !options.scrollInit ? 0 : options.scrollInit;
+				thing.scrollFinal = options.scrollFinal = typeof options.scrollFinal === "undefined" || !options.scrollFinal ? 100 : options.scrollFinal;
+				
+				//position, rotation and scale
+				if (options.options.position) {
+					thing.position.set(
+						options.options.position.x,
+						options.options.position.y,
+						options.options.position.z
+		        	);
+		        }
+				if (options.options.rotation) {
+					thing.rotation.set(
+						options.options.rotation.x,
+						options.options.rotation.y,
+						options.options.rotation.z
+			        );
+			    }
+			    if (options.options.size) {
+				    thing.scale.set(
+						options.options.size.w,
+						options.options.size.h,
+						options.options.size.d
+				    );
+				}
+
+				//add cube to parent
+				geometry = new THREE.BoxGeometry(1, 1, 1);
+				material = new THREE.MeshPhongMaterial();
+				const cube = new THREE.Mesh(geometry, material);
+				cube.assetType = 'cube';
+				cube.name = 'narc';
+				cube.options = options.options;
+
+				//color
+				const cubeColor = new THREE.Color().setHex(options.options.color.init);
+				cube.material.color.setRGB(cubeColor.r, cubeColor.g, cubeColor.b);
+				
+				//scroll behaviour
+				cube.scrollInit = options.scrollInit = typeof options.scrollInit === "undefined" || !options.scrollInit ? 0 : options.scrollInit;
+				cube.scrollFinal = options.scrollFinal = typeof options.scrollFinal === "undefined" || !options.scrollFinal ? 100 : options.scrollFinal;
+				
+				//position, rotation and scale
+				cube.position.set(0,0,0);
+				//thing.add(cube);
+				
+			    givenScene.add(thing);
+			    //console.log(dumpObject(thing).join('\n'));
+
+			},
+			function ( xhr ) {
+				console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+
+			},
+			function ( error ) {
+
+				console.log( 'An error happened', error );
+
+			});		
+		//});
+	}
+
+	function dumpObject(obj, lines = [], isLast = true, prefix = '') {
+	  const localPrefix = isLast ? '└─' : '├─';
+	  lines.push(`${prefix}${prefix ? localPrefix : ''}${obj.name || '*no-name*'} [${obj.type}]`);
+	  const newPrefix = prefix + (isLast ? '  ' : '│ ');
+	  const lastNdx = obj.children.length - 1;
+	  obj.children.forEach((child, ndx) => {
+	    const isLast = ndx === lastNdx;
+	    dumpObject(child, lines, isLast, newPrefix);
+	  });
+	  return lines;
+	}	
+
+	function RoundEdgedBox(width, height, depth, radius, widthSegments, heightSegments, depthSegments, smoothness) {
+
+	    width = width || 1;
+	    height = height || 1;
+	    depth = depth || 1;
+	    radius = radius || (Math.min(Math.min(width, height), depth) * .25);
+	    widthSegments = Math.floor(widthSegments) || 1;
+	    heightSegments = Math.floor(heightSegments) || 1;
+	    depthSegments = Math.floor(depthSegments) || 1;
+	    smoothness = Math.max(3, Math.floor(smoothness) || 3);
+
+	    let halfWidth = width * .5 - radius;
+	    let halfHeight = height * .5 - radius;
+	    let halfDepth = depth * .5 - radius;
+
+	    var geometry = new THREE.BufferGeometry();
+
+	    // corners - 4 eighths of a sphere
+	    var corner1 = new THREE.SphereGeometry(radius, smoothness, smoothness, 0, Math.PI * .5, 0, Math.PI * .5);
+	    corner1.translate(-halfWidth, halfHeight, halfDepth);
+	    var corner2 = new THREE.SphereGeometry(radius, smoothness, smoothness, Math.PI * .5, Math.PI * .5, 0, Math.PI * .5);
+	    corner2.translate(halfWidth, halfHeight, halfDepth);
+	    var corner3 = new THREE.SphereGeometry(radius, smoothness, smoothness, 0, Math.PI * .5, Math.PI * .5, Math.PI * .5);
+	    corner3.translate(-halfWidth, -halfHeight, halfDepth);
+	    var corner4 = new THREE.SphereGeometry(radius, smoothness, smoothness, Math.PI * .5, Math.PI * .5, Math.PI * .5, Math.PI * .5);
+	    corner4.translate(halfWidth, -halfHeight, halfDepth);
+	    
+	    const tryIt = THREE.BufferGeometryUtils.mergeBufferGeometries([geometry, corner1], false);
+	    geometry.merge(corner1);
+	    geometry.merge(corner2);
+	    geometry.merge(corner3);
+	    geometry.merge(corner4);
+
+	    // edges - 2 fourths for each dimension
+	    // width
+	    var edge = new THREE.CylinderGeometry(radius, radius, width - radius * 2, smoothness, widthSegments, true, 0, Math.PI * .5);
+	    edge.rotateZ(Math.PI * .5);
+	    edge.translate(0, halfHeight, halfDepth);
+	    var edge2 = new THREE.CylinderGeometry(radius, radius, width - radius * 2, smoothness, widthSegments, true, Math.PI * 1.5, Math.PI * .5);
+	    edge2.rotateZ(Math.PI * .5);
+	    edge2.translate(0, -halfHeight, halfDepth);
+
+	    // height
+	    var edge3 = new THREE.CylinderGeometry(radius, radius, height - radius * 2, smoothness, heightSegments, true, 0, Math.PI * .5);
+	    edge3.translate(halfWidth, 0, halfDepth);
+	    var edge4 = new THREE.CylinderGeometry(radius, radius, height - radius * 2, smoothness, heightSegments, true, Math.PI * 1.5, Math.PI * .5);
+	    edge4.translate(-halfWidth, 0, halfDepth);
+
+	    // depth
+	    var edge5 = new THREE.CylinderGeometry(radius, radius, depth - radius * 2, smoothness, depthSegments, true, 0, Math.PI * .5);
+	    edge5.rotateX(-Math.PI * .5);
+	    edge5.translate(halfWidth, halfHeight, 0);
+	    var edge6 = new THREE.CylinderGeometry(radius, radius, depth - radius * 2, smoothness, depthSegments, true, Math.PI * .5, Math.PI * .5);
+	    edge6.rotateX(-Math.PI * .5);
+	    edge6.translate(halfWidth, -halfHeight, 0);
+
+	    edge.merge(edge2);
+	    edge.merge(edge3);
+	    edge.merge(edge4);
+	    edge.merge(edge5);
+	    edge.merge(edge6);
+
+	    // sides
+	    // front
+	    var side = new THREE.PlaneGeometry(width - radius * 2, height - radius * 2, widthSegments, heightSegments);
+	    side.translate(0, 0, depth * .5);
+
+	    // right
+	    var side2 = new THREE.PlaneGeometry(depth - radius * 2, height - radius * 2, depthSegments, heightSegments);
+	    side2.rotateY(Math.PI * .5);
+	    side2.translate(width * .5, 0, 0);
+
+	    side.merge(side2);
+
+	    geometry.merge(edge);
+	    geometry.merge(side);
+
+	    // duplicate and flip
+	    var secondHalf = geometry.clone();
+	    secondHalf.rotateY(Math.PI);
+	    geometry.merge(secondHalf);
+
+	    // top
+	    var top = new THREE.PlaneGeometry(width - radius * 2, depth - radius * 2, widthSegments, depthSegments);
+	    top.rotateX(-Math.PI * .5);
+	    top.translate(0, height * .5, 0);
+
+	    // bottom
+	    var bottom = new THREE.PlaneGeometry(width - radius * 2, depth - radius * 2, widthSegments, depthSegments);
+	    bottom.rotateX(Math.PI * .5);
+	    bottom.translate(0, -height * .5, 0);
+
+	    geometry.merge(top);
+	    geometry.merge(bottom);	    
+
+	    //geometry.mergeVertices();
+
+	    return geometry;
 	}
 
 	function makeLineInstance(color, x1, y1, z1, x2, y2, z2, givenScene) {
@@ -3867,52 +771,7 @@ function main() {
 		line.assetType = 'line';
 
 
-		givenScene.add(line);
-		
-	}
-
-	function makePlaneInstance(options, givenScene) {
-
-		//texture
-		var planeTexture;
-	    if (options.options.texture) {
-		    planeTexture = new THREE.TextureLoader().load( 'planetexture.png' );
-		}
-
-		const geometry = new THREE.PlaneGeometry( 1, 1 );
-		const material = new THREE.MeshBasicMaterial( {side: THREE.DoubleSide }); //, map: planeTexture} );
-		const plane = new THREE.Mesh( geometry, material );
-		plane.assetType = 'plane';
-
-		const planeColor = options.options.color.init;
-			plane.material.color.setRGB(planeColor.r, planeColor.g, planeColor.b);
-		
-		plane.options = options.options;
-		plane.scrollInit = options.scrollInit = typeof options.scrollInit === "undefined" || !options.scrollInit ? 0 : options.scrollInit;
-			plane.scrollFinal = options.scrollFinal = typeof options.scrollFinal === "undefined" || !options.scrollFinal ? 100 : options.scrollFinal;
-		
-		plane.scale.set(
-				options.options.size.w,
-				options.options.size.h
-	    );
-	    if (options.options.rotation) {
-	        plane.rotation.set(
-					options.options.rotation.x,
-					options.options.rotation.y,
-					options.options.rotation.z
-	        );
-	    }
-	    if (options.options.position) {
-	        plane.position.set(
-					options.options.position.x,
-					options.options.position.y,
-					options.options.position.z
-	        );
-	    }
-	    plane.name = options.id;
-
-		givenScene.add(plane);
-		
+		givenScene.add(line);	
 	}
 
 	function makeTextInstance(options, givenScene) {
@@ -3948,7 +807,7 @@ function main() {
 			}
 
 			if (options.color) {
-				const textColor = options.options.color.init;
+				const textColor = new THREE.Color().setHex(options.options.color.init);
 					textMesh.material.color.setRGB(textColor.r, textColor.g, textColor.b);
 			}
 
@@ -3956,8 +815,7 @@ function main() {
 			textMesh.options = options.options;
 			givenScene.add(textMesh);
 
-		});
-		
+		});	
 	}
 
 	//GENERIC HELPER FUNCTIONS
@@ -4005,26 +863,26 @@ function main() {
 		    e = e || window.event;
 
 		    if (e.keyCode == '55') {
-		        // up arrow				        
-		       //cameras[0].rotation.x += 0.01;
-		       lights[0].target.position.y += 0.01;
+		        // 7			        
+		       cameras[0].rotation.x += 0.01;
+		       //lights[0].target.position.y += 0.01;
 		    }
 		    else if (e.keyCode == '56') {
-		        // down arrow
+		        // 8
 
-		       //cameras[0].rotation.x -= 0.01;
-		       lights[0].target.position.y -= 0.01;
+		       cameras[0].rotation.x -= 0.01;
+		       //lights[0].target.position.y -= 0.01;
 		    }
 		    else if (e.keyCode == '57') {
-		       // left arrow
-		       //cameras[0].rotation.y -= 0.01;
-		       lights[0].target.position.x += 0.01;
+		       // 9
+		       cameras[0].rotation.y -= 0.01;
+		       //lights[0].target.position.x += 0.01;
 		       
 		    }
-		    else if (e.keyCode == '58') {
-		       // right arrow
-		       //cameras[0].rotation.y += 0.01;
-		       lights[0].target.position.x -= 0.01;
+		    else if (e.keyCode == '48') {
+		       // 0
+		       cameras[0].rotation.y += 0.01;
+		       //lights[0].target.position.x -= 0.01;
 
 		    }else if (e.keyCode == '49') {
 		       // 1 
