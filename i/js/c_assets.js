@@ -21,20 +21,24 @@ var assets = [
 		{
 			canvasSelector: "#canvasA",
 			scrollInit: 10,
-			scrollFinal: 40,
+			scrollFinal: 28,
 			assets: [
-				{
-					id: "a-hilitecar1",
+				{					id: "a-carfar",
 					assetType: "car",
 					hide: true,
 					options: {
 						color: {
-							init: _HILITE
+							init: _BLUE2
 						},
 						size: {
-							w: 1,
-							h: 1,
-							d: 1
+							w: 2,
+							h: 2,
+							d: 2
+						},
+						position: {
+							x: 20,
+							y: 0,
+							z: 50
 						},
 						rotation: {
 							x: 0,
@@ -42,128 +46,184 @@ var assets = [
 							z: 0
 						},
 						anims: [
-							{
-								initP: 0,
+							{								initP: 0,
 								finalP: 30,
 								position: {
 									init: {
-	        							x: -2,
-	        							y: 0,
-	        							z: 100
+	        							x: 20,
+	        							y: -2,
+	        							z: 50
 	        						},
 	        						final: {
-	        							x: -2,
-	        							y: 0,
-	        							z: -20
+	        							x: -40,
+	        							y: -2,
+	        							z: 50
 	        						}
 	        					}
 							}	
 						]
 					}
 				},
-				{
-					id: "a-rosecar",
+				{					id: "a-carclose",
 					assetType: "car",
 					hide: true,
 					options: {
 						color: {
-							init: _ROSE
+							init: _BLUE1
 						},
 						size: {
-							w: 1,
-							h: 1,
-							d: 1
+							w: 2,
+							h: 2,
+							d: 2
+						},
+						position: {
+							x: 20,
+							y: 0,
+							z: 20
 						},
 						rotation: {
 							x: 0,
 							y: _PT_W,
 							z: 0
 						},
-						position: {
-							x: 3,
-	        				y: 0,
-	        				z: 100
-						},
 						anims: [
-							{
-								initP: 10,
-								finalP: 27,
+							{								initP: 36,
+								finalP: 60,
 								position: {
 									init: {
-	        							x: 3,
-	        							y: 0,
-	        							z: 100
+	        							x: 40,
+	        							y: -2,
+	        							z: 20
 	        						},
 	        						final: {
-	        							x: 3,
-	        							y: 0,
-	        							z: -20
+	        							x: -20,
+	        							y: -2,
+	        							z: 20
 	        						}
 	        					}
 							}	
 						]
 					}
 				},
-				{
-					id: "a-suitcasebody",
-					assetType: "beetle",
-					hide: true,
-					options: {
-						color: {
-							init: _LILAC
-						},
-						size: {
-							w: 1,
-							h: 1,
-							d: 1
-						},
-						position: {
-							x: -5,
-							y: 2,
-							z: 30
-						},
-						anims: [
-							{
-								initP: 0,
-								finalP: 100,
-								position: {
-									init: {
-	        							x: -5,
-										y: 2,
-										z: 30
-	        						},
-	        						final: {
-	        							x: -5,
-										y: 5,
-										z: 30
-	        						}
-	        					}	
-	        				}
-						]
-					}
-				},
-				{
-					id: "a-suitcaselid",
+				{					id: "a-suitcase",
 					assetType: "cube",
 					hide: true,
 					options: {
 						color: {
-							init: _ROSE
+							init: _KEY
 						},
 						size: {
-							w: 2,
-							h: 1,
-							d: 3
+							w: 1,
+							h: 2,
+							d: 2
 						},
 						position: {
-							x: -5,
-							y: 3.4,
-							z: 30
+							x: -3,
+							y: 0,
+							z: 70
 						},
 						anims: [
-							{
-								initP: 0,
-								finalP: 30,
+							{								initP: 0,
+								finalP: 20,
+	        					position: {
+									init: {
+	        							x: -3,
+										y: 0,
+										z: 70
+	        						},
+	        						final: {
+	        							x: -3,
+										y: 0,
+										z: 25
+	        						}
+	        					}
+							},
+							{								initP: 15,
+								finalP: 17,
+	        					rotation: {
+									init: {
+	        							x: 0,
+	        							y: 0,
+	        							z: 0
+	        						},
+	        						final: {
+	        							x: 0,
+	        							y: Math.PI / -4,
+	        							z: 0
+	        						}
+	        					}
+							},
+							{								initP: 19,
+								finalP: 20,
+	        					rotation: {
+									init: {
+	        							x: 0,
+	        							y: Math.PI / -4,
+	        							z: 0
+	        						},
+	        						final: {
+	        							x: 0,
+	        							y: Math.PI / 16,
+	        							z: 0
+	        						}
+	        					}
+							},
+							{								initP: 25,
+								finalP: 35,
+	        					position: {
+									init: {
+	        							x: -3,
+										y: 0,
+										z: 25
+	        						},
+	        						final: {
+	        							x: -2,
+										y: 0,
+										z: 35
+	        						}
+	        					},
+	        					rotation: {
+									init: {
+	        							x: 0,
+	        							y: Math.PI / 16,
+	        							z: 0
+	        						},
+	        						final: {
+	        							x: 0,
+	        							y: Math.PI / 4,
+	        							z: 0
+	        						}
+	        					}
+							},
+							{								initP: 40,
+								finalP: 50,
+	        					position: {
+									init: {
+	        							x: -2,
+										y: 0,
+										z: 35
+	        						},
+	        						final: {
+	        							x: -3,
+										y: 0,
+										z: 25
+	        						}
+	        					},
+	        					rotation: {
+									init: {
+	        							x: 0,
+	        							y: Math.PI / 4,
+	        							z: 0
+	        						},
+	        						final: {
+	        							x: 0,
+	        							y: 0,
+	        							z: 0
+	        						}
+	        					}
+							},
+							{								initP: 50,
+								finalP: 60,
 								rotation: {
 									init: {
 	        							x: 0,
@@ -176,40 +236,67 @@ var assets = [
 	        							z: 0
 	        						}
 	        					}
-							},
-							{
-								initP: 30,
-								finalP: 60,
-								rotation: {
-									init: {
-	        							x: 0,
-	        							y: 0,
-	        							z: 0
-	        						},
-	        						final: {
-	        							x: 0,
-	        							y: 0,
-	        							z: Math.PI / 2
-	        						}
-	        					},
+							},			
+							{								initP: 65,
+								finalP: 75,
 	        					position: {
 									init: {
-	        							x: -5,
-										y: 3.4,
-										z: 30
+	        							x: -3,
+										y: 0,
+										z: 25
 	        						},
 	        						final: {
-	        							x: -6.4,
-										y: 4,
-										z: 30
+	        							x: -3,
+										y: 0,
+										z: -20
 	        						}
 	        					}
 							}	
 						]
 					}
 				},
-				{
-					id: "a-ball",
+				{					id: "a-ped",
+					assetType: "person",
+					hide: true,
+					options: {
+						color: {
+							init: _GREY
+						},
+						size: {
+							w: 1,
+							h: 1,
+							d: 1
+						},
+						rotation: {
+							x: 0,
+							y: _PT_N,
+							z: 0
+						},
+						position: {
+							x: -4,
+							y: 0,
+							z: 70
+						},
+						anims: [						
+							{								initP: 75,
+								finalP: 85,
+	        					position: {
+									init: {
+	        							x: -4,
+										y: 0,
+										z: 70
+	        						},
+	        						final: {
+	        							x: -4,
+										y: 0,
+										z: -30
+	        						}
+	        					}
+							}	
+						]
+					}
+				},
+				/*{					id: "a-ball",
 					assetType: "sphere",
 					hide: true,
 					options: {
@@ -245,17 +332,16 @@ var assets = [
 							}	
 						]
 					}
-				},
-				{
-					id: "a-pedsignal",
+				},*/
+				{					id: "a-pedsignal-timer",
 					assetType: "cube",
 					options: {
 						color: {
-							init: _HILITE
+							init: _RED
 						},
 						size: {
 							w: 1,
-							h: 2,
+							h: 1,
 							d: 1
 						},
 						rotation: {
@@ -271,7 +357,7 @@ var assets = [
 						anims: [
 							{
 								initP: 0,
-								finalP: 10,
+								finalP: 4,
 								position: {
 									init: {
 	        							x: -12,
@@ -284,22 +370,150 @@ var assets = [
 										z: 100
 	        						}
 	        					}
+							},
+							{
+								initP: 10,
+								finalP: 13,
+								rotation: {
+									init: {
+	        							x: 0,
+										y: 0,
+										z: 0
+	        						},
+	        						final: {
+	        							x: 0,
+										y: Math.PI,
+										z: Math.PI
+	        						}
+	        					}
+							},
+							{
+								initP: 16,
+								finalP: 19,
+								rotation: {
+									init: {
+	        							x: 0,
+										y: 0,
+										z: 0
+	        						},
+	        						final: {
+	        							x: 0,
+										y: Math.PI,
+										z: Math.PI
+	        						}
+	        					}
+							},
+							{
+								initP: 19,
+								finalP: 22,
+								rotation: {
+									init: {
+	        							x: 0,
+										y: 0,
+										z: 0
+	        						},
+	        						final: {
+	        							x: 0,
+										y: Math.PI,
+										z: Math.PI
+	        						}
+	        					}
+							},
+							{
+								initP: 75,
+								finalP: 78,
+								color: {
+									init: {
+										_RED
+									},
+	        						final: {
+	        							_KEY
+	        						}
+	        					}
+							}
+						]
+					}
+				},
+				{					id: "a-pedsignal-symbol",
+					assetType: "cube",
+					options: {
+						color: {
+							init: _RED
+						},
+						size: {
+							w: 1,
+							h: 1,
+							d: 1
+						},
+						rotation: {
+							x: 0,
+							y: 0,
+							z: 0
+						},
+						position: {
+							x: -12,
+							y: 13,
+							z: 100
+						},
+						anims: [
+							{
+								initP: 0,
+								finalP: 4,
+								position: {
+									init: {
+	        							x: -12,
+										y: 13,
+										z: 100
+	        						},
+	        						final: {
+	        							x: -12,
+										y: 8.5,
+										z: 100
+	        						}
+	        					}
+							},
+							{
+								initP: 0,
+								finalP: 10,
+								position: {
+									init: {
+	        							x: -12,
+										y: 13,
+										z: 100
+	        						},
+	        						final: {
+	        							x: -12,
+										y: 8.5,
+										z: 100
+	        						}
+	        					}
+							},
+							{
+								initP: 75,
+								finalP: 78,
+								color: {
+									init: {
+										_RED
+									},
+	        						final: {
+	        							_KEY
+	        						}
+	        					}
 							}	
 						]
 					}
 				},
-				{
-					id: "a-int",
+				{					id: "a-int",
 					assetType: "plane",
 					hide: true,
 					options: {
 						texture: false,
 						color: {
-							init: _HILITE
+							init: _RED
 						},
 						size: {
-							w: 7,
-							h: 50
+							w: 11,
+							h: 78
 						},
 						rotation: {
 							x: Math.PI  /2,
@@ -308,23 +522,35 @@ var assets = [
 						},
 						position: {
 							x: -4,
-							y: 0,
+							y: -10,
 							z: 18
 						},
 						anims: [
 							{
 								initP: 0,
-								finalP: 10,
+								finalP: 2,
 								position: {
 									init: {
-	        							x: -4,
+	        							x: -6.5,
 										y: -10,
-										z: 18
+										z: 38
 	        						},
 	        						final: {
-	        							x: -4,
-										y: 0,
-										z: 18
+	        							x: -6.5,
+										y: -2,
+										z: 38
+	        						}
+	        					}
+							},
+							{
+								initP: 75,
+								finalP: 78,
+								color: {
+									init: {
+										_RED
+									},
+	        						final: {
+	        							_KEY
 	        						}
 	        					}
 							},
@@ -343,20 +569,18 @@ var assets = [
 		},
 		{
 			canvasSelector: "#canvasB",
-			scrollInit: 33,
-			scrollFinal: 55,
+			scrollInit: 30,
+			scrollFinal: 100,
 			assets: [
-				{
-					id: "b-mgr",
+				{					id: "b-pedsignal-timer",
 					assetType: "cube",
-					hide: true,
 					options: {
 						color: {
-							init: _RED
+							init: _KEY
 						},
 						size: {
 							w: 1,
-							h: 5,
+							h: 1,
 							d: 1
 						},
 						rotation: {
@@ -365,115 +589,186 @@ var assets = [
 							z: 0
 						},
 						position: {
-							x: -10,
-							y: 0,
-							z: 60
+							x: -12,
+							y: 7.5,
+							z: 100
 						},
 						anims: [
 							{
-								initP: 0.1,
-								finalP: 20,
+								initP: 0,
+								finalP: 5,
 								position: {
 									init: {
-	        							x: -10,
-										y: 10,
-										z: 60
+	        							x: -12,
+										y: 7.5,
+										z: 100
 	        						},
 	        						final: {
-	        							x: -10,
+	        							x: -2,
 										y: 2,
-										z: 60
-										
+										z: 0
 	        						}
 	        					}
 							},
 							{
-								initP: 35,
-								finalP: 40,
-								color: {
+								initP: 10,
+								finalP: 13,
+								rotation: {
 									init: {
-	        							_RED
+	        							x: 0,
+										y: 0,
+										z: 0
 	        						},
 	        						final: {
-	        							_WHITE
+	        							x: Math.PI / 2,
+										y: 0,
+										z: 0
 	        						}
 	        					}
 							},
 							{
-								initP: 40,
-								finalP: 45,
-								color: {
+								initP: 16,
+								finalP: 19,
+								rotation: {
 									init: {
-	        							_WHITE
+	        							x: 0,
+										y: 0,
+										z: 0
 	        						},
 	        						final: {
-	        							_RED
+	        							x: Math.PI / 2,
+										y: 0,
+										z: 0
 	        						}
 	        					}
 							},
 							{
-								initP: 50,
-								finalP: 55,
-								color: {
+								initP: 19,
+								finalP: 22,
+								rotation: {
 									init: {
-	        							_RED
+	        							x: 0,
+										y: 0,
+										z: 0
 	        						},
 	        						final: {
-	        							_LILAC
+	        							x: Math.PI / 2,
+										y: 0,
+										z: 0
 	        						}
 	        					}
 							},
 							{
-								initP: 65,
-								finalP: 70,
-	        					color: {
+								initP: 25,
+								finalP: 30,
+								position: {
 									init: {
-										_LILAC
-									},
-									final: {
-										_ROSE
-									}
-								}
+	        							x: -2,
+										y: 2,
+										z: 0
+	        						},
+	        						final: {
+	        							x: -12,
+										y: 7.5,
+										z: 100
+	        						}
+	        					}
 							},
 							{
-								initP: 80,
-								finalP: 85,
-	        					color: {
+								initP: 75,
+								finalP: 78,
+								color: {
 									init: {
-										_ROSE
-									},
-									final: {
-										_HILITE
-									}
-								}
-							},
-							{
-								initP: 95,
-								finalP: 100,
-	        					color: {
-									init: {
-										_HILITE
-									},
-									final: {
 										_RED
-									}
-								}
+									},
+	        						final: {
+	        							_KEY
+	        						}
+	        					}
+							}
+						]
+					}
+				},
+				{					id: "b-pedsignal-symbol",
+					assetType: "cube",
+					options: {
+						color: {
+							init: _KEY
+						},
+						size: {
+							w: 1,
+							h: 1,
+							d: 1
+						},
+						rotation: {
+							x: 0,
+							y: 0,
+							z: 0
+						},
+						position: {
+							x: -12,
+							y: 8.5,
+							z: 100
+						},
+						anims: [
+							{
+								initP: 0,
+								finalP: 5,
+								position: {
+									init: {
+	        							x: -12,
+										y: 8.5,
+										z: 100
+	        						},
+	        						final: {
+	        							x: -2,
+										y: 3,
+										z: 0
+	        						}
+	        					}
+							},
+							{
+								initP: 25,
+								finalP: 30,
+								position: {
+									init: {
+	        							x: -2,
+										y: 3,
+										z: 0
+	        						},
+	        						final: {
+	        							x: -12,
+										y: 8.5,
+										z: 100
+	        						}
+	        					}
+							},
+							{
+								initP: 75,
+								finalP: 78,
+								color: {
+									init: {
+										_RED
+									},
+	        						final: {
+	        							_KEY
+	        						}
+	        					}
 							}	
 						]
 					}
 				},
-				{
-					id: "b-int",
+				{					id: "b-int",
 					assetType: "plane",
 					hide: true,
 					options: {
 						texture: false,
 						color: {
-							init: _HILITE
+							init: _RED
 						},
 						size: {
-							w: 20,
-							h: 50
+							w: 11,
+							h: 78
 						},
 						rotation: {
 							x: Math.PI  /2,
@@ -481,227 +776,55 @@ var assets = [
 							z: Math.PI
 						},
 						position: {
-							x: 0,
-							y: 0,
-							z: 40
+							x: -4,
+							y: -10,
+							z: 18
 						},
 						anims: [
 							{
 								initP: 0,
-								finalP: 10,
+								finalP: 2,
 								position: {
 									init: {
-	        							x: 0,
+	        							x: -6.5,
 										y: -10,
-										z: 40
+										z: 38
 	        						},
 	        						final: {
-	        							x: 0,
-										y: 0,
-										z: 40
+	        							x: -6.5,
+										y: -2,
+										z: 38
 	        						}
 	        					}
-							},
-							{
-								initP: 20,
-								finalP: 30,
-								color: {
-									init: {
-	        							_HILITE
-	        						},
-	        						final: {
-	        							_RED
-	        						}
-	        					}
-							},
-							{
-								initP: 35,
-								finalP: 40,
-								color: {
-									init: {
-	        							_RED
-	        						},
-	        						final: {
-	        							_WHITE
-	        						}
-	        					}
-							},
-							{
-								initP: 40,
-								finalP: 45,
-								color: {
-									init: {
-	        							_WHITE
-	        						},
-	        						final: {
-	        							_RED
-	        						}
-	        					}
-							},
-							{
-								initP: 50,
-								finalP: 55,
-								color: {
-									init: {
-	        							_RED
-	        						},
-	        						final: {
-	        							_LILAC
-	        						}
-	        					}
-							},
-							{
-								initP: 65,
-								finalP: 70,
-	        					color: {
-									init: {
-										_LILAC
-									},
-									final: {
-										_ROSE
-									}
-								}
-							},
-							{
-								initP: 80,
-								finalP: 85,
-	        					color: {
-									init: {
-										_ROSE
-									},
-									final: {
-										_HILITE
-									}
-								}
-							},
-							{
-								initP: 95,
-								finalP: 100,
-	        					color: {
-									init: {
-										_HILITE
-									},
-									final: {
-										_RED
-									}
-								}
-							}
-
-						]
-					}
-				},
-				{
-					id: "b-hilitecar",
-					assetType: "car",
-					hide: true,
-					options: {
-						color: {
-							init: _HILITE
-						},
-						size: {
-							w: 1,
-							h: 1,
-							d: 1
-						},
-						rotation: {
-							x: 0,
-							y: _PT_W,
-							z: 0
-						},
-						anims: [
-							{
-								initP: 10,
-								finalP: 20,
-								position: {
-									init: {
-	        							x: -2,
-	        							y: 0,
-	        							z: 100
-	        						},
-	        						final: {
-	        							x: -2,
-	        							y: 0,
-	        							z: 55
-	        						}
-	        					}
-							},
-							{
-								initP: 23,
-								finalP: 25,
-								color: {
-									init: {
-										_HILITE
-									},
-									final: {
-										_GREY
-									}
-								}
 							},
 							{
 								initP: 75,
-								finalP: 82,
+								finalP: 78,
 								color: {
 									init: {
-										_GREY
+										_RED
 									},
-									final: {
-										_HILITE
-									}
-								}
-							},
-							{
-								initP: 82,
-								finalP: 90,
-								position: {
-									path: {
-	        							aX: 8,
-	        							aZ: 45,
-	        							xRad: 10,
-	        							zRad: 10,
-	        							aStart: Math.PI,
-	        							aEnd: 3 / 2 * Math.PI,
-	        							aAntiClock: false //reversed from spec due to xy-xz translation
-	        						}
-	        					},
-	        					rotation: {
-									init: {
-	        							x: 0,
-	        							y: _PT_W,
-	        							z: 0
-	        						},
 	        						final: {
-	        							x: 0,
-	        							y: _PT_N,
-	        							z: 0
+	        							_KEY
 	        						}
 	        					}
 							},
 							{
-								initP: 90,
-								finalP: 100,
-								position: {
-									init: {
-	        							x: 8,
-	        							y: 0,
-	        							z: 45
-	        						},
-	        						final: {
-	        							x: 30,
-	        							y: 0,
-	        							z: 45
-	        						}
+								initP: 95,
+								finalP: 97,
+								opacity: {
+									init: 1,
+	        						final: 0
 	        					}
-							},	
+							}		
 						]
 					}
 				},
-				{
-					id: "b-hilitecube",
+				{					id: "b-avsignal-symbol",
 					assetType: "cube",
-					hide: true,
 					options: {
 						color: {
-							init: _HILITE
+							init: _BLUE1
 						},
 						size: {
 							w: 1,
@@ -714,52 +837,24 @@ var assets = [
 							z: 0
 						},
 						position: {
-							x: -4,
-							y: 1,
-							z: 55
+							x: -2,
+							y: -8,
+							z: 0
 						},
 						anims: [
 							{
-								initP: 23,
-								finalP: 25,
-								position: {
-									init: {
-	        							x: -4,
-										y: 1,
-										z: 55
-	        						},
-	        						final: {
-	        							x: -4,
-										y: 3,
-										z: 55
-	        						}
-	        					}
-							},
-							{
 								initP: 25,
-								finalP: 35,
+								finalP: 30,
 								position: {
 									init: {
-	        							x: -4,
+	        							x: -2,
+										y: -8,
+										z: 0
+	        						},
+	        						final: {
+	        							x: -2,
 										y: 3,
-										z: 55
-	        						},
-	        						final: {
-	        							x: -10,
-										y: 6,
-										z: 60
-	        						}
-	        					},
-	        					rotation: {
-	        						init: {
-	        							x: 0,
-	        							y: 0,
-	        							z: 0
-	        						},
-	        						final: {
-	        							x: 2 * Math.PI,
-	        							y: 2 * Math.PI,
-	        							z: 2 * Math.PI
+										z: 0
 	        						}
 	        					}
 							},
@@ -768,173 +863,37 @@ var assets = [
 								finalP: 40,
 								position: {
 									init: {
-	        							x: -10,
-										y: 6,
-										z: 60
+	        							x: -2,
+										y: 3,
+										z: 0
 	        						},
 	        						final: {
-	        							x: -10,
-										y: 2,
-										z: 60.5
-	        						}
-	        					},
-	        					size: {
-	        						init: {
-	        							w: 1,
-	        							h: 1,
-	        							d: 1
-	        						},
-	        						final: {
-	        							w: 0.5,
-	        							d: 0.5,
-	        							h: 0.5
-	        						}	
-	        					},
-	        					rotation: {
-	        						init: {
-	        							x: 2 * Math.PI,
-	        							y: 2 * Math.PI,
-	        							z: 2 * Math.PI
-	        						},
-	        						final: {
-	        							x: 0,
-	        							y: 0,
-	        							z: 0
-	        						}	
-	        					}
-							},
-							{
-								initP: 40,
-								finalP: 45,
-								position: {
-									init: {
-	        							x: -10,
-										y: 2,
-										z: 60.5
-	        						},
-	        						final: {
-	        							x: -9,
-										y: 2,
-										z: 60
-	        						}
-	        					},
-	        					size: {
-	        						init: {
-	        							w: 0.5,
-	        							d: 0.5,
-	        							h: 0.5
-	        						},
-	        						final: {
-	        							w: 1,
-	        							d: 1,
-	        							h: 1
-	        						}	
-	        					}
-							},
-							{
-								initP: 85,
-								finalP: 90,
-	        					size: {
-	        						init: {
-	        							w: 1,
-	        							d: 1,
-	        							h: 1
-	        						},
-	        						final: {
-	        							w: 0,
-	        							d: 0,
-	        							h: 0
-	        						}	
-	        					}
-							}	
-						]
-					}
-				},
-				{
-					id: "b-rosecar",
-					assetType: "car",
-					hide: true,
-					options: {
-						color: {
-							init: _ROSE
-						},
-						size: {
-							w: 1,
-							h: 1,
-							d: 1
-						},
-						rotation: {
-							x: 0,
-							y: _PT_N,
-							z: 0
-						},
-						anims: [
-							{
-								initP: 10,
-								finalP: 20,
-								position: {
-									init: {
-	        							x: -35,
-	        							y: 0,
-	        							z: 25
-	        						},
-	        						final: {
-	        							x: -20,
-	        							y: 0,
-	        							z: 25
+	        							x: -12,
+										y: 3.5,
+										z: 100
 	        						}
 	        					}
 							},
 							{
-								initP: 23,
-								finalP: 25,
+								initP: 75,
+								finalP: 78,
 								color: {
 									init: {
-										_ROSE
+										_RED
 									},
-									final: {
-										_GREY
-									}
-								}
-							},
-							{
-								initP: 65,
-								finalP: 70,
-	        					color: {
-									init: {
-										_GREY
-									},
-									final: {
-										_ROSE
-									}
-								}
-							},
-							{
-								initP: 70,
-								finalP: 85,
-	        					position: {
-									init: {
-	        							x: -20,
-	        							y: 0,
-	        							z: 25
-	        						},
 	        						final: {
-	        							x: 40,
-	        							y: 0,
-	        							z: 25
+	        							_KEY
 	        						}
 	        					}
 							}	
 						]
 					}
 				},
-				{
-					id: "b-rosecube",
+				{					id: "b-avsignal-qr",
 					assetType: "cube",
-					hide: true,
 					options: {
 						color: {
-							init: _ROSE
+							init: _BLUE1
 						},
 						size: {
 							w: 1,
@@ -947,52 +906,40 @@ var assets = [
 							z: 0
 						},
 						position: {
-							x: -20,
-							y: 1,
-							z: 25
+							x: -2,
+							y: -9,
+							z: 0
 						},
 						anims: [
 							{
-								initP: 23,
-								finalP: 25,
+								initP: 25,
+								finalP: 30,
 								position: {
 									init: {
-	        							x: -20,
-										y: 1,
-										z: 25
+	        							x: -2,
+										y: -9,
+										z: 0
 	        						},
 	        						final: {
-	        							x: -20,
-										y: 3,
-										z: 25
+	        							x: -2,
+										y: 2,
+										z: 0
 	        						}
 	        					}
 							},
 							{
-								initP: 25,
-								finalP: 35,
-								position: {
+								initP: 30,
+								finalP: 33,
+								rotation: {
 									init: {
-	        							x: -20,
-										y: 3,
-										z: 25
-	        						},
-	        						final: {
-	        							x: -10,
-										y: 8,
-										z: 60
-	        						}
-	        					},
-	        					rotation: {
-	        						init: {
 	        							x: 0,
-	        							y: 0,
-	        							z: 0
+										y: 0,
+										z: 0
 	        						},
 	        						final: {
-	        							x: 2 * Math.PI,
-	        							y: 2 * Math.PI,
-	        							z: 2 * Math.PI
+	        							x: 0,
+										y: Math.PI / 2,
+										z: 0
 	        						}
 	        					}
 							},
@@ -1001,173 +948,69 @@ var assets = [
 								finalP: 40,
 								position: {
 									init: {
-	        							x: -10,
-										y: 8,
-										z: 60
+	        							x: -2,
+										y: 2,
+										z: 0
 	        						},
 	        						final: {
-	        							x: -10,
-										y: 3,
-										z: 60.5
+	        							x: -12,
+										y: 2.5,
+										z: 100
 	        						}
-	        					},
-	        					size: {
-	        						init: {
-	        							w: 1,
-	        							h: 1,
-	        							d: 1
-	        						},
-	        						final: {
-	        							w: 0.5,
-	        							d: 0.5,
-	        							h: 0.5
-	        						}	
-	        					},
-	        					rotation: {
-	        						init: {
-	        							x: 2 * Math.PI,
-	        							y: 2 * Math.PI,
-	        							z: 2 * Math.PI
+	        					}
+							},
+							{
+								initP: 42,
+								finalP: 45,
+								rotation: {
+									init: {
+	        							x: 0,
+										y: 0,
+										z: 0
 	        						},
 	        						final: {
 	        							x: 0,
-	        							y: 0,
-	        							z: 0
-	        						}	
-	        					}
-							},
-							{
-								initP: 40,
-								finalP: 45,
-								position: {
-									init: {
-	        							x: -10,
-										y: 3,
-										z: 60.5
-	        						},
-	        						final: {
-	        							x: -9,
-										y: 3,
-										z: 60
+										y: Math.PI / 2,
+										z: 0
 	        						}
-	        					},
-	        					size: {
-	        						init: {
-	        							w: 0.5,
-	        							d: 0.5,
-	        							h: 0.5
-	        						},
-	        						final: {
-	        							w: 1,
-	        							d: 1,
-	        							h: 1
-	        						}	
 	        					}
 							},
 							{
-								initP: 70,
-								finalP: 85,
-	        					size: {
-	        						init: {
-	        							w: 1,
-	        							d: 1,
-	        							h: 1
+								initP: 48,
+								finalP: 51,
+								rotation: {
+									init: {
+	        							x: 0,
+										y: 0,
+										z: 0
 	        						},
 	        						final: {
-	        							w: 0,
-	        							d: 0,
-	        							h: 0
-	        						}	
+	        							x: 0,
+										y: Math.PI / 2,
+										z: 0
+	        						}
 	        					}
-							}	
+							},
+							{
+								initP: 75,
+								finalP: 78,
+								color: {
+									init: {
+										_RED
+									},
+	        						final: {
+	        							_KEY
+	        						}
+	        					}
+							}
 						]
 					}
 				},
-				{
-					id: "b-lilaccar",
-					assetType: "car",
-					hide: true,
-					options: {
-						color: {
-							init: _LILAC
-						},
-						size: {
-							w: 1,
-							h: 1,
-							d: 1
-						},
-						rotation: {
-							x: 0,
-							y: _PT_W,
-							z: 0
-						},
-						anims: [
-							{
-								initP: 12,
-								finalP: 19,
-								position: {
-									init: {
-	        							x: 3,
-	        							y: 0,
-	        							z: 100
-	        						},
-	        						final: {
-	        							x: 3,
-	        							y: 0,
-	        							z: 55
-	        						}
-	        					}
-							},
-							{
-								initP: 23,
-								finalP: 25,
-								color: {
-									init: {
-										_LILAC
-									},
-									final: {
-										_GREY
-									}
-								}
-							},
-							{
-								initP: 50,
-								finalP: 55,
-								color: {
-									init: {
-										_GREY
-									},
-									final: {
-										_LILAC
-									}
-								}
-							},
-							{
-								initP: 55,
-								finalP: 70,
-								position: {
-									init: {
-	        							x: 3,
-	        							y: 0,
-	        							z: 55
-	        						},
-	        						final: {
-	        							x: 3,
-	        							y: 0,
-	        							z: -30
-	        						}
-	        					}
-							},	
-						]
-					}
-				},
-				{
-					id: "b-lilaccube",
+				{					id: "b-mini-pedsignal-timer",
 					assetType: "cube",
-					hide: true,
 					options: {
 						color: {
-							init: _LILAC
+							init: _KEY
 						},
 						size: {
 							w: 1,
@@ -1180,142 +1023,206 @@ var assets = [
 							z: 0
 						},
 						position: {
-							x: 1,
-	        				y: 1,
-	        				z: 55
+							x: 0,
+							y: -7.5,
+							z: 0
 						},
 						anims: [
 							{
-								initP: 23,
-								finalP: 25,
+								initP: 38,
+								finalP: 42,
 								position: {
 									init: {
-	        							x: 1,
-										y: 1,
-										z: 55
-	        						},
-	        						final: {
-	        							x: 1,
-										y: 3,
-										z: 55
-	        						}
-	        					}
-							},
-							{
-								initP: 25,
-								finalP: 35,
-								position: {
-									init: {
-	        							x: 1,
-										y: 3,
-										z: 55
-	        						},
-	        						final: {
-	        							x: -10,
-										y: 10,
-										z: 60
-	        						}
-	        					},
-	        					rotation: {
-	        						init: {
 	        							x: 0,
-	        							y: 0,
-	        							z: 0
-	        						},
-	        						final: {
-	        							x: 2 * Math.PI,
-	        							y: 2 * Math.PI,
-	        							z: 2 * Math.PI
-	        						}
-	        					}
-							},
-							{
-								initP: 35,
-								finalP: 40,
-								position: {
-									init: {
-	        							x: -10,
-										y: 10,
-										z: 60
-	        						},
-	        						final: {
-	        							x: -10,
-										y: 4,
-										z: 60.5
-	        						}
-	        					},
-	        					size: {
-	        						init: {
-	        							w: 1,
-	        							h: 1,
-	        							d: 1
-	        						},
-	        						final: {
-	        							w: 0.5,
-	        							d: 0.5,
-	        							h: 0.5
-	        						}	
-	        					},
-	        					rotation: {
-	        						init: {
-	        							x: 2 * Math.PI,
-	        							y: 2 * Math.PI,
-	        							z: 2 * Math.PI
+										y: -7.5,
+										z: 0
 	        						},
 	        						final: {
 	        							x: 0,
-	        							y: 0,
-	        							z: 0
-	        						}	
+										y: 4.5,
+										z: 0
+	        						}
+	        					}
+							}
+							
+						]
+					}
+				},
+				{					id: "b-mini-pedsignal-symbol",
+					assetType: "cube",
+					options: {
+						color: {
+							init: _KEY
+						},
+						size: {
+							w: 1,
+							h: 1,
+							d: 1
+						},
+						rotation: {
+							x: 0,
+							y: 0,
+							z: 0
+						},
+						position: {
+							x: 0,
+							y: -6.5,
+							z: 0
+						},
+						anims: [
+							{
+								initP: 38,
+								finalP: 42,
+								position: {
+									init: {
+	        							x: 0,
+										y: -6.5,
+										z: 0
+	        						},
+	        						final: {
+	        							x: 0,
+										y: 3.5,
+										z: 0
+	        						}
+	        					}
+							}
+							
+						]
+					}
+				},
+				{					id: "b-mini-avsignal-symbol",
+					assetType: "cube",
+					options: {
+						color: {
+							init: _BLUE1
+						},
+						size: {
+							w: 1,
+							h: 1,
+							d: 1
+						},
+						rotation: {
+							x: 0,
+							y: 0,
+							z: 0
+						},
+						position: {
+							x: 0,
+							y: -10.5,
+							z: 0
+						},
+						anims: [
+							{
+								initP: 38,
+								finalP: 42,
+								position: {
+									init: {
+	        							x: 0,
+										y: -10.5,
+										z: 0
+	        						},
+	        						final: {
+	        							x: 0,
+										y: 1.5,
+										z: 0
+	        						}
+	        					}
+							}
+							
+						]
+					}
+				},
+				{					id: "b-mini-avsignal-qr",
+					assetType: "cube",
+					options: {
+						color: {
+							init: _BLUE1
+						},
+						size: {
+							w: 1,
+							h: 1,
+							d: 1
+						},
+						rotation: {
+							x: 0,
+							y: 0,
+							z: 0
+						},
+						position: {
+							x: 0,
+							y: -11.5,
+							z: 0
+						},
+						anims: [
+							{
+								initP: 38,
+								finalP: 42,
+								position: {
+									init: {
+	        							x: 0,
+										y: -11.5,
+										z: 0
+	        						},
+	        						final: {
+	        							x: 0,
+										y: 0.5,
+										z: 0
+	        						}
 	        					}
 							},
 							{
-								initP: 40,
+								initP: 30,
+								finalP: 33,
+								rotation: {
+									init: {
+	        							x: 0,
+										y: 0,
+										z: 0
+	        						},
+	        						final: {
+	        							x: 0,
+										y: Math.PI / 2,
+										z: 0
+	        						}
+	        					}
+							},
+							{
+								initP: 42,
 								finalP: 45,
-								position: {
+								rotation: {
 									init: {
-	        							x: -10,
-										y: 4,
-										z: 60.5
+	        							x: 0,
+										y: 0,
+										z: 0
 	        						},
 	        						final: {
-	        							x: -9,
-										y: 4,
-										z: 60
+	        							x: 0,
+										y: Math.PI / 2,
+										z: 0
 	        						}
-	        					},
-	        					size: {
-	        						init: {
-	        							w: 0.5,
-	        							d: 0.5,
-	        							h: 0.5
-	        						},
-	        						final: {
-	        							w: 1,
-	        							d: 1,
-	        							h: 1
-	        						}	
 	        					}
 							},
 							{
-								initP: 55,
-								finalP: 70,
-	        					size: {
-	        						init: {
-	        							w: 1,
-	        							d: 1,
-	        							h: 1
+								initP: 48,
+								finalP: 51,
+								rotation: {
+									init: {
+	        							x: 0,
+										y: 0,
+										z: 0
 	        						},
 	        						final: {
-	        							w: 0,
-	        							d: 0,
-	        							h: 0
-	        						}	
+	        							x: 0,
+										y: Math.PI / 2,
+										z: 0
+	        						}
 	        					}
-							}	
+							},
+							
 						]
 					}
 				}
+				
 			]
 		}
 	];

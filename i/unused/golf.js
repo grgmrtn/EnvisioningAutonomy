@@ -1,5 +1,4 @@
-//import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.module.js';
-import * as THREE from 'https://cdn.skypack.dev/three@0.128/';
+import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.module.js';
 import { GLTFLoader } from 'https://cdn.skypack.dev/three@0.128/examples/jsm/loaders/GLTFLoader.js';
 
 function main() {
@@ -57,6 +56,7 @@ function main() {
 	function initCanvas(options) {
 		//renderer
 		const canvas = document.querySelector(options.canvasSelector);
+
 		const renderer = new THREE.WebGLRenderer({canvas, alpha: true});
 		renderer.scrollInit = options.scrollInit;
 		renderer.scrollFinal = options.scrollFinal;
@@ -93,10 +93,8 @@ function main() {
 
 	    	} else if (element.assetType == "text") {
 	    		makeTextInstance(element, scene);
-	    	} else if (element.assetType == "car") {
-	    		makeCarInstance(element, scene);
-	    	} else if (element.assetType == "person") {
-	    		makePersonInstance(element, scene);
+	    	} else if (element.assetType == "beetle") {
+	    		makeBeetleInstance(element, scene);
 	    	} else {
 		    	//makeCubeInstance(element, scene);
 		    	makeAnythingInstance(element, scene);
@@ -104,7 +102,7 @@ function main() {
 	    });
 
 	    //debug line grid
-	    var debug = true;
+	    var debug = false;
 
 	    if (debug && options.canvasSelector == "#canvasA") {
 		    for (var y = 0; y < 5; y++) {
@@ -136,11 +134,11 @@ function main() {
 		
 			//for performance, only animate asset movements if scroll position has changed
 			if (newScrollAmt != scrollAmt) {
-				//if (scrollAmt > renderer.scrollInit && scrollAmt < renderer.scrollFinal) {
+				if (scrollAmt > renderer.scrollInit && scrollAmt < renderer.scrollFinal) {
 					scenes[index].traverse(tickMovables);
-				//} else {
-				//	scenes[index].traverse(makeInvisible);
-				//}
+				} else {
+					scenes[index].traverse(makeInvisible);
+				}
 			}
 
 			//render and finish
@@ -149,17 +147,6 @@ function main() {
 		requestAnimationFrame(render);
 		
 		scrollAmt = newScrollAmt;
-	}
-
-	function makeInvisible(obj) {
-		try {
-			
-			this.visible = false;
-			
-			
-		} catch (error) {
-			console.log(error);
-		}		
 	}
 
 	function sizeOverlay() {
@@ -222,16 +209,32 @@ function main() {
 		});
 	}
 
+	function makeInvisible(obj) {
+		try {
+			if (obj.canHide) {
+				this.visible = false;
+			}
+			
+		} catch (error) {
+			console.log(error);
+		}
+		
+	}
+
 	function tickMovables(obj) {
+
 		if (obj.animate) {
 
 			if (scrollAmt > obj.scrollInit && scrollAmt < obj.scrollFinal && obj.assetType) {        				
 
-					obj.visible = true;
-					if (obj.assetType == "car") {
-						rotateWheels(obj);
-					}
-					//console.log(obj.name, "Visible");
+				obj.visible = true;
+				/*obj.traverse(function(child){ 
+					console.log(child.name, "Visible B: ", child.visible);
+					child.visible = true;
+					console.log(child.name, "Visible A: ", child.visible);
+				});*/
+				//if (scrollAmt > thisObjStartInScroll && scrollAmt < thisObjEndInScroll) {
+					//confirm visible in case user has already scrolled past and come back
 
 					//if scroll is such that this box should be onscreen, then start to animate it
 					//check through anims
@@ -244,7 +247,7 @@ function main() {
 						var thisObjEndInScroll = obj.scrollInit + (anim.finalP / 100 * (obj.scrollFinal - obj.scrollInit));
 						
 						if (scrollAmt > thisObjStartInScroll && scrollAmt < (thisObjEndInScroll + 5)) {
-							obj.visible = true;
+							
 	    					//express current scroll amount as % of way through this animation
 	    					//e.g. if an animation is supposed to happen between scroll 10 and 20, a current scroll of 11 would return 0.1 to thisObjectProgress
 	    					//added buffer of 5% of scroll height to account for quick scrolling that prevents animations from completing
@@ -256,7 +259,7 @@ function main() {
 	    						var bbtarget = new THREE.Vector3();
 	    						var bctarget = new THREE.Vector3();
 	    						obj.traverse(function(xx) {
-	    							if (xx.name != "a-suitcasebody") {
+	    							if (xx.name != "a-golf" ) {
 	    								//xx.position.set(0, 0, 0);
 	    							}
 	    							box.setFromObject(xx);
@@ -297,7 +300,16 @@ function main() {
 	    							var finalY = anim.position.final.y;
 	    							var finalZ = anim.position.final.z;
 	    							
-
+	    							console.log(obj.name, obj.position);
+	    							if (obj.name == "a-golf") {
+	    								obj.children.forEach(function(foo) {
+	    									if (foo.name == "narc") {
+	    										foo.position.set(0,0,0);
+	    									} else {
+	    										foo.position.set(1,0,0);
+	    									}
+	    								});
+	    							}
 	        						obj.position.set(
 	        							lerp(initX, finalX, thisObjectProgress),
 	        							lerp(initY, finalY, thisObjectProgress),
@@ -306,31 +318,29 @@ function main() {
 		    					}
 	    					}
 
-	    					if (anim.color) { //learn how to change model colours first
+	    					if (anim.color) {
 
-	    						if (obj.material) {
-		    						//first, convert colors to RGB so they can be easily interpolated
-		    						var initColor = new THREE.Color().setHex(Object.values(anim.color.init)[0].toString());
-		    						var finalColor = new THREE.Color().setHex(Object.values(anim.color.final)[0].toString());
-		    						//debugger;
-		    						/*var init_c = hexToRgb(anim.color.init);
-		    						var final_c = hexToRgb(anim.color.final);
-									
-		    						//integer interpolation between each color channel
-		    						var lerpR = Math.floor(lerp(init_c.r, final_c.r, thisObjectProgress));
-		    						var lerpG = Math.floor(lerp(init_c.g, final_c.g, thisObjectProgress));
-		    						var lerpB = Math.floor(lerp(init_c.b, final_c.b, thisObjectProgress));*/
+	    						//first, convert colors to RGB so they can be easily interpolated
+	    						var initColor = new THREE.Color().setHex(Object.values(anim.color.init)[0].toString());
+	    						var finalColor = new THREE.Color().setHex(Object.values(anim.color.final)[0].toString());
+	    						//debugger;
+	    						/*var init_c = hexToRgb(anim.color.init);
+	    						var final_c = hexToRgb(anim.color.final);
+								
+	    						//integer interpolation between each color channel
+	    						var lerpR = Math.floor(lerp(init_c.r, final_c.r, thisObjectProgress));
+	    						var lerpG = Math.floor(lerp(init_c.g, final_c.g, thisObjectProgress));
+	    						var lerpB = Math.floor(lerp(init_c.b, final_c.b, thisObjectProgress));*/
 
-		    						/*var lerpR = lerp(Object.values(anim.color.init)[0].r, Object.values(anim.color.final)[0].r, thisObjectProgress);
-		    						var lerpG = lerp(Object.values(anim.color.init)[0].g, Object.values(anim.color.final)[0].g, thisObjectProgress);
-		    						var lerpB = lerp(Object.values(anim.color.init)[0].b, Object.values(anim.color.final)[0].b, thisObjectProgress);*/
-		    						var lerpR = lerp(initColor.r, finalColor.r, thisObjectProgress);
-		    						var lerpG = lerp(initColor.g, finalColor.g, thisObjectProgress);
-		    						var lerpB = lerp(initColor.b, finalColor.b, thisObjectProgress);
+	    						/*var lerpR = lerp(Object.values(anim.color.init)[0].r, Object.values(anim.color.final)[0].r, thisObjectProgress);
+	    						var lerpG = lerp(Object.values(anim.color.init)[0].g, Object.values(anim.color.final)[0].g, thisObjectProgress);
+	    						var lerpB = lerp(Object.values(anim.color.init)[0].b, Object.values(anim.color.final)[0].b, thisObjectProgress);*/
+	    						var lerpR = lerp(initColor.r, finalColor.r, thisObjectProgress);
+	    						var lerpG = lerp(initColor.g, finalColor.g, thisObjectProgress);
+	    						var lerpB = lerp(initColor.b, finalColor.b, thisObjectProgress);
 
-		    						//interpolate based on scroll, then recombine and set color of object
-			    					obj.material.color.setRGB(lerpR, lerpG, lerpB);
-		    					}
+	    						//interpolate based on scroll, then recombine and set hex of object
+	    						obj.material.color.setRGB(lerpR, lerpG, lerpB);
 	    						
 	    					}
 
@@ -380,30 +390,16 @@ function main() {
 				//scroll is such that object is not visible; do not draw
 				
 				obj.visible = false;
-				//console.log(obj.name, "Invisible");
+				console.log(obj.name, "Invisible");
 				if (obj.material) {
 					obj.material.opacity = 1;
-				}	
+				}			
 			}
 		} else {
 			//console.log(obj);
 		}
-	}
 
-	function rotateWheels(obj) {
-		//modulo divide scroll by circle to get constant motion
-		//this.wheels.rotation = scrollAmt // (Math.PI * 2);
-		//syntax for traversing meshes below
-		obj.traverse((child) => {
-			if (child.isMesh) {
-				console.log(child.name, child.rotation);
-				/*obj.rotation.set(
-					lerp(anim.rotation.init.x, anim.rotation.final.x, thisObjectProgress),
-					lerp(anim.rotation.init.y, anim.rotation.final.y, thisObjectProgress),
-					lerp(anim.rotation.init.z, anim.rotation.final.z, thisObjectProgress)
-				);*/
-			}
-		});
+		return scrollAmt;
 	}
 
 	//THREE.JS CONSTRUCTOR FUNCTIONS
@@ -413,6 +409,92 @@ function main() {
 		var geometry, material, loadedObject;
 		var isObject = false;
 		switch(options.assetType) {
+			case 'car':
+				const vertices = [
+				{ pos: [	4,	0,	0], norm: [1, 0, 0], uv: [0, 1], }, //0
+				{ pos: [	4,	0,	7], norm: [1, 0, 0], uv: [0, 1], grille: true}, //1
+				{ pos: [	4,	1.5,	6], norm: [1, 0, 0], uv: [1, 1],  grille: true},  //2
+				{ pos: [	4,	1.5,	0], norm: [1, 0, 0], uv: [1, 1],  glass: false},  //3
+
+				//right body
+				{ pos: [	0,	0,	0], norm: [-1, 0, 0], uv: [1, 1], },  //4
+				{ pos: [	0,	0,	7], norm: [-1, 0, 0], uv: [1, 1],  grille: true},  //5
+				{ pos: [	0,	1.5,	0], norm: [-1, 0, 0], uv: [0, 1],  glass: false},  //6
+				{ pos: [	0,	1.5,	6], norm: [-1, 0, 0], uv: [0, 1],  grille: true},  //7
+				
+				//roof
+				{ pos: [	3.5,	2.5,	2], norm: [0, 1, 0], uv: [0, 1],  glass: true},  //8
+				{ pos: [	0.5,	2.5,	2], norm: [0, 1, 0], uv: [0, 1],  glass: true}, //9
+				{ pos: [	3.5,	2.5,	0.5], norm: [0, 1, 0], uv: [0, 1],  glass: true},  //10
+				{ pos: [	0.5,	2.5,	0.5], norm: [0, 1, 0], uv: [0, 1],  glass: true},  //11
+
+				//wipers
+				{ pos: [	4,	1.5,	4], norm: [-3, -8, -4], uv: [0, 1], glass: false},  //12
+				{ pos: [	0,	1.5,	4], norm: [-3, -8, -4], uv: [0, 1], glass: false}, //13
+
+				]; 
+
+				const positions = [];
+				const normals = [];
+				const uvs = [];
+				const colors = [];
+
+				for (const vertex of vertices) {
+					positions.push(...vertex.pos);
+					normals.push(...vertex.norm);
+					uvs.push(...vertex.uv);
+					
+					//colour cars from each corner using this code - quite cool for potential impacts etc
+					/*if (vertex.glass) {
+						colors.push(0, 0, 1);
+					} else if (vertex.grille) {
+						colors.push(1,0,0);
+						//colors.push(0.5, 0.5, 0.5);
+					} else {*/
+						//var init_c = hexToRgb(options.options.color.init);
+						//colors.push(init_c.r / 255, init_c.g / 255, init_c.b / 255);
+					//}
+					
+				}	
+
+				geometry = new THREE.BufferGeometry()//.setFromPoints(points);
+				//essentially: how many numbers are for this property before I move on to next vertex?
+				const positionNumComponents = 3;
+				const normalNumComponents = 3;
+				const uvNumComponents = 2;
+
+				geometry.setAttribute(
+					'position', 
+					new THREE.BufferAttribute(new Float32Array(positions), positionNumComponents));
+				geometry.setAttribute(
+					'normal', 
+					new THREE.BufferAttribute(new Float32Array(normals), normalNumComponents));
+				geometry.setAttribute(
+					'uv', 
+					new THREE.BufferAttribute(new Float32Array(uvs), uvNumComponents));
+				geometry.setAttribute(
+					'color', 
+					new THREE.BufferAttribute(new Float32Array(colors), positionNumComponents));
+				
+				//remember to use right hand rule for determining which way out triangles should face, otherwise they appear on the inside
+				geometry.setIndex([
+					3, 1, 0, 	3, 2, 1, //left body
+					4, 5, 6, 	7, 6, 5, //right body
+					1, 2, 5, 	7, 5, 2, //front
+					12, 7, 2, 	7, 12, 13, //hood
+					13, 12, 8, 	8, 9, 13, //windshield
+					10, 9, 8,	9, 10, 11, //roof
+					3, 6, 10, 	11, 10, 6, //rear windshield
+					6, 3, 0, 	0, 4, 6,  //trunk
+					//16, 15, 14, 14, 17, 16, //trunk 2
+					10, 8, 3, 	3, 8, 12, 	//left windows
+					6, 9, 11, 	13, 9, 6 //right windows
+
+					]);
+
+				geometry.computeVertexNormals();
+				material = new THREE.MeshStandardMaterial({});
+				break;
 			case 'plane':
 				geometry = new THREE.PlaneGeometry( 1, 1 );
 				material = new THREE.MeshBasicMaterial( {side: THREE.DoubleSide });
@@ -424,7 +506,7 @@ function main() {
 				break;
 			case 'cube':
 				geometry = new THREE.BoxGeometry(1, 1, 1);
-				material = new THREE.MeshPhongMaterial({flatShading: true});
+				material = new THREE.MeshPhongMaterial();
 				break;
 			case 'suitcase':
 				geometry = RoundEdgedBox(1, 1, 1);
@@ -442,10 +524,9 @@ function main() {
 		}
 		
 		thing.options = options.options;
-		thing.assetType = options.assetType; //e.g. cube, plane, car etc.
+		thing.assetType = options.assetType;
 		thing.name = options.id;
-		thing.animate = true; //controls whether its visibility is toggled in the scene graph
-		thing.visible = false; //prevents initial draw
+		thing.animate = true;
 
 		//color
 		const thingColor = new THREE.Color().setHex(options.options.color.init);
@@ -478,12 +559,12 @@ function main() {
 		    );
 		}
 
-
+		thing.visible = false;
 
 	    givenScene.add(thing);
 	}
 
-	function makeCarInstance(options, givenScene) {
+	function makeBeetleInstance(options, givenScene) {
 
 		//geometry and material
 		var geometry, material, thing;
@@ -494,9 +575,9 @@ function main() {
 		//const materialsLoader = new MTLLoader();
 
 		//materialsLoader.load('models/vw-beetle.mtl', function(materials) {
-			//materials.preload();
+		//	materials.preload();
 			//loader.setMaterials(materials);
-			loader.load('models/gti/scene.gltf',	function ( object ) {
+			loader.load('models/scene.gltf',	function ( object ) {
 
 				let model = object.scene;
 				/*model.traverse (function(xx) {
@@ -508,8 +589,8 @@ function main() {
 				thing.options = options.options;
 				thing.assetType = options.assetType;
 				thing.name = options.id;
-				thing.animate = true; //controls whether its visibility is toggled in the scene graph
-				thing.visible = false; //prevents initial draw
+				thing.visible = false;
+				thing.animate = true;
 
 				//color
 				const thingColor = new THREE.Color().setHex(options.options.color.init);
@@ -542,88 +623,28 @@ function main() {
 				    );
 				}
 
-				//syntax for traversing meshes below
-				/*thing.traverse((child) => {
-					if (child.isMesh) {
-						console.log(child.name, child.material.color);
-					}
-				})*/
+				//add cube to parent
+				geometry = new THREE.BoxGeometry(1, 1, 1);
+				material = new THREE.MeshPhongMaterial();
+				const cube = new THREE.Mesh(geometry, material);
+				cube.assetType = 'cube';
+				cube.name = 'narc';
+				cube.options = options.options;
+
+				//color
+				const cubeColor = new THREE.Color().setHex(options.options.color.init);
+				cube.material.color.setRGB(cubeColor.r, cubeColor.g, cubeColor.b);
+				
+				//scroll behaviour
+				cube.scrollInit = options.scrollInit = typeof options.scrollInit === "undefined" || !options.scrollInit ? 0 : options.scrollInit;
+				cube.scrollFinal = options.scrollFinal = typeof options.scrollFinal === "undefined" || !options.scrollFinal ? 100 : options.scrollFinal;
+				
+				//position, rotation and scale
+				cube.position.set(0,0,0);
+				thing.add(cube);
 				
 			    givenScene.add(thing);
 			    //console.log(dumpObject(thing).join('\n'));
-
-			},
-			function ( xhr ) {
-				console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
-
-			},
-			function ( error ) {
-
-				console.log( 'An error happened', error );
-
-			});		
-		//});
-	}
-
-	function makePersonInstance(options, givenScene) {
-
-		//geometry and material
-		var geometry, material, thing;
-
-		// instantiate a loader
-		const loader = new GLTFLoader();
-		//const materialsLoader = new MTLLoader();
-
-		//materialsLoader.load('models/vw-beetle.mtl', function(materials) {
-		//	materials.preload();
-			//loader.setMaterials(materials);
-			loader.load('models/person/scene.gltf',	function ( object ) {
-
-				let model = object.scene;
-				/*model.traverse (function(xx) {
-					xx.material = new THREE.MeshPhongMaterial();
-				})*/
-				thing = new THREE.Object3D();
-				thing.add(model);
-
-				thing.options = options.options;
-				thing.assetType = options.assetType;
-				thing.name = options.id;
-				thing.animate = true; //controls whether its visibility is toggled in the scene graph
-				thing.visible = false; //prevents initial draw
-
-				//color
-				const thingColor = new THREE.Color().setHex(options.options.color.init);
-				//thing.material.color.setRGB(thingColor.r, thingColor.g, thingColor.b);
-				
-				//scroll behaviour
-				thing.scrollInit = options.scrollInit = typeof options.scrollInit === "undefined" || !options.scrollInit ? 0 : options.scrollInit;
-				thing.scrollFinal = options.scrollFinal = typeof options.scrollFinal === "undefined" || !options.scrollFinal ? 100 : options.scrollFinal;
-				
-				//position, rotation and scale
-				if (options.options.position) {
-					thing.position.set(
-						options.options.position.x,
-						options.options.position.y,
-						options.options.position.z
-		        	);
-		        }
-				if (options.options.rotation) {
-					thing.rotation.set(
-						options.options.rotation.x,
-						options.options.rotation.y,
-						options.options.rotation.z
-			        );
-			    }
-			    if (options.options.size) {
-				    thing.scale.set(
-						options.options.size.w * 0.01,
-						options.options.size.h * 0.01,
-						options.options.size.d * 0.01
-				    );
-				}
-				
-			    givenScene.add(thing);
 
 			},
 			function ( xhr ) {
@@ -664,50 +685,6 @@ function main() {
 
 
 		givenScene.add(line);	
-	}
-
-	function makeTextInstance(options, givenScene) {
-		
-		const loader = new THREE.FontLoader();
-
-		loader.load( 'fonts/helvetiker_regular.typeface.json', function ( font ) {
-			
-			const geometry = new THREE.TextGeometry( options.text, {
-				font: font,
-				size: 80,
-				height: 5,
-				curveSegments: 12,
-				bevelEnabled: true,
-				bevelThickness: 10,
-				bevelSize: 8,
-				bevelOffset: 0,
-				bevelSegments: 5
-			} );
-			const material = new THREE.MeshBasicMaterial({});
-			const textMesh = new THREE.Mesh(geometry, material);
-
-			if (options.options.position) {
-				textMesh.position.x = options.options.position.x;
-				textMesh.position.y = options.options.position.y;
-				textMesh.position.z = options.options.position.z;
-			}
-
-			if (options.options.rotation) {
-				textMesh.rotation.x = options.options.rotation.x;
-				textMesh.rotation.y = options.options.rotation.y;
-				textMesh.rotation.z = options.options.rotation.z;
-			}
-
-			if (options.color) {
-				const textColor = new THREE.Color().setHex(options.options.color.init);
-					textMesh.material.color.setRGB(textColor.r, textColor.g, textColor.b);
-			}
-
-			textMesh.name = options.id;
-			textMesh.options = options.options;
-			givenScene.add(textMesh);
-
-		});	
 	}
 
 	//GENERIC HELPER FUNCTIONS

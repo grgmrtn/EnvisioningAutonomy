@@ -2,10 +2,15 @@
         	/*GLOBALS*/
         	:root {
         		--hilite: #c1e63e;
-        		--f-display: ivypresto-text, sans-serif;
+        		--f-display: 'Korpus', sans-serif;
         		--f-text: acumin-pro, sans-serif;
         		--arrows:  din-2014, sans-serif;
         	}
+
+        	@font-face {
+			    font-family: 'Korpus';
+			    src: url("fonts/KorpusTrial-A.otf") format("opentype");
+			}
 
         	body, html {
         		/*necessary*/
@@ -96,6 +101,7 @@
         	}
 
         	.story_card {
+        		z-index: 10;
         		width: 40%;
         		background-color: rgba(20,20,20,0.8);
         		padding: 24px 24px 24px 40px;
