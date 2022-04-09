@@ -13,5 +13,6 @@
 	var _BLUE1 = "0x8EBFB1";
 	var _KEY = "0xEBFA98";
 	var _RED = "0xA12D0D";
+	var _ORANGE = "0xFFA500";
 
 	

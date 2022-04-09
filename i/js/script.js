@@ -84,6 +84,8 @@ function main() {
 	    scene.add(light);
 	   	lights.push(light);
 
+	   	
+
 	    options.assets.forEach((element, index) => {
 	    	element.scrollInit = options.scrollInit;
 	    	element.scrollFinal = options.scrollFinal;
@@ -104,7 +106,7 @@ function main() {
 	    });
 
 	    //debug line grid
-	    var debug = true;
+	    var debug = false;
 
 	    if (debug && options.canvasSelector == "#canvasA") {
 		    for (var y = 0; y < 5; y++) {
@@ -228,8 +230,8 @@ function main() {
 			if (scrollAmt > obj.scrollInit && scrollAmt < obj.scrollFinal && obj.assetType) {        				
 
 					obj.visible = true;
-					if (obj.assetType == "car") {
-						rotateWheels(obj);
+					if (obj.hasWheels) {
+						rotateWheels(obj, obj.assetType);
 					}
 					//console.log(obj.name, "Visible");
 
@@ -243,7 +245,7 @@ function main() {
 						var thisObjStartInScroll = obj.scrollInit + (anim.initP / 100 * (obj.scrollFinal - obj.scrollInit));
 						var thisObjEndInScroll = obj.scrollInit + (anim.finalP / 100 * (obj.scrollFinal - obj.scrollInit));
 						
-						if (scrollAmt > thisObjStartInScroll && scrollAmt < (thisObjEndInScroll + 5)) {
+						if (scrollAmt > (thisObjStartInScroll) && scrollAmt < (thisObjEndInScroll + 5)) {
 							obj.visible = true;
 	    					//express current scroll amount as % of way through this animation
 	    					//e.g. if an animation is supposed to happen between scroll 10 and 20, a current scroll of 11 would return 0.1 to thisObjectProgress
@@ -308,7 +310,7 @@ function main() {
 
 	    					if (anim.color) { //learn how to change model colours first
 
-	    						if (obj.material) {
+	    						if (obj.material.color) {
 		    						//first, convert colors to RGB so they can be easily interpolated
 		    						var initColor = new THREE.Color().setHex(Object.values(anim.color.init)[0].toString());
 		    						var finalColor = new THREE.Color().setHex(Object.values(anim.color.final)[0].toString());
@@ -390,19 +392,27 @@ function main() {
 		}
 	}
 
-	function rotateWheels(obj) {
-		//modulo divide scroll by circle to get constant motion
-		//this.wheels.rotation = scrollAmt // (Math.PI * 2);
-		//syntax for traversing meshes below
+	function rotateWheels(obj, assetType) {
+		//if child of car object is a wheel, rotate based on the scroll distance down the page
 		obj.traverse((child) => {
-			if (child.isMesh) {
-				console.log(child.name, child.rotation);
-				/*obj.rotation.set(
-					lerp(anim.rotation.init.x, anim.rotation.final.x, thisObjectProgress),
-					lerp(anim.rotation.init.y, anim.rotation.final.y, thisObjectProgress),
-					lerp(anim.rotation.init.z, anim.rotation.final.z, thisObjectProgress)
-				);*/
-			}
+			
+				if (child.name.includes("Whl")) {
+					
+					if (assetType == "car") {
+						child.rotation.set(
+							10 * scrollAmt % (2 * Math.PI),
+							0,
+							0
+						);
+					} else if (assetType == "suitcase") {
+						child.rotation.set(
+							10 * scrollAmt % (2 * Math.PI),
+							0,
+							Math.PI/2
+						);
+					}
+					
+				}			
 		});
 	}
 
@@ -423,11 +433,66 @@ function main() {
 				geometry = new THREE.SphereGeometry(1, options.segments, 16);
 				break;
 			case 'cube':
+			//cube textures
+			   	//const loader = new THREE.CubeTextureLoader();
+
+			   	//loader.setPath('img/signal/');
+			   	/*const textureCube = loader.load([
+			   		'ped_go.png', 'av_pause.png',
+			   		'av_ready1.png', 'av_ready2.png',
+			   		'av_ready3.png', 'av_stop.png'
+			   	]);*/
+			   	const loader = new THREE.TextureLoader();
+			   	//const textureCube = new THREE.TextureLoader().load('img/signal/ped_gol.png')
+			   	/*const textureCube = loader.load([
+			   		'ped_go.png', 'ped_go.png',
+			   		'ped_go.png', 'ped_go.png',
+			   		'ped_go.png', 'ped_go.png'
+			   	]);*/
+			   	if (options.texture == "ped") {
+			   		material = [
+				   		new THREE.MeshPhongMaterial({map: loader.load('img/signal/ped_go.png')}),
+				   		new THREE.MeshPhongMaterial({map: loader.load('img/signal/ped_stop.png')}),
+				   		new THREE.MeshPhongMaterial({map: loader.load('img/signal/black.png')}),
+				   		new THREE.MeshPhongMaterial({map: loader.load('img/signal/black.png')}),
+				   		new THREE.MeshPhongMaterial({map: loader.load('img/signal/ped_go.png')}),
+				   		new THREE.MeshPhongMaterial({map: loader.load('img/signal/ped_stop.png')})
+			   		];
+			   	} else if (options.texture == "av") {
+			   		material = [
+				   		new THREE.MeshPhongMaterial({map: loader.load('img/signal/av_go.png')}),
+				   		new THREE.MeshPhongMaterial({map: loader.load('img/signal/av_stop.png')}),
+				   		new THREE.MeshPhongMaterial({map: loader.load('img/signal/av_pause.png')}),
+				   		new THREE.MeshPhongMaterial({map: loader.load('img/signal/av_ready1.png')}),
+				   		new THREE.MeshPhongMaterial({map: loader.load('img/signal/av_ready2.png')}),
+				   		new THREE.MeshPhongMaterial({map: loader.load('img/signal/av_ready3.png')})
+			   		];
+			   	} else if (options.texture == "qr") {
+			   		material = [
+				   		new THREE.MeshPhongMaterial({map: loader.load('img/signal/qr1.png')}),
+				   		new THREE.MeshPhongMaterial({map: loader.load('img/signal/qr2.png')}),
+				   		new THREE.MeshPhongMaterial({map: loader.load('img/signal/qr3.png')}),
+				   		new THREE.MeshPhongMaterial({map: loader.load('img/signal/qr1.png')}),
+				   		new THREE.MeshPhongMaterial({map: loader.load('img/signal/qr2.png')}),
+				   		new THREE.MeshPhongMaterial({map: loader.load('img/signal/qr3.png')})
+			   		];
+			   	} else if (options.texture == "timer") {
+			   		material = [
+				   		new THREE.MeshPhongMaterial({map: loader.load('img/signal/2.png')}),
+				   		new THREE.MeshPhongMaterial({map: loader.load('img/signal/1.png')}),
+				   		new THREE.MeshPhongMaterial({map: loader.load('img/signal/3.png')}),
+				   		new THREE.MeshPhongMaterial({map: loader.load('img/signal/5.png')}),
+				   		new THREE.MeshPhongMaterial({map: loader.load('img/signal/4.png')}),
+				   		new THREE.MeshPhongMaterial({map: loader.load('img/signal/black.png')})
+			   		];
+			   	} else {
+			   		material = new THREE.MeshPhongMaterial({flatShading: true});
+			   	}
+
 				geometry = new THREE.BoxGeometry(1, 1, 1);
-				material = new THREE.MeshPhongMaterial({flatShading: true});
 				break;
 			case 'suitcase':
-				geometry = RoundEdgedBox(1, 1, 1);
+				geometry = new THREE.BoxGeometry(1, 1, 1);
 				material = new THREE.MeshPhongMaterial();
 				break;
 			default:
@@ -440,6 +505,40 @@ function main() {
 		} else {
 			thing = new THREE.Mesh(geometry, material);
 		}
+
+		if (options.assetType == "suitcase") {
+			thing.hasWheels = true;
+			const cGeo = new THREE.CylinderGeometry(0.1, 0.1, 0.1, 16);
+			const cMat = new THREE.MeshPhongMaterial();
+		
+			
+				var cylinder = new THREE.Mesh(cGeo, cMat);
+				cylinder.rotation.set(0,0,Math.PI/2);
+				cylinder.position.set(-0.3, -0.5, -0.4);
+				cylinder.name = 'Whl_1';
+				thing.add(cylinder);
+
+				cylinder = new THREE.Mesh(cGeo, cMat);
+				cylinder.rotation.set(0,0,Math.PI/2);
+				cylinder.position.set(0.3, -0.5, -0.4);
+				cylinder.name = 'Whl_2';
+				thing.add(cylinder);
+
+				cylinder = new THREE.Mesh(cGeo, cMat);
+				cylinder.rotation.set(0,0,Math.PI/2);
+				cylinder.scale.set(3, 3, 3);
+				cylinder.position.set(-0.6, -0.28, 0.3);
+				cylinder.name = 'Whl_3';
+				thing.add(cylinder);
+
+				cylinder = new THREE.Mesh(cGeo, cMat);
+				cylinder.rotation.set(0,0,Math.PI/2);
+				cylinder.scale.set(3, 3, 3);
+				cylinder.position.set(0.6, -0.28, 0.3);
+				cylinder.name = 'Whl_4';
+				thing.add(cylinder);
+			
+		}
 		
 		thing.options = options.options;
 		thing.assetType = options.assetType; //e.g. cube, plane, car etc.
@@ -449,7 +548,9 @@ function main() {
 
 		//color
 		const thingColor = new THREE.Color().setHex(options.options.color.init);
-		thing.material.color.setRGB(thingColor.r, thingColor.g, thingColor.b);
+		if (thing.material.color) {
+			thing.material.color.setRGB(thingColor.r, thingColor.g, thingColor.b);
+		}
 		
 		//scroll behaviour
 		thing.scrollInit = options.scrollInit = typeof options.scrollInit === "undefined" || !options.scrollInit ? 0 : options.scrollInit;
@@ -510,6 +611,7 @@ function main() {
 				thing.name = options.id;
 				thing.animate = true; //controls whether its visibility is toggled in the scene graph
 				thing.visible = false; //prevents initial draw
+				thing.hasWheels = true;
 
 				//color
 				const thingColor = new THREE.Color().setHex(options.options.color.init);
@@ -554,7 +656,7 @@ function main() {
 
 			},
 			function ( xhr ) {
-				console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+				//console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
 
 			},
 			function ( error ) {
@@ -627,7 +729,7 @@ function main() {
 
 			},
 			function ( xhr ) {
-				console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+				//console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
 
 			},
 			function ( error ) {
@@ -803,8 +905,8 @@ function main() {
 		    }
 
 		    cameras[0].updateProjectionMatrix();
-		    console.log("R: " + cameras[0].rotation.x + " " + cameras[0].rotation.y + " " + cameras[0].rotation.z + " ");
-		    console.log("P: " + cameras[0].position.x + " " + cameras[0].position.y + " " + cameras[0].position.z + " ");
+		   // console.log("R: " + cameras[0].rotation.x + " " + cameras[0].rotation.y + " " + cameras[0].rotation.z + " ");
+		    //console.log("P: " + cameras[0].position.x + " " + cameras[0].position.y + " " + cameras[0].position.z + " ");
 
 		}
 	}

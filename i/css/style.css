@@ -2,7 +2,7 @@
         	/*GLOBALS*/
         	:root {
         		--hilite: #c1e63e;
-        		--f-display: 'Korpus', sans-serif;
+        		--f-display: acumin-pro, sans-serif;
         		--f-text: acumin-pro, sans-serif;
         		--arrows:  din-2014, sans-serif;
         	}
@@ -21,6 +21,7 @@
         	h1, h2, h3, h4, h5 {
         		font-family: var(--f-display);
         		font-weight: 500;
+
         		font-style: normal;
         		margin-top: 0;
         	}
@@ -48,12 +49,12 @@
         	}
 
         	.page_header {
-        		font-size: 72px;
+        		font-size: 36px;
         		margin: 20px 40px 0px 40px;
         	}
 
         	.page_subheader {
-        		font-size: 27px;
+        		font-size: 24px;
         		margin: 0 40% 20px 40px;
         	}
 

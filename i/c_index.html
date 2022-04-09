@@ -28,7 +28,7 @@
 				if (cmd == "play") {
 					scrollerID = setInterval(function() {
 						document.body.scrollTop += 1;
-						console.log(document.body.scrollTop);
+						//console.log(document.body.scrollTop);
 					}, 10);
 					document.getElementById('playbutton').classList.add('autoplay-hidden');
 					document.getElementById('pausebutton').classList.remove('autoplay-hidden');
@@ -59,7 +59,7 @@
 
 	-->
 	<body>
-		<div id='scroll_tracker' class='debug' style='top: 20'></div>
+		<!--<div id='scroll_tracker' class='debug' style='top: 20'></div>-->
 		<!--<div id='camera_tracker' class='debug' style='top: 60'></div>
 		<div id='camera_tracker_d' class='debug' style='top: 120'></div>-->
 		<img class='photo' id='bg' src="img/c_bg.jpeg" />
@@ -74,7 +74,7 @@
 				</div>	
 				<div class='spacer_12'></div>	
 			</div>
-			<div class='module_spacer'></div>
+			
 		</div>
 		<div class='module_container' id='moduleA'>
 			<div class='module_child sticky_module_child'>	
@@ -88,26 +88,27 @@
 					<p class='story_card_copy'>You may have seen robots like this around Toronto. They're about the size of a suitcase with enough storage room for a food order or a small package.</p>
 				</div>	
 				<div class='spacer_12'></div>
-				<div class='spacer_12'></div>	
+					
 			</div>
 			<div class='story_panel_container'>
 				<div class='story_spacer'></div>
 				<div class='story_panel story_card sticky_story_panel' id='story_panelA2'>
 					<p class='story_card_copy'>Do they know how crossing signals work? Won't they just be a danger?</p>
 				</div>
-				<div class='spacer_12'></div>
-				<div class='spacer_12'></div>	
+				<div class='spacer_6'></div>
+					
 			</div>
 			<div class='story_panel_container'>
 				<div class='story_spacer'></div>
 				<div class='story_panel story_card sticky_story_panel' id='story_panelA3'>
 					<p class='story_card_copy'>The robots you see on the street today are remotely controlled by a human. We need to develop a system that allows the autonomous versions a safe method of crossing.</p>
 				</div>
-				<div class='spacer_12'></div>
-				<div class='spacer_12'></div>
-				<div class='spacer_12'></div>		
+				<div class='spacer_6'></div>
+					
+				<div class='spacer_6'></div>
+						
 			</div>
-			<div class='module_spacer'></div>
+			<div class='spacer_12'></div>
 		</div>
 		<div class='module_container'  id='moduleB'>
 			<div class='module_child sticky_module_child'>
@@ -120,97 +121,51 @@
 					<h2 class='story_card_header'>The Crosswalk</h2>
 					<p class='story_card_copy'>We don't get much time at crosswalks. A piece of equipment called a signal head displays two things: an icon indicating whether the pedestrian should stop or go, and a countdown before the phase changes again.</p>
 				</div>	
+				<div class='spacer_12'></div>
+				<div class='spacer_6'></div>
 			</div>
 			<div class='story_panel_container'>
 				<div class='story_spacer'></div>
 				<div class='story_panel story_card sticky_story_panel' id='story_panelB2'>
-					<p class='story_card_copy'>The problem is that these suitcase-sized robots may not be able to see the signal, placed at least nine feet off the ground.</p>
+					<p class='story_card_copy'>The problem is that these suitcase-sized robots may not be able to see the signal, placed at least nine feet off the ground. We need a new type of signal that communicates to sidewalk-using autonomous appliances <span class='highlight'>and to human pedestrians</span>.</p>
 				</div>
-				<div class='story_spacer'></div>	
+				<div class='spacer_6'></div>
+				
 			</div>
 			<div class='story_panel_container'>
 				<div class='story_spacer'></div>
 				<div class='story_panel story_card sticky_story_panel' id='story_panelB3'>
-					<p class=''>We need a new type of signal that communicates to sidewalk-using autonomous vehicles <span class='highlight'>and to human pedestrians</span>.</p>
+					<p class='story_card_copy'>This signal head is designed to sit next to the crossing button, much more easily read by autonomous appliances shorter than three feet.</p>
 				</div>
-				<div class='story_spacer'></div>	
-			</div>
-			<div class='story_panel_container'>
-				<div class='story_spacer'></div>
-				<div class='story_panel story_card sticky_story_panel' id='story_panelB3'>
-					<p class=''>This autonomous vehicle signal sits lower to the ground so it can be read more easily by smaller vehicles.</p>
-				</div>
-				<div class='story_spacer'></div>	
-			</div>
-			<div class='story_panel_container'>
-				<div class='story_spacer'></div>
-				<div class='story_panel story_card sticky_story_panel' id='story_panelB3'>
-					<p class=''>It is timed to match the phases of pedestrian crossing, but allows extra time to make sure everyone completes the crossing safely.</p>
-				</div>
-				<div class='story_spacer'></div>	
-			</div>
-			<div class='module_spacer'></div>
-		</div>
-		<!--<div class='module_container'  id='moduleC'>
-			<div class='module_child sticky_module_child'>
-				<div class='anim_canvas_container'>
-					<canvas class='anim_canvas' id='canvasC'></canvas>
-				</div>
-			</div>
-			<div class='story_panel_container'>	
-				<div class='story_panel story_card sticky_story_panel' id='story_panelC1'>
-					<h2 class='story_card_header'>Negotiated Intersections</h2>
-					<p class='story_card_copy'>Negotiated intersections are similar to centrally-managed ones with a key difference: each car can "bid" for priority treatment.</p>
-				</div>	
-				<div class='story_spacer'></div>	
-			</div>
-			<div class='story_panel_container'>
-				<div class='story_spacer'></div>
-				<div class='story_panel story_card sticky_story_panel' id='story_panelC2'>
-					<p class=''>Vehicles that are willing to pay more - either in real currency or a type of credit - will be given first access to make their journey through the intersection.</p>
-				</div>
-				<div class='story_spacer'></div>
-				<div class='story_spacer'></div>		
-			</div>
-			<div class='story_panel_container'>
-				<div class='story_spacer'></div>
-				<div class='story_panel story_card sticky_story_panel' id='story_panelC3'>
-					<p class=''>This raises a new prospect: if you can't afford to 'bid' on crossing the intersection, it might take you hours just to get across it.</p>
-				</div>
-				<div class='story_spacer'></div>
 
+				<div class='spacer_12'></div>
 			</div>
-			<div class='module_spacer'></div>
-		</div>
-		<div class='module_container'  id='moduleD'>
-			<div class='module_child sticky_module_child'>
-				<div class='anim_canvas_container'>
-					<canvas class='anim_canvas' id='canvasD'></canvas>
+			<div class='story_panel_container'>
+				<div class='story_spacer'></div>
+				<div class='story_panel story_card sticky_story_panel' id='story_panelB3'>
+					<p class='story_card_copy'>This signal matches the crossing phases of the pedestrian signal. Pedestrians read the symbols in the top panel, and the machines read the QR codes to get the same information.</p>
 				</div>
-			</div>
-			<div class='story_panel_container'>	
-				<div class='story_panel story_card sticky_story_panel' id='story_panelD1'>
-					<h2 class='story_card_header'>Emergent Intersections</h2>
-					<p class='story_card_copy'>This protocol provides maximum flexibility to determine priority. All it requires is safe movement and eventual crossings for all vehicles.</p>
-				</div>	
+				
+				<div class='spacer_6'></div>
 				<div class='story_spacer'></div>	
 			</div>
 			<div class='story_panel_container'>
 				<div class='story_spacer'></div>
-				<div class='story_panel story_card sticky_story_panel' id='story_panelD2'>
-					<p class=''>The process borrows from game theory: vehicles do not communicate with each other in a structured way. Instead they 'read' each other's intent from momentum and direction.</p>
+				<div class='story_panel story_card sticky_story_panel' id='story_panelB3'>
+					<p class='story_card_copy'>It also warns autonomous appliances of an upcoming crossing, so that they can prepare to move. This keeps pedestrians more aware of these devices' movements, and it keeps the devices aware of the rules of the crossing.</p>
 				</div>
+				<div class='spacer_6'></div>
 				<div class='story_spacer'></div>	
 			</div>
 			<div class='story_panel_container'>
 				<div class='story_spacer'></div>
-				<div class='story_panel story_card sticky_story_panel' id='story_panelD3'>
-					<p class=''>This approach would likely be used only as a backup when centralized infrastructure is not available.</p>
+				<div class='story_panel story_card sticky_story_panel' id='story_panelB3'>
+					<p class='story_card_copy'>Interventions like these focus on access to information. If every entity can predict the movement of other entities, everybody ends up safer.</p>
 				</div>
 				<div class='story_spacer'></div>	
 			</div>
 			<div class='module_spacer'></div>
-		</div>-->
+		</div>
 	</body>
 </html>
 <!-- 
