@@ -1,16 +1,11 @@
 
         	/*GLOBALS*/
         	:root {
-        		--hilite: #c1e63e;
+        		--hilite: #EBFA98;
         		--f-display: acumin-pro, sans-serif;
         		--f-text: acumin-pro, sans-serif;
         		--arrows:  din-2014, sans-serif;
         	}
-
-        	@font-face {
-			    font-family: 'Korpus';
-			    src: url("fonts/KorpusTrial-A.otf") format("opentype");
-			}
 
         	body, html {
         		/*necessary*/
@@ -124,11 +119,29 @@
         		width: 60%;
         	}
 
+        	@media only screen and (max-width: 800px) {
+        		body .sticky_story_panel {
+	        		
+	        		top: 0;
+	        	}
+
+	        	body .story_panel {
+	        		margin: 0%;
+	        		box-sizing: border-box;
+	        		width: 100%;
+	        		padding: 10%;
+
+	        	}
+        	}
+
         	.sticky_story_panel {
         		position: -webkit-sticky;
         		position: sticky;
-        		top: 15%;
+        		top: 10%;
         	}
+        	
+
+
 
         	/*SPACERS*/
         	.module_spacer {
