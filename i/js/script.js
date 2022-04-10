@@ -170,7 +170,7 @@ function main() {
 		const imgHeight	=	_BG_H; 
 		const imgRatio = (imgHeight / imgWidth); //image aspect ratio
 
-		const windowHeight = document.documentElement.clientHeight; //$(window).height() if jQuery is necessary
+		const windowHeight = window.innerHeight; //document.documentElement.clientHeight; //$(window).height() if jQuery is necessary
 		const windowWidth =	document.documentElement.clientWidth; //$(window).width() if jQuery is necessary
 		const windowRatio = (windowHeight / windowWidth);     // viewing window ratio
 
