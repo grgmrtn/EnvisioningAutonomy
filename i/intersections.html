@@ -12,7 +12,7 @@
         	window.addEventListener('scroll', () => {
         		var scrollAmt = 100 * window.pageYOffset / (document.body.scrollHeight - window.innerHeight);
 			  	document.body.style.setProperty('--scroll', scrollAmt);
-			  	document.getElementById("scroll_tracker").innerHTML = Math.round(scrollAmt) + "%";
+			  	//document.getElementById("scroll_tracker").innerHTML = Math.round(scrollAmt) + "%";
 
 			}, false);
 
@@ -29,7 +29,7 @@
 					scrollerID = setInterval(function() {
 						document.body.scrollTop += 1;
 						console.log(document.body.scrollTop);
-					}, 10);
+					}, 5);
 					document.getElementById('playbutton').classList.add('autoplay-hidden');
 					document.getElementById('pausebutton').classList.remove('autoplay-hidden');
 				}
@@ -44,18 +44,18 @@
         <link rel="stylesheet" href="css/style.css">
 	</head>
 	<body>
-		<div id='scroll_tracker' class='debug' style='top: 20'></div>
+		<!--<div id='scroll_tracker' class='debug' style='top: 20'></div>-->
 		<!--<div id='camera_tracker' class='debug' style='top: 60'></div>
 		<div id='camera_tracker_d' class='debug' style='top: 120'></div>-->
-		<img class='photo' id='bg' src="img/itx_bg.png" />
+		<img class='photo' id='bg' src="img/itx3.png" />
 		<a id='playbutton' class='autoplay' onclick='autoplay("play")'>Play</a>
 		<a id='pausebutton' class='autoplay autoplay-hidden' onclick='autoplay("pause")'>Pause</a>
 		<div class='module_container' id='moduleI'>
 			<div class='story_panel_container intro_page'>	
 				<div class='story_panel story_full_width sticky_story_panel' id='story_panelI1'>
 					<h1 class='page_header'>Intersection Management</h1>
-					<p class='page_subheader'>Autonomous cars can communicate with each other instantly. Have you ever seen a movie where cars fly through an intersection, nearly crashing but always avoiding each other?</p>
-					<p class='page_subheader'>Here are a few ways that autonomous vehicles make it happen.</p>
+					<p class='page_subheader'>Autonomous cars can communicate with each other instantly. This means no more traffic lights, no more waiting at intersections. Quick, safe crossings at every intersection.</p>
+					<p class='page_subheader'>Here are a few ways that autonomous vehicles could make it happen.</p>
 					<p class='call_to_action page_subheader down_arrow'>&#8595;</p>
 				</div>	
 				<div class='spacer_12'></div>	
@@ -118,7 +118,7 @@
 			<div class='story_panel_container'>
 				<div class='story_spacer'></div>
 				<div class='story_panel story_card sticky_story_panel' id='story_panelB3'>
-					<p class=''>The manager communicates the priority list back to vehicles as a <span class='highlight'>'flight plan'</span>, similar to the relationship between air traffic control and airplanes.</p>
+					<p class='story_card_copy'>The manager communicates the priority list back to vehicles as a <span class='highlight'>'flight plan'</span>, similar to the relationship between air traffic control and airplanes.</p>
 				</div>
 				<div class='story_spacer'></div>	
 			</div>
@@ -140,7 +140,7 @@
 			<div class='story_panel_container'>
 				<div class='story_spacer'></div>
 				<div class='story_panel story_card sticky_story_panel' id='story_panelC2'>
-					<p class=''>Vehicles that are willing to pay more - either in real currency or a type of credit - will be given first access to make their journey through the intersection.</p>
+					<p class='story_card_copy'>Vehicles that are willing to pay more - either in real currency or a type of credit - are given first access to make their journey through the intersection.</p>
 				</div>
 				<div class='story_spacer'></div>
 				<div class='story_spacer'></div>		
@@ -148,7 +148,7 @@
 			<div class='story_panel_container'>
 				<div class='story_spacer'></div>
 				<div class='story_panel story_card sticky_story_panel' id='story_panelC3'>
-					<p class=''>This raises a new prospect: if you can't afford to 'bid' on crossing the intersection, it might take you hours just to get across it.</p>
+					<p class='story_card_copy'>This raises a new prospect: if you can't afford to 'bid' on crossing the intersection, it might take you hours just to get across it.</p>
 				</div>
 				<div class='story_spacer'></div>
 
@@ -171,14 +171,14 @@
 			<div class='story_panel_container'>
 				<div class='story_spacer'></div>
 				<div class='story_panel story_card sticky_story_panel' id='story_panelD2'>
-					<p class=''>The process borrows from game theory: vehicles do not communicate with each other in a structured way. Instead they 'read' each other's intent from momentum and direction.</p>
+					<p class='story_card_copy'>The process borrows from game theory: vehicles do not communicate with each other in a structured way. Instead they 'read' each other's intent from momentum and direction.</p>
 				</div>
 				<div class='story_spacer'></div>	
 			</div>
 			<div class='story_panel_container'>
 				<div class='story_spacer'></div>
 				<div class='story_panel story_card sticky_story_panel' id='story_panelD3'>
-					<p class=''>This approach would likely be used only as a backup when centralized infrastructure is not available.</p>
+					<p class='story_card_copy'>This approach would likely be used only as a backup when centralized infrastructure is not available.</p>
 				</div>
 				<div class='story_spacer'></div>	
 			</div>

@@ -124,7 +124,7 @@ var assets = [
 						},
 						anims: [
 							{								initP: 0,
-								finalP: 15,
+								finalP: 17,
 	        					position: {
 									init: {
 	        							x: -3,
@@ -134,11 +134,11 @@ var assets = [
 	        						final: {
 	        							x: -3,
 										y: 0,
-										z: 25
+										z: 20
 	        						}
 	        					}
 							},
-							{								initP: 15,
+							{								initP: 13,
 								finalP: 17,
 	        					rotation: {
 									init: {
@@ -150,18 +150,6 @@ var assets = [
 	        							x: 0,
 	        							y: Math.PI / -4,
 	        							z: 0
-	        						}
-	        					},
-	        					position: {
-									init: {
-	        							x: -3,
-										y: 0,
-										z: 25
-	        						},
-	        						final: {
-	        							x: -3,
-										y: 0,
-										z: 20
 	        						}
 	        					}
 							},

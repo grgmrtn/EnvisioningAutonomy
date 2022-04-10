@@ -27,6 +27,8 @@
         		font-style: normal;
         	}
 
+
+
         	canvas {
 				position:fixed;
 				z-index:4;
@@ -183,6 +185,7 @@
         		border-radius: 20px;
         		cursor: pointer;
         		z-index: 5;
+        		font-family: var(--f-text);
         	}
 
         	.autoplay-hidden {

@@ -252,20 +252,6 @@ function main() {
 	    					//added buffer of 5% of scroll height to account for quick scrolling that prevents animations from completing
 	    					var thisObjectProgress = Math.min(map(thisObjStartInScroll,thisObjEndInScroll,scrollAmt), 1);
 
-	    					if (obj.assetType == "beetle") {
-	    						var target = new THREE.Vector3();
-	    						var box = new THREE.Box3();
-	    						var bbtarget = new THREE.Vector3();
-	    						var bctarget = new THREE.Vector3();
-	    						obj.traverse(function(xx) {
-	    							if (xx.name != "a-suitcasebody") {
-	    								//xx.position.set(0, 0, 0);
-	    							}
-	    							box.setFromObject(xx);
-	    							//console.log(xx.name, box.getCenter(bctarget), box.getSize(bbtarget), xx.getWorldPosition(target));
-	    						});
-
-	    					}
 	    					if (anim.position) {
 	    						if (anim.position.path) { //anything other than straight line
 	    							var p = anim.position.path;
@@ -426,6 +412,22 @@ function main() {
 			case 'plane':
 				geometry = new THREE.PlaneGeometry( 1, 1 );
 				material = new THREE.MeshBasicMaterial( {side: THREE.DoubleSide });
+
+				break;
+			case 'arrow':
+
+				material = new THREE.MeshBasicMaterial( {side: THREE.DoubleSide });
+
+				const shape = new THREE.Shape();
+				const x = 0;
+				const y = 0;
+
+				shape.moveTo(x - 2, y - 2);
+				shape.lineTo(x + 2, y - 2);
+				shape.lineTo(x, y + 2);
+
+				geometry = new THREE.ShapeGeometry(shape);
+				
 				break;
 			case 'text':
 				break;
@@ -578,14 +580,17 @@ function main() {
 				options.options.size.d
 		    );
 		}
-
+		if (options.options.opacity) {
+			thing.material.transparent = true;
+			thing.material.opacity = options.options.opacity;
+        	
+        }
 
 
 	    givenScene.add(thing);
 	}
 
 	function makeCarInstance(options, givenScene) {
-
 		//geometry and material
 		var geometry, material, thing;
 
@@ -597,7 +602,16 @@ function main() {
 		//materialsLoader.load('models/vw-beetle.mtl', function(materials) {
 			//materials.preload();
 			//loader.setMaterials(materials);
-			loader.load('models/gti/scene.gltf',	function ( object ) {
+			var carColour;
+			if (options.colorCode) {
+				carColour = options.colorCode.toString();
+			} else {
+				carColour = "blue";
+			}
+
+			var scenePath = "models/gti/scene_" + carColour + ".gltf";
+
+			loader.load(scenePath,	function ( object ) {
 
 				let model = object.scene;
 				/*model.traverse (function(xx) {
@@ -614,8 +628,11 @@ function main() {
 				thing.hasWheels = true;
 
 				//color
-				const thingColor = new THREE.Color().setHex(options.options.color.init);
-				//thing.material.color.setRGB(thingColor.r, thingColor.g, thingColor.b);
+				if (options.options.color) {
+					const thingColor = new THREE.Color().setHex(options.options.color.init);
+					//thing.material.color.setRGB(thingColor.r, thingColor.g, thingColor.b);
+				}
+				
 				
 				//scroll behaviour
 				thing.scrollInit = options.scrollInit = typeof options.scrollInit === "undefined" || !options.scrollInit ? 0 : options.scrollInit;
@@ -637,10 +654,11 @@ function main() {
 			        );
 			    }
 			    if (options.options.size) {
+				    var scale = 1.7;
 				    thing.scale.set(
-						options.options.size.w,
-						options.options.size.h,
-						options.options.size.d
+						options.options.size.w * scale,
+						options.options.size.h * scale,
+						options.options.size.d * scale
 				    );
 				}
 
@@ -856,24 +874,7 @@ function main() {
 
 		    e = e || window.event;
 
-		    if (e.keyCode == '55') {
-		        // 7			        
-		       cameras[0].rotation.x += 0.01;
-		       //lights[0].target.position.y += 0.01;
-		    }
-		    else if (e.keyCode == '56') {
-		        // 8
-
-		       cameras[0].rotation.x -= 0.01;
-		       //lights[0].target.position.y -= 0.01;
-		    }
-		    else if (e.keyCode == '57') {
-		       // 9
-		       cameras[0].rotation.y -= 0.01;
-		       //lights[0].target.position.x += 0.01;
-		       
-		    }
-		    else if (e.keyCode == '48') {
+		    if (e.keyCode == '48') {
 		       // 0
 		       cameras[0].rotation.y += 0.01;
 		       //lights[0].target.position.x -= 0.01;
@@ -902,11 +903,28 @@ function main() {
 		       // 6 
 		       cameras[0].position.z -= 0.1;
 
+		    } else if (e.keyCode == '55') {
+		        // 7			        
+		       cameras[0].rotation.x += 0.01;
+		       //lights[0].target.position.y += 0.01;
 		    }
+		    else if (e.keyCode == '56') {
+		        // 8
+
+		       cameras[0].rotation.x -= 0.01;
+		       //lights[0].target.position.y -= 0.01;
+		    }
+		    else if (e.keyCode == '57') {
+		       // 9
+		       cameras[0].rotation.y -= 0.01;
+		       //lights[0].target.position.x += 0.01;
+		       
+		    }
+		   
 
 		    cameras[0].updateProjectionMatrix();
-		   // console.log("R: " + cameras[0].rotation.x + " " + cameras[0].rotation.y + " " + cameras[0].rotation.z + " ");
-		    //console.log("P: " + cameras[0].position.x + " " + cameras[0].position.y + " " + cameras[0].position.z + " ");
+		    console.log("R: " + cameras[0].rotation.x + " " + cameras[0].rotation.y + " " + cameras[0].rotation.z + " ");
+		    console.log("P: " + cameras[0].position.x + " " + cameras[0].position.y + " " + cameras[0].position.z + " ");
 
 		}
 	}
