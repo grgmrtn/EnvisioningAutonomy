@@ -88,7 +88,7 @@ var assets = [
 						},
 						anims: [
 							{								initP: 36,
-								finalP: 60,
+								finalP: 70,
 								position: {
 									init: {
 	        							x: 40,
@@ -96,7 +96,7 @@ var assets = [
 	        							z: 20
 	        						},
 	        						final: {
-	        							x: -20,
+	        							x: -40,
 	        							y: -2,
 	        							z: 20
 	        						}

@@ -126,7 +126,7 @@ var assets = [
 						position: {
 							x: -20,
 	        				y: 0,
-	        				z: 35
+	        				z: 30
 						},
 						anims: [
 							{
@@ -136,12 +136,12 @@ var assets = [
 									init: {
 	        							x: -20,
 	        							y: 0,
-	        							z: 35
+	        							z: 30
 	        						},
 	        						final: {
 	        							x: 30,
 	        							y: 0,
-	        							z: 35
+	        							z: 30
 	        						}
 	        					}
 							}	
@@ -172,7 +172,7 @@ var assets = [
 						anims: [
 							{
 								initP: 45,
-								finalP: 78,
+								finalP: 85,
 								position: {
 									init: {
 	        							x: 20,
@@ -180,7 +180,7 @@ var assets = [
 	        							z: 25
 	        						},
 	        						final: {
-	        							x: -30,
+	        							x: -60,
 	        							y: 0,
 	        							z: 25
 	        						}
@@ -206,9 +206,9 @@ var assets = [
 							z: 0
 						},
 						position: {
-							x: -30,
+							x: -60,
 	        				y: 0,
-	        				z: 35
+	        				z: 30
 						},
 						anims: [
 							{
@@ -216,14 +216,14 @@ var assets = [
 								finalP: 76,
 								position: {
 									init: {
-	        							x: -30,
+	        							x: -60,
 	        							y: 0,
-	        							z: 35
+	        							z: 30
 	        						},
 	        						final: {
 	        							x: -3,
 	        							y: 0,
-	        							z: 35
+	        							z: 30
 	        						}
 	        					}
 							},
@@ -233,7 +233,7 @@ var assets = [
 								position: {
 									path: {
 	        							aX: -3,
-	        							aZ: 25,
+	        							aZ: 20,
 	        							xRad: 10,
 	        							zRad: 10,
 	        							aStart: Math.PI / 2,
@@ -261,7 +261,7 @@ var assets = [
 									init: {
 	        							x: 7,
 	        							y: 0,
-	        							z: 25
+	        							z: 20
 	        						},
 	        						final: {
 	        							x: 7,
@@ -1094,7 +1094,7 @@ var assets = [
 							z: 0
 						},
 						position: {	
-							x: -25,
+							x: -50,
 	        				y: 0,
 	        				z: 25
 						},
@@ -1104,7 +1104,7 @@ var assets = [
 								finalP: 20,
 								position: {
 									init: {
-	        							x: -25,
+	        							x: -50,
 	        							y: 0,
 	        							z: 25
 	        						},
@@ -1144,7 +1144,7 @@ var assets = [
 								finalP: 85,
 	        					position: {
 									init: {
-	        							x: -20,
+	        							x: -10,
 	        							y: 0,
 	        							z: 25
 	        						},
@@ -1908,7 +1908,7 @@ var assets = [
 	        							z: 45
 	        						},
 	        						final: {
-	        							x: 30,
+	        							x: 50,
 	        							y: 0,
 	        							z: 45
 	        						}

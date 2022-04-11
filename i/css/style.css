@@ -142,11 +142,13 @@
 
 	        	body .page_header {
 	        		font-size: 28px;
+	        		margin: 20px;
 	        		
 	        	}
 
 	        	body .page_subheader {
 	        		font-size: 20px;
+	        		margin: 20px;
 	        		
 	        	}
         	}
