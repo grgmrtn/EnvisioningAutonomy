@@ -1,0 +1,155 @@
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0">
+        <title>Signal Heads</title>
+        <link rel="stylesheet" href="https://use.typekit.net/rva5buu.css">
+       	<script type="text/javascript" src="js/globals.js"></script>
+       	<script type="text/javascript" src="js/c_assets.js"></script>
+        <script type="module" src="js/script.js"></script>
+        <script type="text/javascript">
+        	//computes scroll distance down the page and provides it to CSS
+        	window.addEventListener('scroll', () => {
+        		var scrollAmt = 100 * window.pageYOffset / (document.body.scrollHeight - window.innerHeight);
+			  	document.body.style.setProperty('--scroll', scrollAmt);
+
+			}, false);
+
+        	//keeps scroll right at top on refresh
+			window.onbeforeunload = function () {
+			  window.scrollTo(0, 0);
+			}
+
+			let scrollerID;
+
+			function autoplay(cmd) {
+				let currentScroll = document.body.scrollTop;
+				if (cmd == "play") {
+					scrollerID = setInterval(function() {
+						document.body.scrollTop += 1;
+						//console.log(document.body.scrollTop);
+					}, 5);
+					document.getElementById('playbutton').classList.add('autoplay-hidden');
+					document.getElementById('pausebutton').classList.remove('autoplay-hidden');
+				}
+				else if (cmd == "pause") {
+					clearInterval(scrollerID);
+					document.getElementById('pausebutton').classList.add('autoplay-hidden');
+					document.getElementById('playbutton').classList.remove('autoplay-hidden');
+				}
+			}
+
+        </script>
+        <link rel="stylesheet" href="css/style.css">
+	</head>
+	<body>
+		<img class='photo' id='bg' src="img/c_bg.jpeg" />
+		<a id='playbutton' class='autoplay' onclick='autoplay("play")'>Play</a>
+		<a id='pausebutton' class='autoplay autoplay-hidden' onclick='autoplay("pause")'>Pause</a>
+		<div class='module_container' id='moduleI'>
+			<div class='story_panel_container intro_page'>	
+				<div class='story_panel story_full_width sticky_story_panel' id='story_panelI1'>
+					<h1 class='page_header'>Sharing your Crosswalks</h1>
+					<p class='page_subheader'>Not all autonomous vehicles will use roads like cars. Many of them - like delivery robots - will be smaller. Sidewalks are already too narrow. Do we have room to share with these devices?</p>
+					<p class='call_to_action page_subheader down_arrow'>&#8595;</p>
+				</div>	
+				<div class='spacer_12'></div>	
+			</div>
+			
+		</div>
+		<div class='module_container' id='moduleA'>
+			<div class='module_child sticky_module_child'>	
+				<div class='anim_canvas_container'>
+					<canvas class='anim_canvas' id='canvasA'></canvas>
+				</div>
+			</div>
+			<div class='story_panel_container'>	
+				<div class='story_panel story_card sticky_story_panel' id='story_panelA1'>
+					<h2 class='story_card_header'>Delivery Robots</h2>
+					<p class='story_card_copy'>You may have seen robots like this around Toronto. They're about the size of a suitcase with enough storage room for a food order or a small package.</p>
+				</div>	
+				<div class='spacer_12'></div>
+					
+			</div>
+			<div class='story_panel_container'>
+				<div class='story_spacer'></div>
+				<div class='story_panel story_card sticky_story_panel' id='story_panelA2'>
+					<p class='story_card_copy'>Do they know how crossing signals work? Won't they just be a danger?</p>
+				</div>
+				<div class='spacer_6'></div>
+					
+			</div>
+			<div class='story_panel_container'>
+				<div class='story_spacer'></div>
+				<div class='story_panel story_card sticky_story_panel' id='story_panelA3'>
+					<p class='story_card_copy'>The robots you see on the street today are remotely controlled by a human. We need to develop a system that allows the autonomous versions a safe method of crossing.</p>
+				</div>
+				<div class='spacer_6'></div>
+					
+				<div class='spacer_6'></div>
+						
+			</div>
+			<div class='spacer_12'></div>
+		</div>
+		<div class='module_container'  id='moduleB'>
+			<div class='module_child sticky_module_child'>
+				<div class='anim_canvas_container'>
+					<canvas class='anim_canvas' id='canvasB'></canvas>
+				</div>
+			</div>
+			<div class='story_panel_container'>	
+				<div class='story_panel story_card sticky_story_panel' id='story_panelB1'>
+					<h2 class='story_card_header'>The Crosswalk</h2>
+					<p class='story_card_copy'>We don't get much time at crosswalks. A piece of equipment called a signal head displays two things: an icon indicating whether the pedestrian should stop or go, and a countdown before the phase changes again.</p>
+				</div>	
+				<div class='spacer_12'></div>
+				<div class='spacer_6'></div>
+			</div>
+			<div class='story_panel_container'>
+				<div class='story_spacer'></div>
+				<div class='story_panel story_card sticky_story_panel' id='story_panelB2'>
+					<p class='story_card_copy'>The problem is that these suitcase-sized robots may not be able to see the signal, placed at least nine feet off the ground. We need a new type of signal that communicates to sidewalk-using autonomous appliances <span class='highlight'>and to human pedestrians</span>.</p>
+				</div>
+				<div class='spacer_6'></div>
+				
+			</div>
+			<div class='story_panel_container'>
+				<div class='story_spacer'></div>
+				<div class='story_panel story_card sticky_story_panel' id='story_panelB3'>
+					<p class='story_card_copy'>This signal head is designed to sit next to the crossing button, much more easily read by autonomous appliances shorter than three feet.</p>
+				</div>
+
+				<div class='spacer_12'></div>
+			</div>
+			<div class='story_panel_container'>
+				<div class='story_spacer'></div>
+				<div class='story_panel story_card sticky_story_panel' id='story_panelB3'>
+					<p class='story_card_copy'>This signal matches the crossing phases of the pedestrian signal. Pedestrians read the symbols in the top panel, and the machines read the QR codes to get the same information.</p>
+				</div>
+				
+				<div class='spacer_6'></div>
+				<div class='story_spacer'></div>	
+			</div>
+			<div class='story_panel_container'>
+				<div class='story_spacer'></div>
+				<div class='story_panel story_card sticky_story_panel' id='story_panelB3'>
+					<p class='story_card_copy'>It also warns autonomous appliances of an upcoming crossing, so that they can prepare to move. This keeps pedestrians more aware of these devices' movements, and it keeps the devices aware of the rules of the crossing.</p>
+				</div>
+				<div class='spacer_6'></div>
+				<div class='story_spacer'></div>	
+			</div>
+			<div class='story_panel_container'>
+				<div class='story_spacer'></div>
+				<div class='story_panel story_card sticky_story_panel' id='story_panelB3'>
+					<p class='story_card_copy'>Interventions like these focus on access to information. If every entity can predict the movement of other entities, everybody ends up safer.</p>
+				</div>
+				<div class='story_spacer'></div>	
+			</div>
+			<div class='module_spacer'></div>
+
+		</div>
+	</body>
+</html>
+<!-- 
+SCROLL PROPERTY: https://css-tricks.com/books/greatest-css-tricks/scroll-animation/
+THREE JS SCROLL: https://tympanus.net/codrops/2022/01/05/crafting-scroll-based-animations-in-three-js/
+-->

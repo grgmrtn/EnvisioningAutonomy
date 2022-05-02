@@ -3,7 +3,6 @@
 		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0">
         <title>Intersection Negotiation</title>
         <link rel="stylesheet" href="https://use.typekit.net/rva5buu.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/16.3.5/Tween.min.js"></script>
        	<script type="text/javascript" src="js/globals.js"></script>
        	<script type="text/javascript" src="js/i_assets.js"></script>
         <script type="module" src="js/script.js"></script>
@@ -12,7 +11,7 @@
         	window.addEventListener('scroll', () => {
         		var scrollAmt = 100 * window.pageYOffset / (document.body.scrollHeight - window.innerHeight);
 			  	document.body.style.setProperty('--scroll', scrollAmt);
-			  	//document.getElementById("scroll_tracker").innerHTML = Math.round(scrollAmt) + "%";
+		
 
 			}, false);
 
@@ -44,10 +43,7 @@
         <link rel="stylesheet" href="css/style.css">
 	</head>
 	<body>
-		<!--<div id='scroll_tracker' class='debug' style='top: 20'></div>-->
-		<!--<div id='camera_tracker' class='debug' style='top: 60'></div>
-		<div id='camera_tracker_d' class='debug' style='top: 120'></div>-->
-		<img class='photo' id='bg' src="img/itx3.png" />
+		<img class='photo' id='bg' src="img/i_bg.png" />
 		<a id='playbutton' class='autoplay' onclick='autoplay("play")'>Play</a>
 		<a id='pausebutton' class='autoplay autoplay-hidden' onclick='autoplay("pause")'>Pause</a>
 		<div class='module_container' id='moduleI'>
